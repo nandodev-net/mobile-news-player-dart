@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:noticias_sin_filtro/webview_wrapper.dart';
 //import 'package:noticias_sin_filtro/native_webview.dart';
 
 class HomePage extends StatefulWidget {
@@ -51,6 +52,20 @@ class HomePageState extends State<HomePage> {
     // });
   }
 
+  void _navigateVPN() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WebviewWrapper()),
+    );
+  }
+
+  void _navigate() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WebviewWrapper()),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,17 +90,13 @@ class HomePageState extends State<HomePage> {
               child: const Text('Disconnect (not working)'),
             ),
             TextButton(
-              onPressed:_disconnect,
+              onPressed:_navigateVPN,
               child: const Text('Open news with vpn'),
             ),
             TextButton(
-              onPressed:_disconnect,
+              onPressed:_navigate,
               child: const Text('Open news without vpn'),
             ),
-            // Expanded(
-            //   child: NativeWebViewPlatform(),
-            // )
-
           ],
         ),
       ),
