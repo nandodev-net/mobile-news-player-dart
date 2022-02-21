@@ -38,7 +38,7 @@ public class MainActivity extends FlutterActivity implements PsiphonTunnel.HostS
         flutterEngine
                 .getPlatformViewsController()
                 .getRegistry()
-                .registerViewFactory("<platform-view-type>", new NativeWebviewFactory());
+                .registerViewFactory("<platform-webview>", new NativeWebviewFactory());
 
 
         // Implementing method Channel to receive message from Flutter UI

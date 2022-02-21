@@ -87,7 +87,7 @@ class HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed:_disconnect,
-              child: const Text('Disconnect (not working)'),
+              child: const Text('Disconnect (not implemented)'),
             ),
             TextButton(
               onPressed:_navigateVPN,

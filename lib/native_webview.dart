@@ -8,7 +8,7 @@ class NativeWebViewPlatform extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This is used in the platform side to register the view.
-    const String viewType = '<platform-view-type>';
+    const String viewType = '<platform-webview>';
     // Pass parameters to the platform side.
     const Map<String, dynamic> creationParams = <String, dynamic>{};
 

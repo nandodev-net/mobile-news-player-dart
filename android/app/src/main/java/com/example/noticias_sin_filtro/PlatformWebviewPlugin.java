@@ -6,7 +6,7 @@ public class PlatformWebviewPlugin implements FlutterPlugin{
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         binding
                 .getPlatformViewRegistry()
-                .registerViewFactory("<platform-view-type>", new NativeWebviewFactory());
+                .registerViewFactory("<platform-webview>", new NativeWebviewFactory());
     }
 
     @Override
