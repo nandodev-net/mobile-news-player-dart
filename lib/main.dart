@@ -4,23 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:dio/dio.dart';
+import 'package:dio/adapter.dart';
+// uninstall import 'package:http_proxy/http_proxy.dart';
 
 
-void main() {
-  //HttpOverrides.global = CustomHttpProxyOverride();
-  String proxy = Platform.isAndroid ? '192.168.1.4:8888' : 'localhost:8888';
-  // Create a new HttpClient instance.
-  HttpClient httpClient = new HttpClient();
-  // Hook into the findProxy callback to set
-// the client's proxy.
-  httpClient.findProxy = (uri) {
-    return "PROXY $proxy;";
+void main() async {
+  String proxy = '192.168.1.4:8888';
+  Dio dio = Dio();
+
+  (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
+    // Hook into the findProxy callback to set the client's proxy.
+    client.findProxy = (url) {
+      return 'PROXY $proxy';
+    };
+
+    // This is a workaround to allow Charles to receive
+    // SSL payloads when your app is running on Android.
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
   };
 
-// This is a workaround to allow Charles to receive
-// SSL payloads when your app is running on Android
-  httpClient.badCertificateCallback =
-  ((X509Certificate cert, String host, int port) => Platform.isAndroid);
+
+  // WidgetsFlutterBinding.ensureInitialized();
+  // HttpProxy httpProxy = await HttpProxy.createHttpProxy();
+  // httpProxy.host = "192.168.1.4";// replace with your server ip
+  // httpProxy.port = "8888";// replace with your server port
+  // HttpOverrides.global=httpProxy;
+
+  //HttpOverrides.global = MyProxyHttpOverride();
   runApp(const MyApp());
 }
 
@@ -110,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextButton(
               onPressed:_disconnect,
-              child: const Text('Disconnect'),
+              child: const Text('Disconnect (not working)'),
             ),
             Expanded(
                 child: WebView(
@@ -137,3 +149,14 @@ class _MyHomePageState extends State<MyHomePage> {
 //   }
 // }
 
+// class MyProxyHttpOverride extends HttpOverrides {
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     return super.createHttpClient(context)
+//       ..findProxy = (uri) {
+//         return "PROXY 192.168.1.4:8888;";
+//       }
+//       ..badCertificateCallback =
+//           (X509Certificate cert, String host, int port) => true;
+//   }
+// }
