@@ -34,7 +34,14 @@ public class MainActivity extends FlutterActivity implements PsiphonTunnel.HostS
         super.configureFlutterEngine(flutterEngine);
         BinaryMessenger messenger = flutterEngine.getDartExecutor().getBinaryMessenger();
 
-        // Implementing method Channel to receive message from Dart UI
+        //register Native WebView
+        flutterEngine
+                .getPlatformViewsController()
+                .getRegistry()
+                .registerViewFactory("<platform-view-type>", new NativeWebviewFactory());
+
+
+        // Implementing method Channel to receive message from Flutter UI
         MethodChannel vpnConnectionMethodChannel = new MethodChannel(messenger, "noticias_sin_filtro/vpn_connection");
         vpnConnectionMethodChannel.setMethodCallHandler((MethodCall call, MethodChannel.Result result) -> {
 

@@ -1,38 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:dio/dio.dart';
-import 'package:dio/adapter.dart';
-// uninstall import 'package:http_proxy/http_proxy.dart';
-
+import 'package:noticias_sin_filtro/native_webview.dart';
 
 void main() async {
-  String proxy = '192.168.1.4:8888';
-  Dio dio = Dio();
-
-  (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (HttpClient client) {
-    // Hook into the findProxy callback to set the client's proxy.
-    client.findProxy = (url) {
-      return 'PROXY $proxy';
-    };
-
-    // This is a workaround to allow Charles to receive
-    // SSL payloads when your app is running on Android.
-    client.badCertificateCallback =
-        (X509Certificate cert, String host, int port) => true;
-  };
-
-
-  // WidgetsFlutterBinding.ensureInitialized();
-  // HttpProxy httpProxy = await HttpProxy.createHttpProxy();
-  // httpProxy.host = "192.168.1.4";// replace with your server ip
-  // httpProxy.port = "8888";// replace with your server port
-  // HttpOverrides.global=httpProxy;
-
-  //HttpOverrides.global = MyProxyHttpOverride();
   runApp(const MyApp());
 }
 
@@ -59,10 +30,10 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   bool _connected = false;
   final _key = UniqueKey();
   var _url = "https://whatismyipaddress.com/";
@@ -82,9 +53,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
-    }
+    // if (Platform.isAndroid) {
+    //   WebView.platform = SurfaceAndroidWebView();
+    // }
   }
 
   void _connect() async {
@@ -96,9 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _disconnect() async{
-    setState(() {
-      _connected = false ;
-    });
+    // setState(() {
+    //   _connected = false ;
+    // });
   }
 
 
@@ -124,11 +95,23 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed:_disconnect,
               child: const Text('Disconnect (not working)'),
             ),
+            TextButton(
+              onPressed:_disconnect,
+              child: const Text('Open news with vpn'),
+            ),
+            TextButton(
+              onPressed:_disconnect,
+              child: const Text('Open news without vpn'),
+            ),
             Expanded(
-                child: WebView(
-                    key: _key,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    initialUrl: _url))
+              child: NativeWebViewPlatform(),
+            )
+
+            // Expanded(
+            //     child: WebView(
+            //         key: _key,
+            //         javascriptMode: JavascriptMode.unrestricted,
+            //         initialUrl: _url))
           ],
         ),
       ),
@@ -137,26 +120,5 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-// class CustomHttpProxyOverride extends HttpOverrides {
-//   @override
-//   HttpClient createHttpClient(SecurityContext? context) {
-//     return super.createHttpClient(context)
-//       ..findProxy = (uri) {
-//         return "PROXY 192.168.1.4:8888;";
-//       }
-//       ..badCertificateCallback =
-//           (X509Certificate cert, String host, int port) => true;
-//   }
-// }
 
-// class MyProxyHttpOverride extends HttpOverrides {
-//   @override
-//   HttpClient createHttpClient(SecurityContext? context) {
-//     return super.createHttpClient(context)
-//       ..findProxy = (uri) {
-//         return "PROXY 192.168.1.4:8888;";
-//       }
-//       ..badCertificateCallback =
-//           (X509Certificate cert, String host, int port) => true;
-//   }
-// }
+
