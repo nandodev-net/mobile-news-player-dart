@@ -49,8 +49,12 @@ public class MainActivity extends FlutterActivity implements PsiphonTunnel.HostS
             if (call.method.equals("connect")) { //connect with VPN
                 methodChannelResult = result; //storing result to call it after callbacks
                 this.connect();
-                //result.success("Hi");
-            } else {
+
+            } else if (call.method.equals("disconnect")) {
+                psiphonTunnel.stop();
+                result.success("Disconnected");
+            }
+            else {
                 result.notImplemented();
             }
         });

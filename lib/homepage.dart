@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:noticias_sin_filtro/webview_wrapper.dart';
-//import 'package:noticias_sin_filtro/native_webview.dart';
 
+
+// TODO: convertir esto en "Connection Handler"
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -16,8 +16,8 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   bool _connected = false;
   final _key = UniqueKey();
-  var _url = "https://whatismyipaddress.com/";
-  var _proxyPort;
+  var _url = "https://whatismyipaddress.com/";//TODO: array de URLs
+  var _proxyPort = null;
 
   final MethodChannel _VPNconnectionMethodChannel  = MethodChannel("noticias_sin_filtro/vpn_connection");
 
@@ -27,29 +27,35 @@ class HomePageState extends State<HomePage> {
     return proxyPort;
   }
 
-  /* final Completer<WebViewController> _controller =
-  Completer<WebViewController>();*/
-
   @override
   void initState() {
     super.initState();
-    // if (Platform.isAndroid) {
-    //   WebView.platform = SurfaceAndroidWebView();
-    // }
+    _connect();
   }
 
   void _connect() async {
-    _proxyPort = await connectWithVPN();
-    print("_proxyPort $_proxyPort");
+    var _port = await connectWithVPN();
+
     setState(() {
-      _connected = true ;
+      _proxyPort = _port;
     });
+
+    setState(() {
+      _connected = true;
+    });
+
   }
 
-  void _disconnect() async{
-    // setState(() {
-    //   _connected = false ;
-    // });
+   void _disconnect() async{
+    String result = await _VPNconnectionMethodChannel.invokeMethod("disconnect");
+
+    setState(() {
+      _proxyPort = null;
+    });
+
+    setState(() {
+      _connected = false;
+    });
   }
 
   void _navigateVPN() {
@@ -81,13 +87,21 @@ class HomePageState extends State<HomePage> {
                 'Connected: $_connected',
                 style: Theme.of(context).textTheme.headline6
             ),
+            Text((() {
+              if(_proxyPort == null) {
+                return "No proxy";
+              }
+              return 'ProxyPort $_proxyPort';
+              })(),
+              style: Theme.of(context).textTheme.headline6
+            ),
             TextButton(
               onPressed:_connect,
-              child: const Text('Connect'),
+              child: const Text('Connect or Reconnect'),
             ),
             TextButton(
               onPressed:_disconnect,
-              child: const Text('Disconnect (not implemented)'),
+              child: const Text('Disconnect'),
             ),
             TextButton(
               onPressed:_navigateVPN,
