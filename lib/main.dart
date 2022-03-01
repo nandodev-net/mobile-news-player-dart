@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(title: 'Noticias Sin Filtro'),
+      home: HomePage(title: 'Noticias Sin Filtro'),
     );
   }
 }

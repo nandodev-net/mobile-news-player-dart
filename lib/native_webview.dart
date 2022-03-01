@@ -5,12 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class NativeWebViewPlatform extends StatelessWidget {
+
+  const NativeWebViewPlatform({Key? key, required this.url, this.port = "" }) : super(key: key);
+  final String url;
+  final String port;
+
   @override
   Widget build(BuildContext context) {
     // This is used in the platform side to register the view.
     const String viewType = '<platform-webview>';
     // Pass parameters to the platform side.
-    const Map<String, dynamic> creationParams = <String, dynamic>{};
+    Map<String, dynamic> creationParams = <String, dynamic> {"url": url, "port": port};
 
     return PlatformViewLink(
       viewType: viewType,
