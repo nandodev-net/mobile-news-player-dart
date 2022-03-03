@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   bool _connected = false;
   final _key = UniqueKey();
-  var url = "https://google.com/";//TODO: array de URLs
+  var url = "https://whatismyipaddress.com/";//TODO: array de URLs
   var _proxyPort = null;
 
   final MethodChannel _VPNconnectionMethodChannel  = MethodChannel("noticias_sin_filtro/vpn_connection");
