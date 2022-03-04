@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:noticias_sin_filtro/webview_wrapper.dart';
 import 'package:noticias_sin_filtro/list_item.dart';
 import 'package:noticias_sin_filtro/news_mapper.dart';
 import 'dart:convert';
@@ -84,22 +84,58 @@ class HomePageState extends State<HomePage> {
     });
   }
 
+  void _navigate() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>  WebviewWrapper(
+          url:"https://whatismyipaddress.com/",
+          port:_proxyPort)),
+      );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(widget.title)
+        title: Text(widget.title),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
+            onPressed: () {},
+            child: Text(_connected?'VPN ON':'VPN OFF'),
+          )
+          ],
       ),
-      body: Container(
-            alignment: Alignment.topCenter,
+      body: Scaffold(
+        appBar: AppBar(
+            backgroundColor:Colors.grey.shade50,
+            actions: <Widget>[
+            TextButton(
+            //  style:TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
+              onPressed:_connect,
+              child: const Text('Connect or Reconnect'),
+            ),
+            TextButton(
+           //   style: TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
+              onPressed:_disconnect,
+              child: const Text('Disconnect'),
+            ),
+            TextButton(
+           //   style:TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
+              onPressed:_navigate,
+              child: const Text('Check'),
+            ),
+          ],
+        ),
+        body: Container(
+          // alignment: Alignment.topCenter,
             child: ListView.builder(
               itemCount: _newsList.length,
               itemBuilder: (context, index) => ListItem(_newsList[index],
                   _proxyPort??""),
-            )
-      ),
-
+            ))
+      )
     );
   }
 }
