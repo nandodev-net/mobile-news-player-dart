@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:noticias_sin_filtro/webview_wrapper.dart';
+
 import 'package:noticias_sin_filtro/list_item.dart';
 import 'package:noticias_sin_filtro/news_mapper.dart';
 import 'dart:convert';
@@ -37,7 +37,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    //_connect();
+    _connect();
     getData();
   }
 
@@ -66,15 +66,10 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  void _navigate() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>  WebviewWrapper(url:url, port:_proxyPort)),
-    );
-  }
+
 
   void getData() async {
-
+    // TODO: This request is made without proxy
    var uri = Uri(
         scheme: 'https',
         host: 'newsdata.io',
@@ -100,7 +95,8 @@ class HomePageState extends State<HomePage> {
             alignment: Alignment.topCenter,
             child: ListView.builder(
               itemCount: _newsList.length,
-              itemBuilder: (context, index) => ListItem(_newsList[index]),
+              itemBuilder: (context, index) => ListItem(_newsList[index],
+                  _proxyPort??""),
             )
       ),
 
