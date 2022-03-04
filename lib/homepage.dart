@@ -2,6 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:noticias_sin_filtro/webview_wrapper.dart';
+import 'package:noticias_sin_filtro/list_item.dart';
+import 'package:noticias_sin_filtro/news_mapper.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
 
 
 // TODO: convertir esto en "Connection Handler"
@@ -18,6 +24,7 @@ class HomePageState extends State<HomePage> {
   final _key = UniqueKey();
   var url = "https://whatismyipaddress.com/";//TODO: array de URLs
   var _proxyPort = null;
+  List<News> _newsList = [];
 
   final MethodChannel _VPNconnectionMethodChannel  = MethodChannel("noticias_sin_filtro/vpn_connection");
 
@@ -30,7 +37,8 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _connect();
+    //_connect();
+    getData();
   }
 
   void _connect() async {
@@ -58,18 +66,27 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  void _navigateVPN() {
+  void _navigate() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) =>  WebviewWrapper(url:url, port:_proxyPort)),
     );
   }
 
-  void _navigate() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => WebviewWrapper(url:url)),
-    );
+  void getData() async {
+
+   var uri = Uri(
+        scheme: 'https',
+        host: 'newsdata.io',
+        path: 'api/1/news',
+        queryParameters: {'apikey':'pub_513800388590479796ae728a8efb8bee1854', 'country':'au,ca'}
+   );
+
+   var response = await http.get(uri);
+
+    setState(() {
+      _newsList = NewsRequestMapper.fromJson(json.decode(response.body)).results;
+    });
   }
 
 
@@ -79,42 +96,15 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
           title: Text(widget.title)
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-                'Connected: $_connected',
-                style: Theme.of(context).textTheme.headline6
-            ),
-            Text((() {
-              if(_proxyPort == null) {
-                return "No proxy";
-              }
-              return 'ProxyPort $_proxyPort';
-              })(),
-              style: Theme.of(context).textTheme.headline6
-            ),
-            TextButton(
-              onPressed:_connect,
-              child: const Text('Connect or Reconnect'),
-            ),
-            TextButton(
-              onPressed:_disconnect,
-              child: const Text('Disconnect'),
-            ),
-            TextButton(
-              onPressed:_navigateVPN,
-              child: const Text('Open news with vpn'),
-            ),
-            TextButton(
-              onPressed:_navigate,
-              child: const Text('Open news without vpn'),
-            ),
-          ],
-        ),
+      body: Container(
+            alignment: Alignment.topCenter,
+            child: ListView.builder(
+              itemCount: _newsList.length,
+              itemBuilder: (context, index) => ListItem(_newsList[index]),
+            )
       ),
 
     );
   }
 }
+
