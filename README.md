@@ -6,11 +6,11 @@ Noticias Sin Filtro es una aplicación de noticias que permite a los usuarios le
 Para realizar la conexión VPN se utiliza la librería de Psyphon https://github.com/Psiphon-Labs/psiphon-tunnel-core
 
 ## Contenido
-[Instalación del Proyecto](#instalación)  
-[Documentación Librería Psiphon](#psiphon)  
-[Conexión Código Plataforma y Flutter](#plataforma)  
-- [Conexión VPN con Method Channel](#methodChannel)
-- [Embebido de vista nativa con Platform View](#platformView)
+* [Instalación del Proyecto](#instalación)  
+* [Documentación Librería Psiphon](#psiphon)  
+* [Conexión Código Plataforma y Flutter](#plataforma)  
+  * [Conexión VPN con Method Channel](#methodChannel)
+  * [Embebido de vista nativa con Platform View](#platformView)
 
 <a name="instalación"></a>
 ## Instalación del Proyecto
