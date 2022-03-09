@@ -5,8 +5,9 @@ Noticias Sin Filtro es una aplicación de noticias que permite a los usuarios le
 
 Para realizar la conexión VPN se utiliza la librería de Psyphon https://github.com/Psiphon-Labs/psiphon-tunnel-core
 
-
-# Instalación del Proyecto
+## Contenido
+- 
+## Instalación del Proyecto
 
 Requisitos para ejecutar el proyecto  :
 - **Android Studio** (La versión utilizada para el desarrollo fue [Android Studio Bumblebee (2021.1.1)](https://android-developers.googleblog.com/2022/01/android-studio-bumblebee-202111-stable.html), pero en teoría cualquier versión reciente de Android Studio debería ser compatible ). Para ejecutar en el emulador se debe crear un [AVD](https://developer.android.com/studio/run/managing-avds) con algún Android SDK válido (ver la versión mínima en el argumento `minSdkVersion` del archivo`android>app>build.gradle`).
@@ -17,7 +18,7 @@ Luego de tener instalados los requisitos, se debe abrir el proyecto en XCode o A
 
 Además de las dependencias de Flutter, se tiene una dependencia asociada a cada plataforma por separado: la librería de Psiphon. Se debe asegurar que los gestores de dependencias de Android (Gradle) y de iOS las descarguen correctamente. En caso de que no sea así se debe abrir el proyecto Android o iOS por separado y "refrescar" la descarga de la dependencia en el IDE.
 
-# Lo que se conoce sobre la librería Psiphon
+## Lo que se conoce sobre la librería Psiphon
 
 La librería a utilizar es de uso interno a la empresa Psiphon y se tiene poca información sobre los métodos de la misma. Sin embargo, se asume cierto comportamiento de la misma luego de observación del [código de ejemplo](https://github.com/Psiphon-Labs/psiphon-tunnel-core/tree/master/MobileLibrary/Android/SampleApps), la definición de  [Psiphon Tunnel](https://github.com/Psiphon-Labs/psiphon-tunnel-core/blob/83a68bcb5a470928b87c3b91fbe972ab8eb981e5/MobileLibrary/Android/PsiphonTunnel/PsiphonTunnel.java) , la definición de [Psiphon Manager](https://github.com/zhlgh603/psiphon/blob/master/Android/app/src/main/java/com/psiphon3/psiphonlibrary/TunnelManager.java) y de la [implementación](https://github.com/Psiphon-Inc/psiphon-android) de la librería por parte del equipo Psiphon.
 
@@ -67,7 +68,7 @@ return "";
 
 }
 
-// Esta otras funciones lo único que hace es convertir el stream de bytes en un formato legible
+// Esta otras funciones lo único que hacen es convertir el stream de bytes en un formato legible
 private static String readInputStreamToString(InputStream inputStream) throws IOException {
 
 return new String(readInputStreamToBytes(inputStream), "UTF-8");
@@ -131,7 +132,7 @@ mLocalHttpProxyPort.set(port);
 El resto de los callbacks sirve para proporcionar información sobre varios detalles del VPN (región cliente, regiones disponibles, etc)
 
 
-# Conexión código "Plataforma" - Flutter
+## Conexión código "Plataforma" - Flutter
 
 -platform channel para agarrar el puerto
 - platform views
