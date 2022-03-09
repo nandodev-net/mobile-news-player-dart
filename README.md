@@ -154,7 +154,7 @@ La secuencia de interacción de la aplicación luce algo así:
 **Para desconectar el VPN:**
 ![Secuencia de Desconexión](/docs/images/image2.jpeg "Secuencia de Desconexión")
 **Para mostrar la webview Nativa:**
-![Webview Nativa](/docs/images/image2.jpeg "Webview Nativa")
+![Webview Nativa](/docs/images/image3.jpeg "Webview Nativa")
 
 A continuación se explicará cada secuencia con un poco más de detalle:
 
