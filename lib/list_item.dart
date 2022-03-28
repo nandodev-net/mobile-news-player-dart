@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:noticias_sin_filtro/news_mapper.dart';
+import 'package:noticias_sin_filtro/entities/news.dart';
 import 'package:noticias_sin_filtro/webview_wrapper.dart';
 
 class ListItem extends StatelessWidget {

@@ -1,17 +1,4 @@
-import 'dart:convert';
-
-class NewsRequestMapper {
-  var status;
-  int totalResults;
-  List<News> results;
-  int nextPage;
-
-  NewsRequestMapper.fromJson(Map<String, dynamic> json):
-      status = json['status'],
-      totalResults = json['totalResults'],
-      results = List.from(json['results']).map((result)=> News.fromJson(result)).toList(),
-      nextPage = json['nextPage'];
-}
+// import 'dart:convert';
 
 class News {
   String? title;
@@ -29,23 +16,19 @@ class News {
   String? language;
 
 
-    News.fromJson(Map<String, dynamic> json):
+  News.fromJson(Map<String, dynamic> json):
         title = json['title'] as String?,
         link = json['link'] as String?,
         source_id = json['source_id'] as String?,
-       // keywords = List.from(json['keywords']),
-       // creator = List.from(json['creator']),
+  // keywords = List.from(json['keywords']),
+  // creator = List.from(json['creator']),
         image_url = json['image_url'] as String?,
         video_url = json['video_url'] as String?,
         description = json['description'] as String?,
         pubDate = json['pubDate'] as String?,
         content = json['content'] as String?,
-      //  country = List.from(json['country']),
-       // category = List.from(json['category']),
+  //  country = List.from(json['country']),
+  // category = List.from(json['category']),
         language = json['language'] as String?;
 
 }
-
-
-
-

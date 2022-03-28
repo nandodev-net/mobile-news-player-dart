@@ -1,16 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:noticias_sin_filtro/home.dart';
 import 'package:noticias_sin_filtro/webview_wrapper.dart';
-import 'package:noticias_sin_filtro/list_item.dart';
-import 'package:noticias_sin_filtro/news_mapper.dart';
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 
 
-
-// TODO: convertir esto en "Connection Handler"
+// TODO: convertir esto en "Connection Handler o ApplicationEntrypoint"
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -21,11 +16,29 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   bool _connected = false;
-  final _key = UniqueKey();
-  var url = "https://whatismyipaddress.com/";//TODO: array de URLs
+  // final _key = UniqueKey();
+  var url = "https://whatismyipaddress.com/";
   var _proxyPort = null;
-  List<News> _newsList = [];
+  int _bottomNavIndex = 0;
+  PageController pageController = PageController();
 
+  // Functions to handle Bottom Navigation
+
+  void _onBottomNavItemTapped(int index) {
+    setState(() {
+      _bottomNavIndex = index;
+    });
+    pageController.jumpToPage(index);
+  }
+
+  void _onBottomPageChanged(int page) {
+    setState(() {
+      _bottomNavIndex =page;
+    });
+  }
+
+
+  // Functions to handle VPN
   final MethodChannel _VPNconnectionMethodChannel  = MethodChannel("noticias_sin_filtro/vpn_connection");
 
   Future <String> connectWithVPN() async {
@@ -38,7 +51,7 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _connect();
-    getData();
+    //getData();
   }
 
   void _connect() async {
@@ -67,23 +80,6 @@ class HomePageState extends State<HomePage> {
   }
 
 
-
-  void getData() async {
-    // TODO: This request is made without proxy
-   var uri = Uri(
-        scheme: 'https',
-        host: 'newsdata.io',
-        path: 'api/1/news',
-        queryParameters: {'apikey':'pub_513800388590479796ae728a8efb8bee1854', 'country':'au,ca'}
-   );
-
-   var response = await http.get(uri);
-
-    setState(() {
-      _newsList = NewsRequestMapper.fromJson(json.decode(response.body)).results;
-    });
-  }
-
   void _navigate() {
     Navigator.push(
       context,
@@ -107,35 +103,42 @@ class HomePageState extends State<HomePage> {
           )
           ],
       ),
-      body: Scaffold(
-        appBar: AppBar(
-            backgroundColor:Colors.grey.shade50,
-            actions: <Widget>[
-            TextButton(
-            //  style:TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
-              onPressed:_connect,
-              child: const Text('Connect or Reconnect'),
-            ),
-            TextButton(
-           //   style: TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
-              onPressed:_disconnect,
-              child: const Text('Disconnect'),
-            ),
-            TextButton(
-           //   style:TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
-              onPressed:_navigate,
-              child: const Text('Check'),
-            ),
-          ],
-        ),
-        body: Container(
-          // alignment: Alignment.topCenter,
-            child: ListView.builder(
-              itemCount: _newsList.length,
-              itemBuilder: (context, index) => ListItem(_newsList[index],
-                  _proxyPort??""),
-            ))
-      )
+      body: PageView(
+        controller: pageController,
+        children: [
+          Home(port:_proxyPort??""),
+          Container(color: Colors.blue),
+          Container(color: Colors.red),
+          Container(color: Colors.yellow),
+      ],
+        onPageChanged: _onBottomPageChanged,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem> [
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Medios',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category),
+            label: 'Categorías',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Configuración',
+          ),
+        ],
+        currentIndex: _bottomNavIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        onTap: _onBottomNavItemTapped,
+      ),
+
     );
   }
 }
