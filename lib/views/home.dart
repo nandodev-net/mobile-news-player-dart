@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/entities/news.dart';
-import 'package:noticias_sin_filtro/views/news_list_item.dart';
+import 'package:noticias_sin_filtro/views/list_items/news_list_item.dart';
 import 'package:noticias_sin_filtro/services/get_news.dart';
 
 
@@ -42,8 +42,9 @@ class _homeState extends State<Home> {
             child: ListView.builder(
               itemCount: _newsList.length,
               itemBuilder: (context, index) =>
-                  NewsListItem(_newsList[index],
-                  widget.port
+                  NewsListItem(
+                      news: _newsList[index],
+                      port: widget.port
                 ),
             ));
 

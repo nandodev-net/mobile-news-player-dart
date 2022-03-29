@@ -89,22 +89,20 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
       );
   }
 
+  //final PageStorageBucket bucket = PageStorageBucket();
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: Text(widget.title),
-        backgroundColor: Colors.grey[100],
-        foregroundColor: Colors.black,
+        //title: Text(widget.title),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.grey[600],
         actions: <Widget>[
           TextButton(
             style: TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
             onPressed: () {},
-            // child: Text(
-            //     _connected?'VPN ON':'VPN OFF',
-            //   style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
-            // ),
             child: Text.rich(
               TextSpan(
                 text: _connected?'VPN ON':'VPN OFF',
@@ -136,15 +134,16 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
           Container(color: Colors.blue),
           Container(color: Colors.red),
           Container(color: Colors.yellow),
-      ],
+        ],
         onPageChanged: _onBottomPageChanged,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.red,
         items: const <BottomNavigationBarItem> [
 
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
@@ -160,10 +159,11 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
           ),
         ],
         currentIndex: _bottomNavIndex,
-        selectedItemColor: Colors.blue,
-        backgroundColor: Colors.grey[100],
+        selectedItemColor: Colors.blue[700],
         unselectedItemColor: Colors.grey[600],
+        // iconSize: 40,
         //type: BottomNavigationBarType.fixed,
+        iconSize: 25,
         onTap: _onBottomNavItemTapped,
       ),
 

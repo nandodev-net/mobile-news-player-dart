@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -14,6 +15,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Noticias Sin Filtro',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''), // English, no country code
+        Locale('es', ''), // Spanish, no country code
+      ],
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
