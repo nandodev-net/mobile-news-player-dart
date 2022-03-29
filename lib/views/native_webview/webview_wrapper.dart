@@ -19,7 +19,7 @@ class WebviewWrapper extends StatelessWidget {
         backgroundColor: Colors.grey[700],
         foregroundColor: Colors.grey[100],
       ),
-      body: NativeWebViewPlatform(url: url, port: port)
+      body: NativeWebView(url: url, port: port)
     );
   }
 }

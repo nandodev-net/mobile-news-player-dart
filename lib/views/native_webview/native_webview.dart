@@ -4,9 +4,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class NativeWebViewPlatform extends StatelessWidget {
+class NativeWebView extends StatelessWidget {
 
-  const NativeWebViewPlatform({Key? key, required this.url, this.port = "" }) : super(key: key);
+  const NativeWebView({Key? key, required this.url, this.port = "" }) : super(key: key);
   final String url;
   final String port;
 
