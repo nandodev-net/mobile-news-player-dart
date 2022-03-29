@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'package:noticias_sin_filtro/entities/news.dart';
-import 'package:noticias_sin_filtro/webview_wrapper.dart';
+import 'package:noticias_sin_filtro/views/native_webview/webview_wrapper.dart';
 
-class ListItem extends StatelessWidget {
+class NewsListItem extends StatelessWidget {
   final News news;
   final String port;
 
-  ListItem(this.news, this.port);
+  NewsListItem(this.news, this.port);
 
   void _navigate(context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) =>  WebviewWrapper(
           url:news.link??"",
+          title: news.title??"",
           port:port)),
     );
   }

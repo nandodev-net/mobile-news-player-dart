@@ -1,20 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:noticias_sin_filtro/home.dart';
-import 'package:noticias_sin_filtro/webview_wrapper.dart';
+import 'package:noticias_sin_filtro/views/home.dart';
+import 'package:noticias_sin_filtro/views/native_webview/webview_wrapper.dart';
 
 
-// TODO: convertir esto en "Connection Handler o ApplicationEntrypoint"
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+class ApplicationWrapper extends StatefulWidget {
+  const ApplicationWrapper({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<HomePage> createState() => HomePageState();
+  State<ApplicationWrapper> createState() => ApplicationWrapperState();
 }
 
-class HomePageState extends State<HomePage> {
+class ApplicationWrapperState extends State<ApplicationWrapper> {
   bool _connected = false;
   // final _key = UniqueKey();
   var url = "https://whatismyipaddress.com/";
@@ -85,6 +84,7 @@ class HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(builder: (context) =>  WebviewWrapper(
           url:"https://whatismyipaddress.com/",
+          title: "Check your IP",
           port:_proxyPort)),
       );
   }
@@ -94,12 +94,38 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        // title: Text(widget.title),
+        backgroundColor: Colors.grey[100],
+        foregroundColor: Colors.black,
         actions: <Widget>[
           TextButton(
             style: TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
             onPressed: () {},
-            child: Text(_connected?'VPN ON':'VPN OFF'),
+            // child: Text(
+            //     _connected?'VPN ON':'VPN OFF',
+            //   style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.bold),
+            // ),
+            child: Text.rich(
+              TextSpan(
+                text: _connected?'VPN ON':'VPN OFF',
+                style: TextStyle(
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13
+                ),
+                children: <TextSpan> [
+                  TextSpan(
+                      text: '•',
+                      style: TextStyle(
+                          color:_connected?Colors.green:Colors.redAccent,
+                          fontSize: 35,
+                          height: 1
+                      )
+                  ),
+                ]
+              ),
+              textAlign: TextAlign.center,
+            )
           )
           ],
       ),
@@ -125,17 +151,19 @@ class HomePageState extends State<HomePage> {
             label: 'Medios',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: 'Categorías',
+            icon: Icon(Icons.rss_feed),
+            label: 'Navega',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Configuración',
+            icon: Icon(Icons.category),
+            label: 'Categorías',
           ),
         ],
         currentIndex: _bottomNavIndex,
         selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.grey[100],
+        unselectedItemColor: Colors.grey[600],
+        //type: BottomNavigationBarType.fixed,
         onTap: _onBottomNavItemTapped,
       ),
 

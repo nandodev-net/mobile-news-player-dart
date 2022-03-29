@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noticias_sin_filtro/homepage.dart';
+import 'package:noticias_sin_filtro/application_wrapper.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(title: 'Noticias Sin Filtro'),
+      home: ApplicationWrapper(title: 'Noticias Sin Filtro'),
     );
   }
 }
