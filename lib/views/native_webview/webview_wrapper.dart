@@ -16,8 +16,8 @@ class WebviewWrapper extends StatelessWidget {
             title,
             style: TextStyle(fontSize: 15),
         ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.grey[700],
+        backgroundColor: Colors.grey[700],
+        foregroundColor: Colors.grey[100],
       ),
       body: NativeWebViewPlatform(url: url, port: port)
     );

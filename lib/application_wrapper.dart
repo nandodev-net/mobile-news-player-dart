@@ -95,7 +95,10 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //title: Text(widget.title),
+        title: Text(
+            widget.title,
+            style: TextStyle(fontSize: 18),
+        ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.grey[600],
         actions: <Widget>[
@@ -103,19 +106,21 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
             style: TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
             onPressed: () {},
             child: Text.rich(
+
               TextSpan(
-                text: _connected?'VPN ON':'VPN OFF',
+                text: _connected?'VPN ON ':'VPN OFF ',
                 style: TextStyle(
                     color: Colors.grey[600],
                     fontWeight: FontWeight.bold,
                     fontSize: 13
                 ),
+
                 children: <TextSpan> [
                   TextSpan(
-                      text: '•',
+                      text: '■',
                       style: TextStyle(
                           color:_connected?Colors.green:Colors.redAccent,
-                          fontSize: 35,
+                          fontSize: 17,
                           height: 1
                       )
                   ),
