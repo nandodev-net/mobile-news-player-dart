@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 Future<List<News>> getNews() async {
   // TODO: This request should use a proxy
 
+  print("News request is being made");
+
   List<News> newsList = [];
   var uri = Uri(
       scheme: 'https',
@@ -16,6 +18,8 @@ Future<List<News>> getNews() async {
 
   var response = await http.get(uri);
   newsList = NewsRequestMapper.fromJson(json.decode(response.body)).results;
+
+  print("News are returned");
 
   return newsList;
 }

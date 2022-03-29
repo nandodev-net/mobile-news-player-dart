@@ -12,7 +12,12 @@ class WebviewWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(
+            title,
+            style: TextStyle(fontSize: 15),
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.grey[700],
       ),
       body: NativeWebViewPlatform(url: url, port: port)
     );

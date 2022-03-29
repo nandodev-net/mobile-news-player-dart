@@ -33,20 +33,34 @@ class _homeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
+    //TODO: Change this for a loader
     if(widget.port == "") {
       return Text("Cargando");
     }
 
     // if port exists
-    return Container(
-            child: ListView.builder(
-              itemCount: _newsList.length,
-              itemBuilder: (context, index) =>
-                  NewsListItem(
-                      news: _newsList[index],
-                      port: widget.port
-                ),
-            ));
+    return Navigator(
+        onGenerateRoute: (RouteSettings settings) {
+          return MaterialPageRoute(
+            settings: settings,
+            builder: (BuildContext context) {
+              return
+                Container(
+                  child: ListView.builder(
+                    itemCount: _newsList.length,
+                    itemBuilder: (context, index) =>
+                        NewsListItem(
+                            news: _newsList[index],
+                            port: widget.port
+                        ),
+                  ));
+            }
+          );
+        }
+    );
+
+
+
 
   }
 }

@@ -19,7 +19,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
   var url = "https://whatismyipaddress.com/";
   var _proxyPort = null;
   int _bottomNavIndex = 0;
-  PageController pageController = PageController();
+
 
   // Functions to handle Bottom Navigation
 
@@ -27,7 +27,6 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
     setState(() {
       _bottomNavIndex = index;
     });
-    pageController.jumpToPage(index);
   }
 
   void _onBottomPageChanged(int page) {
@@ -127,15 +126,24 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
           )
           ],
       ),
-      body: PageView(
-        controller: pageController,
-        children: [
-          Home(port:_proxyPort??""),
-          Container(color: Colors.blue),
-          Container(color: Colors.red),
-          Container(color: Colors.yellow),
+      // body: PageView(
+      //   controller: pageController,
+      //   children: [
+      //     Home(port:_proxyPort??""),
+      //     Container(color: Colors.blue),
+      //     Container(color: Colors.red),
+      //     Container(color: Colors.yellow),
+      //   ],
+      //   onPageChanged: _onBottomPageChanged,
+      // ),
+      body: IndexedStack(
+        index: _bottomNavIndex,
+        children: <Widget>[
+              Home(port:_proxyPort??""),
+              Container(color: Colors.blue),
+              Container(color: Colors.red),
+              Container(color: Colors.yellow),
         ],
-        onPageChanged: _onBottomPageChanged,
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.red,
