@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:noticias_sin_filtro/views/home.dart';
+import 'package:noticias_sin_filtro/views/navigate.dart';
 import 'package:noticias_sin_filtro/views/native_webview/webview_wrapper.dart';
+import 'package:noticias_sin_filtro/views/vpn_config.dart';
 
 
 class ApplicationWrapper extends StatefulWidget {
@@ -20,8 +22,15 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
   var _proxyPort = null;
   int _bottomNavIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    _connect();
+    //getData();
+  }
 
-  // Functions to handle Bottom Navigation
+
+  ////// Functions to handle Bottom Navigation //////
 
   void _onBottomNavItemTapped(int index) {
     setState(() {
@@ -36,20 +45,13 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
   }
 
 
-  // Functions to handle VPN
+  /////// Functions to handle VPN //////
   final MethodChannel _VPNconnectionMethodChannel  = MethodChannel("noticias_sin_filtro/vpn_connection");
 
   Future <String> connectWithVPN() async {
     final proxyPort = await _VPNconnectionMethodChannel.invokeMethod("connect");
     print("proxyPort from Android $proxyPort");
     return proxyPort;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _connect();
-    //getData();
   }
 
   void _connect() async {
@@ -77,16 +79,28 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
     });
   }
 
-
-  void _navigate() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>  WebviewWrapper(
-          url:"https://whatismyipaddress.com/",
-          title: "Check your IP",
-          port:_proxyPort)),
-      );
+  void _redirectToVPNConfig() {
+    Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) =>  VpnConfig(
+                connect:_connect,
+                disconnect: _disconnect,
+                port:_proxyPort,
+                status: _connected,
+              )
+            ),
+    );
   }
+
+
+  // void _navigate() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) =>  WebviewWrapper(
+  //         url:"https://whatismyipaddress.com/",
+  //         title: "Check your IP",
+  //         port:_proxyPort)),
+  //     );
+  // }
 
   //final PageStorageBucket bucket = PageStorageBucket();
 
@@ -104,7 +118,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
         actions: <Widget>[
           TextButton(
             style: TextButton.styleFrom(primary: Theme.of(context).colorScheme.onPrimary),
-            onPressed: () {},
+            onPressed: _redirectToVPNConfig,
             child: Text.rich(
 
               TextSpan(
@@ -131,22 +145,12 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
           )
           ],
       ),
-      // body: PageView(
-      //   controller: pageController,
-      //   children: [
-      //     Home(port:_proxyPort??""),
-      //     Container(color: Colors.blue),
-      //     Container(color: Colors.red),
-      //     Container(color: Colors.yellow),
-      //   ],
-      //   onPageChanged: _onBottomPageChanged,
-      // ),
       body: IndexedStack(
         index: _bottomNavIndex,
         children: <Widget>[
               Home(port:_proxyPort??""),
               Container(color: Colors.blue),
-              Container(color: Colors.red),
+              Navigate(port:_proxyPort??""),
               Container(color: Colors.yellow),
         ],
       ),
