@@ -39,7 +39,7 @@ class _newsListItem extends State<NewsListItem>  {
       MaterialPageRoute(
         builder: (BuildContext context) {
           return WebviewWrapper(
-                    url:widget.news.link??"",
+                    url:widget.news.url??"",
                     title: widget.news.title??"",
                     port:widget.port,
                     showAppBar: widget.showNewsAppBar,
@@ -68,8 +68,8 @@ class _newsListItem extends State<NewsListItem>  {
                     height: 150,
                     width: 150,
                     child: Image.network(
-                        widget.news.image_url != null ?
-                        widget.news.image_url.toString() :
+                        widget.news.imageUrl != null ?
+                        widget.news.imageUrl.toString() :
                         "https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
                     )
                 ),
@@ -91,7 +91,7 @@ class _newsListItem extends State<NewsListItem>  {
                           ),
                         ),
                         Text(
-                          widget.news.description.toString(),
+                          widget.news.excerpt.toString(),
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           maxLines: 2,

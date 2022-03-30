@@ -2,33 +2,33 @@
 
 class News {
   String? title;
-  String? link;
-  String? source_id;
-  // List<String> keywords;
-  // List<String> creator;
-  String? image_url;
-  String? video_url;
-  String? description;
-  String? pubDate;
-  String? content;
+  String? url;
+  String? mediaSite;
+  String? pubDatetime;
+  String? imageUrl;
+  String? excerpt;
+  String? scrapedDate;
+  bool relevance;
+  //List<String> categories;
+
+
   // List<String> country;
   // List<String> category;
-  String? language;
+  //String? language;
+  // List<String> keywords;
+  // List<String> creator;
+  //String? video_url;
 
 
   News.fromJson(Map<String, dynamic> json):
         title = json['title'] as String?,
-        link = json['link'] as String?,
-        source_id = json['source_id'] as String?,
-  // keywords = List.from(json['keywords']),
-  // creator = List.from(json['creator']),
-        image_url = json['image_url'] as String?,
-        video_url = json['video_url'] as String?,
-        description = json['description'] as String?,
-        pubDate = json['pubDate'] as String?,
-        content = json['content'] as String?,
-  //  country = List.from(json['country']),
-  // category = List.from(json['category']),
-        language = json['language'] as String?;
+        url = json['url'] as String?,
+        mediaSite = json['mediaSite'] as String?,
+        pubDatetime = json['datetime'] as String?,
+        imageUrl = json['image_url'],
+        excerpt = json['excerpt'],
+        scrapedDate = json['scraped_date'],
+        relevance = json['relevance'];
+
 
 }

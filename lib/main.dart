@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async {
+Future main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

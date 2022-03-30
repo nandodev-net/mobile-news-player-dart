@@ -2,16 +2,18 @@
 import 'package:noticias_sin_filtro/entities/news.dart';
 
 class NewsRequestMapper {
-  var status;
-  int totalResults;
+  int totalPages;
   List<News> results;
-  int nextPage;
+  String? next;
+  String? previous;
+  int count;
 
   NewsRequestMapper.fromJson(Map<String, dynamic> json):
-      status = json['status'],
-      totalResults = json['totalResults'],
-      results = List.from(json['results']).map((result)=> News.fromJson(result)).toList(),
-      nextPage = json['nextPage'];
+    totalPages = json['total_pages'],
+    results = List.from(json['results']).map((result)=> News.fromJson(result)).toList(),
+    next = json['next'] as String?,
+    previous = json['previous'] as String?,
+    count = json['count'];
 }
 
 
