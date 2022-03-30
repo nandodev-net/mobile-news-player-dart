@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/list_items/site_list_item.dart';
+import 'package:noticias_sin_filtro/services/get_sites.dart';
 
 // TODO: handle query params
 class NewsSites extends StatefulWidget {
@@ -13,8 +14,8 @@ class NewsSites extends StatefulWidget {
 
 class _newsSitesState extends State<NewsSites> {
 
-  List<String> _sites = ["La Patilla", "Efecto Cocuyo"];
-  List<String> _url = ["lapatilla.com", "efectococuyo.com"];
+  List<String> _sites = [];
+  List<String> _url = ["lapatilla.com", "efectococuyo.com", "otros"];
 
   @override
   void initState() {
@@ -24,6 +25,10 @@ class _newsSitesState extends State<NewsSites> {
 
   void getSitesFromApi() async {
 
+    List<String> sites = await  getSites();
+    setState(() {
+      _sites = sites;
+    });
   }
 
 
@@ -31,7 +36,7 @@ class _newsSitesState extends State<NewsSites> {
   Widget build(BuildContext context) {
 
     //TODO: Change this for a loader
-    if(widget.port == "") {
+    if(widget.port == "" || _sites.length <1) {
       return Text("Cargando");
     }
 
