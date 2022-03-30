@@ -1,4 +1,4 @@
-// import 'dart:convert';
+import 'dart:convert';
 
 class News {
   String? title;
@@ -21,7 +21,7 @@ class News {
 
 
   News.fromJson(Map<String, dynamic> json):
-        title = json['title'] as String?,
+        title = json['title'],
         url = json['url'] as String?,
         mediaSite = json['mediaSite'] as String?,
         pubDatetime = json['datetime'] as String?,
