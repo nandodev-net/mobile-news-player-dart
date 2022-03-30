@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/native_webview/native_webview.dart';
 
 class WebviewWrapper extends StatelessWidget {
-  const WebviewWrapper({Key? key, required this.title, required this.url, this.port = "" }) : super(key: key);
+  const WebviewWrapper({
+    Key? key,
+    required this.title,
+    required this.url,
+    this.port = "",
+    required this.showAppBar
+  }) : super(key: key);
+
   final String url;
   final String port;
   final String title;
+  final bool showAppBar;
 
 
   @override

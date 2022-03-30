@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/native_webview/native_webview.dart';
-import 'package:noticias_sin_filtro/views/native_webview/webview_wrapper.dart';
+import 'package:noticias_sin_filtro/views/wrappers/webview_wrapper.dart';
 
 class Navigate extends StatefulWidget {
   const Navigate({Key? key, required this.port}) : super(key: key);

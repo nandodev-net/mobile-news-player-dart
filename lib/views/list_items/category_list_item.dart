@@ -1,27 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/views/news_list.dart';
+import 'package:noticias_sin_filtro/views/wrappers/news_list_wrapper.dart';
 
-import 'package:noticias_sin_filtro/entities/news.dart';
-import 'package:noticias_sin_filtro/views/wrappers/webview_wrapper.dart';
-
-class NewsListItem extends StatefulWidget {
-  const NewsListItem({
-    Key? key,
-    required this.news,
-    required this.port,
-    required this.showNewsAppBar
-  }) : super(key: key);
-
+class CategoryListItem extends StatefulWidget {
+  const CategoryListItem({Key? key, required this.category, required this.port}) : super(key: key);
   final String port;
-  final News news;
-  final bool showNewsAppBar;
+  final String category;
 
   @override
-  _newsListItem createState() => _newsListItem();
+  _categoryListItem createState() => _categoryListItem();
 }
 
 
-class _newsListItem extends State<NewsListItem>  {
+class _categoryListItem extends State<CategoryListItem>  {
 
   bool liked = false;
 
@@ -32,27 +24,16 @@ class _newsListItem extends State<NewsListItem>  {
     });
   }
 
-  //NewsListItem(this.news, this.port);
 
   void _navigate(context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return WebviewWrapper(
-                    url:widget.news.link??"",
-                    title: widget.news.title??"",
-                    port:widget.port,
-                    showAppBar: widget.showNewsAppBar,
-          );
+          return NewsListWrapper(port: widget.port, title:"Categoría " + widget.category);
         },
       ),
     );
-    //   context,
-    //   MaterialPageRoute(builder: (context) =>  WebviewWrapper(
-    //       url:widget.news.link??"",
-    //       title: widget.news.title??"",
-    //       port:widget.port)),
-    // );
+
   }
 
   @override
@@ -67,11 +48,7 @@ class _newsListItem extends State<NewsListItem>  {
                 Container(
                     height: 70,
                     width: 100,
-                    child: Image.network(
-                        widget.news.image_url != null ?
-                        widget.news.image_url.toString() :
-                        "https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
-                    )
+                    color: Colors.redAccent
                 ),
                 Expanded(child:
                 Padding(
@@ -80,27 +57,16 @@ class _newsListItem extends State<NewsListItem>  {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.news.title.toString(),
+                          widget.category,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
-                          maxLines: 3,
+                          maxLines: 1,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                               color: Colors.grey[800]
                           ),
                         ),
-                        Text(
-                          widget.news.description.toString(),
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          maxLines: 2,
-                          style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontSize: 12,
-                              color: Colors.grey[700]
-                          ),
-                        )
                       ]),
                 ),
                 ),
@@ -129,8 +95,6 @@ class _newsListItem extends State<NewsListItem>  {
                         ]
                     )
                 )
-
-
               ],
             )
         )

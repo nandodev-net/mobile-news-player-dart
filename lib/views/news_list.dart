@@ -3,16 +3,17 @@ import 'package:noticias_sin_filtro/entities/news.dart';
 import 'package:noticias_sin_filtro/views/list_items/news_list_item.dart';
 import 'package:noticias_sin_filtro/services/get_news.dart';
 
-
-class Home extends StatefulWidget {
-  const Home({Key? key, required this.port}) : super(key: key);
+// TODO: handle query params
+class NewsList extends StatefulWidget {
+  const NewsList({Key? key, required this.port, required this.showNewsAppBar}) : super(key: key);
   final String port;
+  final bool showNewsAppBar;
 
   @override
-  _homeState createState() => _homeState();
+  _newsListState createState() => _newsListState();
 }
 
-class _homeState extends State<Home> {
+class _newsListState extends State<NewsList> {
 
   List<News> _newsList = [];
 
@@ -51,7 +52,8 @@ class _homeState extends State<Home> {
                     itemBuilder: (context, index) =>
                         NewsListItem(
                             news: _newsList[index],
-                            port: widget.port
+                            port: widget.port,
+                            showNewsAppBar: widget.showNewsAppBar,
                         ),
                   ));
             }

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:noticias_sin_filtro/views/home.dart';
+import 'package:noticias_sin_filtro/views/categories.dart';
+import 'package:noticias_sin_filtro/views/news_list.dart';
 import 'package:noticias_sin_filtro/views/navigate.dart';
-import 'package:noticias_sin_filtro/views/native_webview/webview_wrapper.dart';
+import 'package:noticias_sin_filtro/views/wrappers/webview_wrapper.dart';
 import 'package:noticias_sin_filtro/views/vpn_config.dart';
+
 
 
 class ApplicationWrapper extends StatefulWidget {
@@ -84,7 +86,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
             MaterialPageRoute(builder: (context) =>  VpnConfig(
                 connect:_connect,
                 disconnect: _disconnect,
-                port:_proxyPort,
+                port:_proxyPort??"",
                 status: _connected,
               )
             ),
@@ -103,6 +105,16 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
   // }
 
   //final PageStorageBucket bucket = PageStorageBucket();
+
+  // void rebuildAllChildren(BuildContext context) {
+  //   void rebuild(Element el) {
+  //     el.markNeedsBuild();
+  //     el.visitChildren(rebuild);
+  //   }
+  //   (context as Element).visitChildren(rebuild);
+  // }
+
+
 
 
   @override
@@ -148,10 +160,11 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
       body: IndexedStack(
         index: _bottomNavIndex,
         children: <Widget>[
-              Home(port:_proxyPort??""),
-              Container(color: Colors.blue),
-              Navigate(port:_proxyPort??""),
+              NewsList(port:_proxyPort??"", showNewsAppBar: true,),
               Container(color: Colors.yellow),
+              Navigate(port:_proxyPort??""),
+              Categories(port:_proxyPort??""),
+
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
