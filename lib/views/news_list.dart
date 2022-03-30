@@ -30,7 +30,7 @@ class _newsListState extends State<NewsList> {
     });
   }
 
-  //TODO: Conditional rendering of thing
+
   @override
   Widget build(BuildContext context) {
 

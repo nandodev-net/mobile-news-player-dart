@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/wrappers/news_list_wrapper.dart';
 import 'dart:math';
 
-class CategoryListItem extends StatefulWidget {
-  const CategoryListItem({Key? key, required this.category, required this.port}) : super(key: key);
+class SiteListItem extends StatefulWidget {
+  const SiteListItem({Key? key, required this.site, required this.port, required this.siteUrl}) : super(key: key);
   final String port;
-  final String category;
+  final String site;
+  final String siteUrl;
 
   @override
-  _categoryListItem createState() => _categoryListItem();
+  _siteListItemState  createState() => _siteListItemState ();
 }
 
 
-class _categoryListItem extends State<CategoryListItem>  {
+class _siteListItemState extends State<SiteListItem>  {
 
   bool liked = false;
   Color randomColor = Colors.primaries[Random().nextInt(Colors.primaries.length)];
@@ -30,7 +31,7 @@ class _categoryListItem extends State<CategoryListItem>  {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return NewsListWrapper(port: widget.port, title:"Categoría " + widget.category);
+          return NewsListWrapper(port: widget.port, title:"Medio " + widget.site);
         },
       ),
     );
@@ -49,7 +50,9 @@ class _categoryListItem extends State<CategoryListItem>  {
                 Container(
                     height: 70,
                     width: 100,
-                    color: randomColor
+                    child: Image.network(
+                        "https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
+                    )
                 ),
                 Expanded(child:
                 Padding(
@@ -58,7 +61,7 @@ class _categoryListItem extends State<CategoryListItem>  {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.category,
+                          widget.site,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           maxLines: 1,
@@ -66,6 +69,16 @@ class _categoryListItem extends State<CategoryListItem>  {
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                               color: Colors.grey[800]
+                          ),
+                        ),
+                        Text(
+                          widget.siteUrl,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          maxLines: 1,
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey[500]
                           ),
                         ),
                       ]),

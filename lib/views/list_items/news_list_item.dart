@@ -65,8 +65,8 @@ class _newsListItem extends State<NewsListItem>  {
             child: Row(
               children: <Widget>[
                 Container(
-                    height: 70,
-                    width: 100,
+                    height: 150,
+                    width: 150,
                     child: Image.network(
                         widget.news.image_url != null ?
                         widget.news.image_url.toString() :

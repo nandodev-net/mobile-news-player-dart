@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:noticias_sin_filtro/views/categories.dart';
 import 'package:noticias_sin_filtro/views/news_list.dart';
 import 'package:noticias_sin_filtro/views/navigate.dart';
+import 'package:noticias_sin_filtro/views/news_sites.dart';
 import 'package:noticias_sin_filtro/views/wrappers/webview_wrapper.dart';
 import 'package:noticias_sin_filtro/views/vpn_config.dart';
 
@@ -123,7 +124,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
       appBar: AppBar(
         title: Text(
             widget.title,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.grey[600],
@@ -161,7 +162,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
         index: _bottomNavIndex,
         children: <Widget>[
               NewsList(port:_proxyPort??"", showNewsAppBar: true,),
-              Container(color: Colors.yellow),
+              NewsSites(port: _proxyPort??"", showNewsAppBar: false),
               Navigate(port:_proxyPort??""),
               Categories(port:_proxyPort??""),
 
