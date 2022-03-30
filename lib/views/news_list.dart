@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/entities/news.dart';
 import 'package:noticias_sin_filtro/views/list_items/news_list_item.dart';
-import 'package:noticias_sin_filtro/services/get_news.dart';
+import 'package:noticias_sin_filtro/services/requests/get_news.dart';
 
 // TODO: handle query params
 class NewsList extends StatefulWidget {
@@ -32,7 +32,7 @@ class _newsListState extends State<NewsList> {
   }
 
   void getNewsFromApi() async {
-    List<News> newsList = await getNews(widget.category,widget.site);
+    List<News> newsList = await getNews(widget.port,widget.category,widget.site);
     setState(() {
       _newsList = newsList;
     });

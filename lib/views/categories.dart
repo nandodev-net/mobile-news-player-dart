@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/entities/news.dart';
-import 'package:noticias_sin_filtro/services/get_categories.dart';
+import 'package:noticias_sin_filtro/services/requests/get_categories.dart';
 import 'package:noticias_sin_filtro/views/list_items/category_list_item.dart';
 import 'package:noticias_sin_filtro/views/list_items/news_list_item.dart';
-import 'package:noticias_sin_filtro/services/get_news.dart';
+import 'package:noticias_sin_filtro/services/requests/get_news.dart';
 
 
 class Categories extends StatefulWidget {
@@ -25,7 +25,7 @@ class _categoriesState extends State<Categories> {
   }
 
   void getCategoriesFromApi() async {
-    List<String> categories = await  getCategories();
+    List<String> categories = await  getCategories(widget.port);
     setState(() {
       _categories = categories;
     });
