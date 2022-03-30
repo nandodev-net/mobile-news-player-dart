@@ -91,7 +91,7 @@ class _newsListItem extends State<NewsListItem>  {
                           ),
                         ),
                         Text(
-                          widget.news.excerpt.toString(),
+                          widget.news.excerpt != null?widget.news.excerpt.toString():"",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           maxLines: 2,

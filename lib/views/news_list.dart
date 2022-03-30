@@ -5,9 +5,17 @@ import 'package:noticias_sin_filtro/services/get_news.dart';
 
 // TODO: handle query params
 class NewsList extends StatefulWidget {
-  const NewsList({Key? key, required this.port, required this.showNewsAppBar}) : super(key: key);
+  const NewsList({
+    Key? key,
+    required this.port,
+    required this.showNewsAppBar,
+    this.category,
+    this.site
+  }) : super(key: key);
   final String port;
   final bool showNewsAppBar;
+  final String? category;
+  final String? site;
 
   @override
   _newsListState createState() => _newsListState();
@@ -24,7 +32,7 @@ class _newsListState extends State<NewsList> {
   }
 
   void getNewsFromApi() async {
-    List<News> newsList = await getNews();
+    List<News> newsList = await getNews(widget.category,widget.site);
     setState(() {
       _newsList = newsList;
     });

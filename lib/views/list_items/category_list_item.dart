@@ -30,7 +30,7 @@ class _categoryListItem extends State<CategoryListItem>  {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return NewsListWrapper(port: widget.port, title:"Categoría " + widget.category);
+          return NewsListWrapper(port: widget.port, title:"Categoría " + widget.category, category:widget.category);
         },
       ),
     );

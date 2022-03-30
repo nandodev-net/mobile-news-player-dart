@@ -31,7 +31,7 @@ class _siteListItemState extends State<SiteListItem>  {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return NewsListWrapper(port: widget.port, title:"Medio " + widget.site);
+          return NewsListWrapper(port: widget.port, title:"Medio " + widget.site, site: widget.site);
         },
       ),
     );

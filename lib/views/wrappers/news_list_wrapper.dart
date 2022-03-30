@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/news_list.dart';
 
 class NewsListWrapper extends StatelessWidget {
-  const NewsListWrapper({Key? key, required this.title, this.port = "" }) : super(key: key);
+  const NewsListWrapper({
+    Key? key,
+    required this.title,
+    this.port = "",
+    this.site,
+    this.category
+  }) : super(key: key);
+
   final String port;
   final String title;
-
+  final String? site;
+  final String? category;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +26,7 @@ class NewsListWrapper extends StatelessWidget {
           backgroundColor: Colors.grey[700],
           foregroundColor: Colors.grey[100],
         ),
-        body: NewsList(port:port, showNewsAppBar: false,)
+        body: NewsList(port:port, showNewsAppBar: false, site:site, category: category)
     );
   }
 }
