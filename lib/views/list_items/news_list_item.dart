@@ -73,65 +73,71 @@ class _newsListItem extends State<NewsListItem>  {
                         "https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
                     )
                 ),
-                Expanded(child:
-                Padding(
-                  padding: EdgeInsets.fromLTRB(8, 8, 0, 8),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          widget.news.title.toString(),
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          maxLines: 3,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.grey[800]
-                          ),
-                        ),
-                        Text(
-                          widget.news.excerpt != null?widget.news.excerpt.toString():"",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          maxLines: 2,
-                          style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontSize: 12,
-                              color: Colors.grey[700]
-                          ),
-                        )
-                      ]),
-                ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
-                    child: Row(
-                        children: <Widget>[
-                          Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  0, 0, 5, 0),
-                              child: IconButton(
-                                iconSize: 20,
-                                icon: Icon(
-                                    liked
-                                        ? CupertinoIcons.heart_solid
-                                        : CupertinoIcons.heart,
-                                    color: Colors.redAccent
+                Expanded(
+                  child:
+                Column(
+                  children: [
+                    Text(
+                      widget.news.title.toString(),
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      maxLines: 3,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.grey[800]
+                      ),
+                    ),
+                    Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+
+                            Container(
+                              width: 200,
+                              child:  Text(
+                                widget.news.excerpt != null?widget.news.excerpt.toString():"",
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 12,
+                                    color: Colors.grey[700]
                                 ),
-                                onPressed: _heartButtonClicked,
-                              )
-                          ),
-                          Icon(Icons.arrow_forward_ios,
-                            color: Colors.grey[500],
-                            size: 20,
-                          )
-                        ]
-                    )
+                              ),
+                            ),
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Row(
+                                    children: <Widget>[
+                                      // Padding(
+                                      //     padding: const EdgeInsets.fromLTRB(
+                                      //         0, 0, 0, 0),
+                                      //     // child: IconButton(
+                                      //     //   iconSize: 20,
+                                      //     //   icon: Icon(
+                                      //     //       liked
+                                      //     //           ? CupertinoIcons.heart_solid
+                                      //     //           : CupertinoIcons.heart,
+                                      //     //       color: Colors.redAccent
+                                      //     //   ),
+                                      //     //   onPressed: _heartButtonClicked,
+                                      //     // )
+                                      // ),
+                                      Icon(Icons.arrow_forward_ios,
+                                        color: Colors.grey[500],
+                                        size: 20,
+                                      )
+                                    ]
+                                )
+                            )
+                          ]
+                      ),
+                  ],
                 )
-
-
+                )
               ],
+
             )
         )
     );
