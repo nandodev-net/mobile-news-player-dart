@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/entities/category.dart';
 import 'package:noticias_sin_filtro/entities/news.dart';
 import 'package:noticias_sin_filtro/services/requests/get_categories.dart';
 import 'package:noticias_sin_filtro/views/list_items/category_list_item.dart';
@@ -16,7 +17,7 @@ class Categories extends StatefulWidget {
 
 class _categoriesState extends State<Categories> {
 
-  List<String> _categories = [];
+  List<Category> _categories = [];
 
   @override
   void initState() {
@@ -25,7 +26,7 @@ class _categoriesState extends State<Categories> {
   }
 
   void getCategoriesFromApi() async {
-    List<String> categories = await  getCategories(widget.port);
+    List<Category> categories = await  getCategories(widget.port);
     setState(() {
       _categories = categories;
     });
@@ -35,7 +36,7 @@ class _categoriesState extends State<Categories> {
   Widget build(BuildContext context) {
 
     //TODO: Change this for a loader
-    if(widget.port == ""|| _categories.length <1) {
+    if(widget.port == ""|| _categories.isEmpty) {
       return Text("Cargando");
     }
 

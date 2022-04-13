@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/entities/category.dart';
 import 'package:noticias_sin_filtro/views/wrappers/news_list_wrapper.dart';
+import 'package:string_to_hex/string_to_hex.dart';
 import 'dart:math';
 
 class CategoryListItem extends StatefulWidget {
   const CategoryListItem({Key? key, required this.category, required this.port}) : super(key: key);
   final String port;
-  final String category;
+  final Category category;
 
   @override
   _categoryListItem createState() => _categoryListItem();
@@ -16,7 +18,7 @@ class CategoryListItem extends StatefulWidget {
 class _categoryListItem extends State<CategoryListItem>  {
 
   bool liked = false;
-  Color randomColor = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+
 
   void _heartButtonClicked() {
     //toggle button
@@ -30,7 +32,7 @@ class _categoryListItem extends State<CategoryListItem>  {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return NewsListWrapper(port: widget.port, title:"Categoría " + widget.category, category:widget.category);
+          return NewsListWrapper(port: widget.port, title:"Categoría " + widget.category.categoryName, category:widget.category.categoryLookableName);
         },
       ),
     );
@@ -49,7 +51,7 @@ class _categoryListItem extends State<CategoryListItem>  {
                 Container(
                     height: 70,
                     width: 100,
-                    color: randomColor
+                    color:  Color(StringToHex.toColor(widget.category.categoryColor))
                 ),
                 Expanded(child:
                 Padding(
@@ -58,7 +60,7 @@ class _categoryListItem extends State<CategoryListItem>  {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.category,
+                          widget.category.categoryName,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           maxLines: 1,

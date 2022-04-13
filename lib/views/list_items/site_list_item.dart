@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/wrappers/news_list_wrapper.dart';
+import 'package:noticias_sin_filtro/entities/site.dart';
 import 'dart:math';
 
 class SiteListItem extends StatefulWidget {
-  const SiteListItem({Key? key, required this.site, required this.port, required this.siteUrl}) : super(key: key);
+  const SiteListItem({Key? key, required this.site, required this.port}) : super(key: key);
   final String port;
-  final String site;
-  final String siteUrl;
+  final Site site;
+
 
   @override
   _siteListItemState  createState() => _siteListItemState ();
@@ -17,7 +18,7 @@ class SiteListItem extends StatefulWidget {
 class _siteListItemState extends State<SiteListItem>  {
 
   bool liked = false;
-  Color randomColor = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+
 
   void _heartButtonClicked() {
     //toggle button
@@ -31,7 +32,7 @@ class _siteListItemState extends State<SiteListItem>  {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return NewsListWrapper(port: widget.port, title:"Medio " + widget.site, site: widget.site);
+          return NewsListWrapper(port: widget.port, title:"Medio " + widget.site.siteName, site: widget.site.siteLookableName);
         },
       ),
     );
@@ -44,6 +45,9 @@ class _siteListItemState extends State<SiteListItem>  {
         onTap: () {
           _navigate(context);
         },
+        // widget.news.imageUrl != null ?
+        // widget.news.imageUrl.toString() :
+        // "https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
         child: Container(
             child: Row(
               children: <Widget>[
@@ -51,7 +55,8 @@ class _siteListItemState extends State<SiteListItem>  {
                     height: 70,
                     width: 100,
                     child: Image.network(
-                        "https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
+                      widget.site.siteUrlImage.toString()
+                        //"https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
                     )
                 ),
                 Expanded(child:
@@ -61,7 +66,7 @@ class _siteListItemState extends State<SiteListItem>  {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          widget.site,
+                          widget.site.siteName,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           maxLines: 1,
@@ -72,7 +77,7 @@ class _siteListItemState extends State<SiteListItem>  {
                           ),
                         ),
                         Text(
-                          widget.siteUrl,
+                          widget.site.siteUrl,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           maxLines: 1,

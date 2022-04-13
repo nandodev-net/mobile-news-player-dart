@@ -5,20 +5,22 @@ import 'package:noticias_sin_filtro/mappers/news_mapper.dart';
 import 'package:http/http.dart' as http;
 import 'package:noticias_sin_filtro/services/build_path.dart';
 import 'package:noticias_sin_filtro/services/config_proxy.dart';
+import 'package:noticias_sin_filtro/entities/site.dart';
 
-Future<List<String>> getSites(String proxyPort) async {
+Future<List<Site>> getSites(String proxyPort) async {
   // TODO: This request should use a proxy
 
   print("Sites request is being made");
 
-  List<String> sitesList = [];
+  List<Site> sitesList = [];
 
   var uri = buildPath('media_sites');
 
   IOClient httpClientWithProxy = configProxy(proxyPort);
   http.Response response = await httpClientWithProxy.get(uri);
 
-  sitesList = List.from(json.decode(Utf8Decoder().convert(response.bodyBytes)));
+  sitesList = List.from(json.decode(Utf8Decoder().convert(response.bodyBytes))).map((result)=> Site.fromJson(result)).toList();
+  //sitesList = List.from(json.decode(Utf8Decoder().convert(response.bodyBytes)));
 
   print("Sites are returned");
 
