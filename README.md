@@ -20,7 +20,7 @@ Requisitos para ejecutar el proyecto  :
 - **XCode**
 -  [Flutter](https://docs.flutter.dev/get-started/install), la correcta instalación se verifica utilizando el comando `flutter doctor`
 
-Luego de tener instalados los requisitos, se debe abrir el proyecto en XCode o Android Studio. En el archivo `pubspec.yaml` se encuentran todas las dependencias con sus respectivas versiones, si el IDE no las descarga por defecto se debe ejecutar el comando `pub get`
+Luego de tener instalados los requisitos, se debe abrir el proyecto en XCode o Android Studio. En el archivo `pubspec.yaml` se encuentran todas las dependencias con sus respectivas versiones, si el IDE no las descarga por defecto se debe ejecutar el comando `dart pub get`
 
 Además de las dependencias de Flutter, se tiene una dependencia asociada a cada plataforma por separado: la librería de Psiphon. Se debe asegurar que los gestores de dependencias de Android (Gradle) y de iOS las descarguen correctamente. En caso de que no sea así se debe abrir el proyecto Android o iOS por separado y "refrescar" la descarga de la dependencia en el IDE.
 
