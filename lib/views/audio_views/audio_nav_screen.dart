@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:noticias_sin_filtro/views/audio_views/audio_main_screen.dart';
 
 class NavScreen extends StatefulWidget {
   @override
@@ -8,14 +9,36 @@ class NavScreen extends StatefulWidget {
 
 class _NavScreenState extends State<NavScreen> {
   int _selectedIndex = 0; //stores the selected button index
+  /*
+    Generating the main screens
+  */
+  final _screens = [
+    MainScreen(),
+    const Scaffold(body: Center(child: Text('Explore'))),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       /* 
         Generating bottom navbar
       */
+      body: Stack(
+        children: _screens
+            .asMap()
+            .map(
+              (i, screen) => MapEntry(
+                i,
+                Offstage(offstage: _selectedIndex != i,
+                  child: screen),
+              ),
+            )
+            .values
+            .toList(),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         // anonymous function that return the selected index.
+        type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: (i) => setState(() => _selectedIndex = i),
         selectedFontSize: 10.0,
