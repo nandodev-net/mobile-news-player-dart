@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_main_screen.dart';
 
 class NavScreen extends StatefulWidget {
@@ -25,6 +24,7 @@ class _NavScreenState extends State<NavScreen> {
       */
       body: Stack(
         children: _screens
+            // here we handle the screens rendering ontouch
             .asMap()
             .map(
               (i, screen) => MapEntry(
@@ -39,6 +39,8 @@ class _NavScreenState extends State<NavScreen> {
       bottomNavigationBar: BottomNavigationBar(
         // anonymous function that return the selected index.
         type: BottomNavigationBarType.fixed,
+        backgroundColor: Color.fromARGB(185, 0, 0, 0),
+        unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: (i) => setState(() => _selectedIndex = i),
         selectedFontSize: 10.0,
