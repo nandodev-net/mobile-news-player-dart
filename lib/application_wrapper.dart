@@ -7,6 +7,7 @@ import 'package:noticias_sin_filtro/views/navigate.dart';
 import 'package:noticias_sin_filtro/views/news_sites.dart';
 import 'package:noticias_sin_filtro/views/wrappers/webview_wrapper.dart';
 import 'package:noticias_sin_filtro/views/vpn_config.dart';
+import 'package:noticias_sin_filtro/views/audio_views/audio_nav_screen.dart';
 
 
 
@@ -165,6 +166,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
               NewsSites(port: _proxyPort??"", showNewsAppBar: false),
               Navigate(port:_proxyPort??""),
               Categories(port:_proxyPort??""),
+              NavScreen(),
 
         ],
       ),
@@ -187,6 +189,10 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
           BottomNavigationBarItem(
             icon: Icon(Icons.category),
             label: 'Categorías',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.music_note),
+            label: 'Audio',
           ),
         ],
         currentIndex: _bottomNavIndex,
