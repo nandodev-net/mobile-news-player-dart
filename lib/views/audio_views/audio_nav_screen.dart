@@ -29,8 +29,7 @@ class _NavScreenState extends State<NavScreen> {
             .map(
               (i, screen) => MapEntry(
                 i,
-                Offstage(offstage: _selectedIndex != i,
-                  child: screen),
+                Offstage(offstage: _selectedIndex != i, child: screen),
               ),
             )
             .values
@@ -49,13 +48,13 @@ class _NavScreenState extends State<NavScreen> {
           // Home buttom
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
+            activeIcon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           // Explore buttom
           BottomNavigationBarItem(
             icon: Icon(Icons.explore_outlined),
-            activeIcon: Icon(Icons.explore),
+            activeIcon: Icon(Icons.explore_outlined),
             label: 'Explore',
           ),
         ],
