@@ -9,6 +9,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime dt = DateTime.now();
     return Scaffold(
       body: Stack(
         alignment: Alignment.topLeft,
@@ -33,6 +34,11 @@ class MainScreen extends StatelessWidget {
             //   ),
             // ),
           ),
+
+          /* 
+            Album Slider. on this container will appear all the autors
+            of the podcasts and audio files.
+          */
           SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: SafeArea(
@@ -48,8 +54,9 @@ class MainScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // Container's tittle
                           Text(
-                            'Recently Played',
+                            'Most Played Audios',
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           Row(
@@ -60,6 +67,7 @@ class MainScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    // List of the Album cards to show on the slider
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
@@ -90,6 +98,67 @@ class MainScreen extends StatelessWidget {
                           AlbumCard(
                             label: "Album d",
                             image: AssetImage("assets/4.jpg"),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    /*
+                      Greetings message
+                     */
+                    SizedBox(
+                      height: 32.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            "Good evening",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              RowAlbumCard(
+                                label: "Top 50 - Global",
+                                image: AssetImage("assets/5.jpg"),
+                              ),
+                              SizedBox(width: 16),
+                              RowAlbumCard(
+                                label: "Best Mode",
+                                image: AssetImage("assets/6.jpg"),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              RowAlbumCard(
+                                label: "RapCaviar",
+                                image: AssetImage("assets/7.jpg"),
+                              ),
+                              SizedBox(width: 16),
+                              RowAlbumCard(
+                                label: "Eminem",
+                                image: AssetImage("assets/8.jpg"),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Row(
+                            children: [
+                              RowAlbumCard(
+                                label: "Top 50 - USA",
+                                image: AssetImage("assets/9.jpg"),
+                              ),
+                              SizedBox(width: 16),
+                              RowAlbumCard(
+                                label: "Pop Remix",
+                                image: AssetImage("assets/10.jpg"),
+                              ),
+                            ],
                           ),
                         ],
                       ),
