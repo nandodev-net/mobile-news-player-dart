@@ -56,7 +56,7 @@ class MainScreen extends StatelessWidget {
                         children: [
                           // Container's tittle
                           Text(
-                            'Most Played Audios',
+                            'Recently Added',
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           Row(
@@ -74,31 +74,23 @@ class MainScreen extends StatelessWidget {
                       padding: EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          AlbumCard(
-                            label: "Album a",
-                            image: AssetImage("assets/1.jpg"),
-                          ),
+                          AudioCard(image: AssetImage("assets/1.jpg")),
                           SizedBox(
                             width: 16.0,
                           ),
-                          AlbumCard(
-                            label: "Album b",
-                            image: AssetImage("assets/2.jpg"),
-                          ),
+                          AudioCard(image: AssetImage("assets/2.jpg")),
                           SizedBox(
                             width: 16.0,
                           ),
-                          AlbumCard(
-                            label: "Album c",
-                            image: AssetImage("assets/3.jpg"),
-                          ),
+                          AudioCard(image: AssetImage("assets/3.jpg")),
                           SizedBox(
                             width: 16.0,
                           ),
-                          AlbumCard(
-                            label: "Album d",
-                            image: AssetImage("assets/4.jpg"),
+                          AudioCard(image: AssetImage("assets/4.jpg")),
+                          SizedBox(
+                            width: 16.0,
                           ),
+                          AudioCard(image: AssetImage("assets/5.jpg")),
                         ],
                       ),
                     ),
@@ -115,8 +107,24 @@ class MainScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            "Good evening",
+                            (() {
+                              if (dt.hour > 5 && dt.hour < 12) {
+                                return "Good morning...";
+                              }
+                              if (dt.hour >= 12 && dt.hour < 19) {
+                                return "Good evening...";
+                              }
+                              return "Good night...";
+                            })(),
                             style: Theme.of(context).textTheme.headline6,
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(60.0, 0, 0, 0),
+                            child: Text(
+                              "Choose An Author",
+                              textAlign: TextAlign.left,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                           ),
                           SizedBox(height: 16),
                           Row(
@@ -163,6 +171,94 @@ class MainScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    /*
+                      Slider of most listened audios
+                    */
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            "Based on number of listens",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                          ),
+                          child: Row(
+                            children: [
+                              AudioCard(image: AssetImage("assets/6.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/3.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/8.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/4.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/2.jpg")),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 16.0,),
+
+                    /*
+                      Slider of most voted
+                    */
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            "The Most voted",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                          ),
+                          child: Row(
+                            children: [
+                              AudioCard(image: AssetImage("assets/10.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/7.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/1.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/5.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/6.jpg")),
+                            ],
+                          ),
+                        )
+                      ],
+                    )
                   ],
                 ),
               )),
