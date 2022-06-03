@@ -6,7 +6,7 @@ import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 */
 class MainScreen extends StatelessWidget {
   const MainScreen({Key? key}) : super(key: key);
-
+  // here's comes the decoration of the container.
   @override
   Widget build(BuildContext context) {
     DateTime dt = DateTime.now();
@@ -36,8 +36,8 @@ class MainScreen extends StatelessWidget {
           ),
 
           /* 
-            Album Slider. on this container will appear all the autors
-            of the podcasts and audio files.
+            Recently Added Slider. on this container it appears all the newest 
+            podcasts and audio files.
           */
           SingleChildScrollView(
               physics: BouncingScrollPhysics(),
@@ -52,45 +52,39 @@ class MainScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // Container's tittle
                           Text(
                             'Recently Added',
                             style: Theme.of(context).textTheme.headline6,
                           ),
-                          Row(
-                            children: [
-                              Icon(Icons.remove_red_eye),
-                            ],
-                          )
                         ],
                       ),
                     ),
-                    // List of the Album cards to show on the slider
+                    // List of newests Audio cards to show on the slider
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
                       padding: EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          AudioCard(image: AssetImage("assets/1.jpg")),
-                          SizedBox(
-                            width: 16.0,
-                          ),
-                          AudioCard(image: AssetImage("assets/2.jpg")),
-                          SizedBox(
-                            width: 16.0,
-                          ),
-                          AudioCard(image: AssetImage("assets/3.jpg")),
-                          SizedBox(
-                            width: 16.0,
-                          ),
-                          AudioCard(image: AssetImage("assets/4.jpg")),
-                          SizedBox(
-                            width: 16.0,
-                          ),
-                          AudioCard(image: AssetImage("assets/5.jpg")),
+                              AudioCard(image: AssetImage("assets/1.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/2.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/3.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/4.jpg")),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              AudioCard(image: AssetImage("assets/5.jpg")),
                         ],
                       ),
                     ),
@@ -127,14 +121,15 @@ class MainScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 16),
+                          // List of top 6 authors, based on number of views
                           Row(
                             children: [
-                              RowAlbumCard(
+                              RowAuthorCard(
                                 label: "Top 50 - Global",
                                 image: AssetImage("assets/5.jpg"),
                               ),
                               SizedBox(width: 16),
-                              RowAlbumCard(
+                              RowAuthorCard(
                                 label: "Best Mode",
                                 image: AssetImage("assets/6.jpg"),
                               ),
@@ -143,12 +138,12 @@ class MainScreen extends StatelessWidget {
                           SizedBox(height: 16),
                           Row(
                             children: [
-                              RowAlbumCard(
+                              RowAuthorCard(
                                 label: "RapCaviar",
                                 image: AssetImage("assets/7.jpg"),
                               ),
                               SizedBox(width: 16),
-                              RowAlbumCard(
+                              RowAuthorCard(
                                 label: "Eminem",
                                 image: AssetImage("assets/8.jpg"),
                               ),
@@ -157,12 +152,12 @@ class MainScreen extends StatelessWidget {
                           SizedBox(height: 16),
                           Row(
                             children: [
-                              RowAlbumCard(
+                              RowAuthorCard(
                                 label: "Top 50 - USA",
                                 image: AssetImage("assets/9.jpg"),
                               ),
                               SizedBox(width: 16),
-                              RowAlbumCard(
+                              RowAuthorCard(
                                 label: "Pop Remix",
                                 image: AssetImage("assets/10.jpg"),
                               ),

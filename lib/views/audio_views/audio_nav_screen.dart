@@ -49,7 +49,7 @@ class _NavScreenState extends State<NavScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home_outlined),
-            label: 'Home',
+            label: 'Main',
           ),
           // Explore buttom
           BottomNavigationBarItem(
