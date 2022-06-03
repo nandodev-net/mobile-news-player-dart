@@ -32,7 +32,6 @@ class _newsListItem extends State<NewsListItem>  {
     });
   }
 
-  //NewsListItem(this.news, this.port);
 
   void _navigate(context) {
     Navigator.of(context).push(
@@ -47,14 +46,84 @@ class _newsListItem extends State<NewsListItem>  {
         },
       ),
     );
-    //   context,
-    //   MaterialPageRoute(builder: (context) =>  WebviewWrapper(
-    //       url:widget.news.link??"",
-    //       title: widget.news.title??"",
-    //       port:widget.port)),
-    // );
   }
 
+
+  /*//////////////////////////// UI elements /////////////////////// */
+
+  late Column informationSection = Column(
+    children: [
+      titleSection,
+      detailsSection
+    ]
+  );
+
+
+  late Text titleSection = Text(
+    widget.news.title.toString(),
+    overflow: TextOverflow.ellipsis,
+    textAlign: TextAlign.left,
+    maxLines: 3,
+    style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+        color: Colors.grey[800]
+    ),
+  );
+
+  late Container imageSection =   Container(
+      height: 100,
+      width: 100,
+      child: Image.network(
+          widget.news.imageUrl != null ?
+          widget.news.imageUrl.toString() :
+          "https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
+      )
+  );
+
+  late Row detailsSection =  Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          child: textExcerpt,
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(5, 0, 10, 0),
+          child: forwardIcon
+        )
+
+      ]
+  );
+
+  late IconButton heartButton = IconButton(
+    iconSize: 20,
+    icon: Icon(
+        liked
+            ? CupertinoIcons.heart_solid
+            : CupertinoIcons.heart,
+        color: Colors.redAccent
+    ),
+    onPressed: _heartButtonClicked,
+  );
+
+  late Icon forwardIcon =   Icon(Icons.arrow_forward_ios,
+    color: Colors.grey[500],
+    size: 20,
+  );
+
+  late Text textExcerpt = Text(
+    widget.news.excerpt != null?widget.news.excerpt.toString():"",
+    overflow: TextOverflow.ellipsis,
+    textAlign: TextAlign.left,
+    maxLines: 2,
+    style: TextStyle(
+        fontStyle: FontStyle.italic,
+        fontSize: 14,
+        color: Colors.grey[700]
+    ),
+  );
+
+  /*//////////////////////////// Build Section /////////////////////// */
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -64,77 +133,14 @@ class _newsListItem extends State<NewsListItem>  {
         child: Container(
             child: Row(
               children: <Widget>[
-                Container(
-                    height: 150,
-                    width: 150,
-                    child: Image.network(
-                        widget.news.imageUrl != null ?
-                        widget.news.imageUrl.toString() :
-                        "https://raw.githubusercontent.com/agarasul/SampleNewsApp/master/empty_image.png"
-                    )
-                ),
+                imageSection,
                 Expanded(
                   child:
-                Column(
-                  children: [
-                    Text(
-                      widget.news.title.toString(),
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      maxLines: 3,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.grey[800]
-                      ),
-                    ),
-                    Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+                      child: informationSection
+                    )
 
-                            Container(
-                              width: 200,
-                              child:  Text(
-                                widget.news.excerpt != null?widget.news.excerpt.toString():"",
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                maxLines: 2,
-                                style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    fontSize: 12,
-                                    color: Colors.grey[700]
-                                ),
-                              ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: Row(
-                                    children: <Widget>[
-                                      // Padding(
-                                      //     padding: const EdgeInsets.fromLTRB(
-                                      //         0, 0, 0, 0),
-                                      //     // child: IconButton(
-                                      //     //   iconSize: 20,
-                                      //     //   icon: Icon(
-                                      //     //       liked
-                                      //     //           ? CupertinoIcons.heart_solid
-                                      //     //           : CupertinoIcons.heart,
-                                      //     //       color: Colors.redAccent
-                                      //     //   ),
-                                      //     //   onPressed: _heartButtonClicked,
-                                      //     // )
-                                      // ),
-                                      Icon(Icons.arrow_forward_ios,
-                                        color: Colors.grey[500],
-                                        size: 20,
-                                      )
-                                    ]
-                                )
-                            )
-                          ]
-                      ),
-                  ],
-                )
                 )
               ],
 
