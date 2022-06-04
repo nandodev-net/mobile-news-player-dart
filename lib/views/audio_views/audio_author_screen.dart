@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 
 class AuthorScreen extends StatefulWidget {
-  final ImageProvider image;
+  final String thumbnailUrl;
 
-  const AuthorScreen({Key? key, required this.image}) : super(key: key);
+  const AuthorScreen({Key? key, required this.thumbnailUrl}) : super(key: key);
   @override
   _AuthorScreenState createState() => _AuthorScreenState();
 }
@@ -77,8 +77,8 @@ class _AuthorScreenState extends State<AuthorScreen> {
                         )
                       ],
                     ),
-                    child: Image(
-                      image: widget.image,
+                    child: Image.network(
+                      widget.thumbnailUrl,
                       width: imageSize,
                       height: imageSize,
                       fit: BoxFit.cover,
@@ -163,60 +163,6 @@ class _AuthorScreenState extends State<AuthorScreen> {
                         Text(
                           "You might also like",
                           style: Theme.of(context).textTheme.headline6,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AuthorCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/1.jpg"),
-                              ),
-                              AuthorCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/1.jpg"),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AuthorCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/1.jpg"),
-                              ),
-                              AuthorCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/1.jpg"),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AuthorCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/1.jpg"),
-                              ),
-                              AuthorCard(
-                                size: cardSize,
-                                label: "Get Turnt",
-                                image: AssetImage("assets/1.jpg"),
-                              ),
-                            ],
-                          ),
                         ),
                       ],
                     ),

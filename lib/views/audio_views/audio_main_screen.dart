@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/data.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 
 /*
@@ -74,7 +75,9 @@ class MainScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 40.0,),
+                    SizedBox(
+                      height: 40.0,
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
@@ -148,32 +151,19 @@ class MainScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           // List of top 6 authors, based on number of views
-                          Row(
-                            children: [
-                              RowAuthorCard(
-                                label: "Servicio de Informacion Publica",
-                                image: AssetImage("assets/5.jpg"),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              RowAuthorCard(
-                                label: "RapCaviar",
-                                image: AssetImage("assets/7.jpg"),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              RowAuthorCard(
-                                label: "Top 50 - USA",
-                                image: AssetImage("assets/9.jpg"),
-                              ),
-                            ],
-                          ),
+                          for (var author in authors)
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    RowAuthorCard(
+                                      author: author,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                              ],
+                            ),
                         ],
                       ),
                     ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/data.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
 import 'package:like_button/like_button.dart';
 import 'package:decorated_icon/decorated_icon.dart';
 
 class AuthorCard extends StatelessWidget {
-  final ImageProvider image;
+  final String image;
   final String label;
   final double size;
 
@@ -23,15 +24,15 @@ class AuthorCard extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => AuthorScreen(
-                    image: image,
+                    thumbnailUrl: image,
                   )),
         );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image(
-            image: image,
+          Image.network(
+            image,
             width: size,
             height: size,
             fit: BoxFit.cover,
@@ -47,10 +48,9 @@ class AuthorCard extends StatelessWidget {
 }
 
 class RowAuthorCard extends StatelessWidget {
-  final AssetImage image;
-  final String label;
+  final Author author;
 
-  const RowAuthorCard({Key? key, required this.image, required this.label})
+  const RowAuthorCard({Key? key, required this.author})
       : super(key: key);
 
   @override
@@ -63,7 +63,7 @@ class RowAuthorCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => AuthorScreen(
-                      image: image,
+                      thumbnailUrl: author.thumbnailUrl,
                     )),
           );
         },
@@ -76,14 +76,13 @@ class RowAuthorCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image(
-                image: image,
+              Image.network(author.thumbnailUrl,
                 height: 48,
                 width: 48,
                 fit: BoxFit.cover,
               ),
               SizedBox(width: 8),
-              Text(label),
+              Text(author.name),
               SizedBox(width: 8),
               Center(
                 child: LikeButton(
