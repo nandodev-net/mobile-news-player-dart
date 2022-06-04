@@ -59,30 +59,10 @@ class RowAudioCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.caption,
               ),
               IconButton(
-                        icon: const Icon(Icons.play_arrow),
-                        color: Colors.black,
-                        onPressed: () {},
-                      ),
-              // Padding(
-              //   padding: const EdgeInsets.all(4.0),
-              //   child: Material(
-              //     color: Colors.transparent,
-              //     child: Center(
-              //       child: Ink(
-              //         decoration: const ShapeDecoration(
-              //           color: Colors.grey,
-              //           shape: CircleBorder(),
-              //         ),
-              //         child: IconButton(
-              //           icon: const Icon(Icons.play_arrow),
-              //           color: Colors.white,
-              //           onPressed: () {},
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              
+                icon: const Icon(Icons.play_arrow),
+                color: Colors.black,
+                onPressed: () {},
+              ),
             ],
           ),
         ),

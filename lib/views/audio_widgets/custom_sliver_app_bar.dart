@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noticias_sin_filtro/data.dart';
+import 'package:noticias_sin_filtro/data_example.dart';
 
 /*
   Upper bar with search icon Widget
