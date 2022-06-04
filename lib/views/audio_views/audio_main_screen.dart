@@ -63,13 +63,10 @@ class MainScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-
                           Row(
                             children: [
                               RowAudioCard(
-                                label: "Servicio de Informacion Publica",
-                                image: AssetImage("assets/5.jpg"),
-                              ),
+                                audio: audios[5],)
                             ],
                           ),
                         ],
@@ -97,23 +94,13 @@ class MainScreen extends StatelessWidget {
                       padding: EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          AudioCard(image: AssetImage("assets/1.jpg")),
-                          SizedBox(
-                            width: 16.0,
-                          ),
-                          AudioCard(image: AssetImage("assets/2.jpg")),
-                          SizedBox(
-                            width: 16.0,
-                          ),
-                          AudioCard(image: AssetImage("assets/3.jpg")),
-                          SizedBox(
-                            width: 16.0,
-                          ),
-                          AudioCard(image: AssetImage("assets/4.jpg")),
-                          SizedBox(
-                            width: 16.0,
-                          ),
-                          AudioCard(image: AssetImage("assets/5.jpg")),
+                          for (var audio in audios)
+                            Row(
+                              children: [
+                                AudioCard(audio: audio),
+                                SizedBox(width: 16.0),
+                              ],
+                            ),
                         ],
                       ),
                     ),
@@ -188,23 +175,13 @@ class MainScreen extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              AudioCard(image: AssetImage("assets/6.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/3.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/8.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/4.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/2.jpg")),
+                              for (var audio in audios)
+                                Row(
+                                  children: [
+                                    AudioCard(audio: audio),
+                                    SizedBox(width: 16.0),
+                                  ],
+                                ),
                             ],
                           ),
                         )
@@ -235,23 +212,13 @@ class MainScreen extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              AudioCard(image: AssetImage("assets/10.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/7.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/1.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/5.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/6.jpg")),
+                              for (var audio in audios)
+                                Row(
+                                  children: [
+                                    AudioCard(audio: audio),
+                                    SizedBox(width: 16.0),
+                                  ],
+                                ),
                             ],
                           ),
                         )

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/data.dart';
 
 class AudioCard extends StatelessWidget {
-  final AssetImage image;
-  const AudioCard({Key? key, required this.image}) : super(key: key);
+  final Audio audio;
+  const AudioCard({Key? key, required this.audio}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,13 +11,12 @@ class AudioCard extends StatelessWidget {
         width: 120.0,
         child: Column(
           children: [
-            Image(
-              image: image,
+            Image.network(
+              audio.author.thumbnailUrl,
               width: 120.0,
               height: 120.0,
             ),
-            Text(
-              "Bad Bunny, Justin Bieber, Marilyn Manson, Taylor Swift,...",
+            Text(audio.title,
               style: Theme.of(context).textTheme.caption,
               softWrap: true,
               overflow: TextOverflow.ellipsis,
@@ -28,10 +28,9 @@ class AudioCard extends StatelessWidget {
 }
 
 class RowAudioCard extends StatelessWidget {
-  final AssetImage image;
-  final String label;
+  final Audio audio;
 
-  const RowAudioCard({Key? key, required this.image, required this.label})
+  const RowAudioCard({Key? key, required this.audio})
       : super(key: key);
 
   @override
@@ -48,14 +47,14 @@ class RowAudioCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image(
-                image: image,
+              Image.network(
+                audio.author.thumbnailUrl,
                 height: 48,
                 width: 48,
                 fit: BoxFit.cover,
               ),
               Text(
-                label,
+                audio.title,
                 style: Theme.of(context).textTheme.caption,
               ),
               IconButton(
