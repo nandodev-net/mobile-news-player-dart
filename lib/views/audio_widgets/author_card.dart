@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
+import 'package:like_button/like_button.dart';
+import 'package:decorated_icon/decorated_icon.dart';
 
 class AuthorCard extends StatelessWidget {
   final ImageProvider image;
   final String label;
   final double size;
 
-   AuthorCard({
+  AuthorCard({
     Key? key,
     required this.image,
     required this.label,
@@ -17,11 +19,14 @@ class AuthorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AuthorScreen(image: image,)),
-            );
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AuthorScreen(
+                    image: image,
+                  )),
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -41,17 +46,12 @@ class AuthorCard extends StatelessWidget {
   }
 }
 
-
-
-
 class RowAuthorCard extends StatelessWidget {
   final AssetImage image;
   final String label;
-  const RowAuthorCard({
-    Key? key,
-    required this.image,
-    required this.label,
-  }) : super(key: key);
+
+  const RowAuthorCard({Key? key, required this.image, required this.label})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +59,14 @@ class RowAuthorCard extends StatelessWidget {
       flex: 1,
       child: GestureDetector(
         onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AuthorScreen(image: image,)),
-            );
-          },
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AuthorScreen(
+                      image: image,
+                    )),
+          );
+        },
         child: Container(
           decoration: BoxDecoration(
             color: Color.fromARGB(26, 26, 25, 25),
@@ -71,6 +74,7 @@ class RowAuthorCard extends StatelessWidget {
           ),
           clipBehavior: Clip.antiAlias,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image(
                 image: image,
@@ -79,7 +83,26 @@ class RowAuthorCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               SizedBox(width: 8),
-              Text(label)
+              Text(label),
+              SizedBox(width: 8),
+              Center(
+                child: LikeButton(
+                  size: 30.0,
+                  likeBuilder: (isTapped) {
+
+                    return DecoratedIcon(
+                      Icons.star,
+                      color: isTapped ? Colors.yellowAccent : Colors.grey,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 15.0,
+                          color: isTapped ? Colors.grey : Colors.transparent,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),

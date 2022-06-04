@@ -19,10 +19,10 @@ class MainScreen extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             decoration: const BoxDecoration(
               gradient: RadialGradient(
-                center: Alignment.topLeft,
-                radius: 1.0,
+                center: Alignment.topCenter,
+                radius: 1.2,
                 colors: <Color>[
-                  Color.fromARGB(255, 59, 59, 59),
+                  Color.fromARGB(255, 88, 202, 255),
                   Color.fromARGB(255, 255, 255, 255),
                 ],
               ),
@@ -51,6 +51,32 @@ class MainScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        children: [
+                          // Container's tittle
+                          Row(
+                            children: [
+                              Text(
+                                'New capsule',
+                                style: Theme.of(context).textTheme.caption,
+                              ),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              RowAudioCard(
+                                label: "Servicio de Informacion Publica",
+                                image: AssetImage("assets/5.jpg"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 40.0,),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
                         children: [
                           // Container's tittle
@@ -68,23 +94,23 @@ class MainScreen extends StatelessWidget {
                       padding: EdgeInsets.all(20),
                       child: Row(
                         children: [
-                              AudioCard(image: AssetImage("assets/1.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/2.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/3.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/4.jpg")),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              AudioCard(image: AssetImage("assets/5.jpg")),
+                          AudioCard(image: AssetImage("assets/1.jpg")),
+                          SizedBox(
+                            width: 16.0,
+                          ),
+                          AudioCard(image: AssetImage("assets/2.jpg")),
+                          SizedBox(
+                            width: 16.0,
+                          ),
+                          AudioCard(image: AssetImage("assets/3.jpg")),
+                          SizedBox(
+                            width: 16.0,
+                          ),
+                          AudioCard(image: AssetImage("assets/4.jpg")),
+                          SizedBox(
+                            width: 16.0,
+                          ),
+                          AudioCard(image: AssetImage("assets/5.jpg")),
                         ],
                       ),
                     ),
@@ -120,46 +146,31 @@ class MainScreen extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ),
-                          SizedBox(height: 16),
+                          SizedBox(height: 10),
                           // List of top 6 authors, based on number of views
                           Row(
                             children: [
                               RowAuthorCard(
-                                label: "Top 50 - Global",
+                                label: "Servicio de Informacion Publica",
                                 image: AssetImage("assets/5.jpg"),
-                              ),
-                              SizedBox(width: 16),
-                              RowAuthorCard(
-                                label: "Best Mode",
-                                image: AssetImage("assets/6.jpg"),
                               ),
                             ],
                           ),
-                          SizedBox(height: 16),
+                          SizedBox(height: 10),
                           Row(
                             children: [
                               RowAuthorCard(
                                 label: "RapCaviar",
                                 image: AssetImage("assets/7.jpg"),
                               ),
-                              SizedBox(width: 16),
-                              RowAuthorCard(
-                                label: "Eminem",
-                                image: AssetImage("assets/8.jpg"),
-                              ),
                             ],
                           ),
-                          SizedBox(height: 16),
+                          SizedBox(height: 10),
                           Row(
                             children: [
                               RowAuthorCard(
                                 label: "Top 50 - USA",
                                 image: AssetImage("assets/9.jpg"),
-                              ),
-                              SizedBox(width: 16),
-                              RowAuthorCard(
-                                label: "Pop Remix",
-                                image: AssetImage("assets/10.jpg"),
                               ),
                             ],
                           ),
@@ -209,7 +220,9 @@ class MainScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 16.0,),
+                    SizedBox(
+                      height: 16.0,
+                    ),
 
                     /*
                       Slider of most voted

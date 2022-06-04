@@ -43,6 +43,8 @@ dependencies:
 #  webview_flutter: ^3.0.0
 #  http_proxy: ^1.2.0
 #  dio: ^4.0.4
+  decorated_icon: ^1.2.1
+  like_button: ^2.0.4
   flutter_riverpod: ^0.13.1+1
   miniplayer: ^1.0.0+2
   timeago: ^3.0.2
