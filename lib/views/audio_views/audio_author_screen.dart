@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 
@@ -9,7 +8,6 @@ class AuthorScreen extends StatefulWidget {
   @override
   _AuthorScreenState createState() => _AuthorScreenState();
 }
-
 
 /*
   Author screen, here we'll list every audio of one selected
@@ -48,10 +46,10 @@ class _AuthorScreenState extends State<AuthorScreen> {
       });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final cardSize = MediaQuery.of(context).size.width / 2 - 32;
-    print(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -71,7 +69,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(.5),
-                          offset: Offset(0, 20),
+                          offset: const Offset(0, 20),
                           blurRadius: 32,
                           spreadRadius: 16,
                         )
@@ -85,7 +83,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 ),
               ],
@@ -95,7 +93,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
             // Below comes the bouncing physics of the container.
             child: SingleChildScrollView(
               controller: scrollController,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   Container(
@@ -116,7 +114,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                       padding: const EdgeInsets.only(top: 40),
                       child: Column(
                         children: [
-                          SizedBox(height: 272.0),
+                          const SizedBox(height: 272.0),
                           Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
@@ -126,11 +124,12 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
                                   style: Theme.of(context).textTheme.caption,
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
-                                  children: [
+                                  children: const [
                                     Image(
-                                      image: AssetImage('assets/logo-light.png'),
+                                      image:
+                                          AssetImage('assets/logo-light.png'),
                                       width: 48,
                                       height: 48,
                                     ),
@@ -138,7 +137,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                     Text("NoticiasSinFiltro")
                                   ],
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Text(
                                   "Voted 1,878,555 times",
                                   style: Theme.of(context).textTheme.caption,
@@ -152,18 +151,22 @@ class _AuthorScreenState extends State<AuthorScreen> {
                   ),
                   // In this container goes the playlist #TODO
                   Container(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"),
-                        SizedBox(height: 32),
+                        const SizedBox(height: 32),
                         Text(
                           "You might also like",
                           style: Theme.of(context).textTheme.headline6,
                         ),
+                        SizedBox(
+                          height: 500,
+                          child: AudioPlaylist(),
+                        )
                       ],
                     ),
                   )
@@ -175,11 +178,11 @@ class _AuthorScreenState extends State<AuthorScreen> {
           Positioned(
               child: Container(
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 250),
               color: showTopBar
-                  ? Color(0xFFC61855).withOpacity(1)
-                  : Color(0xFFC61855).withOpacity(0),
-              padding: EdgeInsets.symmetric(
+                  ? const Color(0xFFC61855).withOpacity(1)
+                  : const Color(0xFFC61855).withOpacity(0),
+              padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
                 vertical: 8.0,
               ),
@@ -197,14 +200,14 @@ class _AuthorScreenState extends State<AuthorScreen> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.keyboard_arrow_left,
                             size: 38,
                           ),
                         ),
                       ),
                       AnimatedOpacity(
-                        duration: Duration(milliseconds: 250),
+                        duration: const Duration(milliseconds: 250),
                         opacity: showTopBar ? 1 : 0,
                         child: Text(
                           "Ophelia",

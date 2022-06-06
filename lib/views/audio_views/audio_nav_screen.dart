@@ -12,7 +12,7 @@ class _NavScreenState extends State<NavScreen> {
     Generating the main screens
   */
   final _screens = [
-    MainScreen(),
+    const MainScreen(),
     const Scaffold(body: Center(child: Text('Explore'))),
   ];
 
@@ -38,7 +38,7 @@ class _NavScreenState extends State<NavScreen> {
       bottomNavigationBar: BottomNavigationBar(
         // anonymous function that return the selected index.
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color.fromARGB(185, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(185, 0, 0, 0),
         unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: (i) => setState(() => _selectedIndex = i),

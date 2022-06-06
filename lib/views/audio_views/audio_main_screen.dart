@@ -41,13 +41,13 @@ class MainScreen extends StatelessWidget {
             podcasts and audio files.
           */
           SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 40.0,
                     ),
                     Padding(
@@ -66,13 +66,14 @@ class MainScreen extends StatelessWidget {
                           Row(
                             children: [
                               RowAudioCard(
-                                audio: audios[5],)
+                                audio: audios[5],
+                              )
                             ],
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40.0,
                     ),
                     Padding(
@@ -90,15 +91,15 @@ class MainScreen extends StatelessWidget {
                     // List of newests Audio cards to show on the slider
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      padding: EdgeInsets.all(20),
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.all(20),
                       child: Row(
                         children: [
                           for (var audio in audios)
                             Row(
                               children: [
                                 AudioCard(audio: audio),
-                                SizedBox(width: 16.0),
+                                const SizedBox(width: 16.0),
                               ],
                             ),
                         ],
@@ -108,7 +109,7 @@ class MainScreen extends StatelessWidget {
                     /*
                       Greetings message
                      */
-                    SizedBox(
+                    const SizedBox(
                       height: 32.0,
                     ),
                     Padding(
@@ -129,14 +130,14 @@ class MainScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.headline6,
                           ),
                           Container(
-                            padding: EdgeInsets.fromLTRB(60.0, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(60.0, 0, 0, 0),
                             child: Text(
                               "Choose An Author",
                               textAlign: TextAlign.left,
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           // List of top 6 authors, based on number of views
                           for (var author in authors)
                             Column(
@@ -148,7 +149,7 @@ class MainScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                               ],
                             ),
                         ],
@@ -169,8 +170,8 @@ class MainScreen extends StatelessWidget {
                         ),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          padding: EdgeInsets.symmetric(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           child: Row(
@@ -179,7 +180,7 @@ class MainScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     AudioCard(audio: audio),
-                                    SizedBox(width: 16.0),
+                                    const SizedBox(width: 16.0),
                                   ],
                                 ),
                             ],
@@ -187,7 +188,7 @@ class MainScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 16.0,
                     ),
 
@@ -206,8 +207,8 @@ class MainScreen extends StatelessWidget {
                         ),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          padding: EdgeInsets.symmetric(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
                             horizontal: 20,
                           ),
                           child: Row(
@@ -216,7 +217,7 @@ class MainScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     AudioCard(audio: audio),
-                                    SizedBox(width: 16.0),
+                                    const SizedBox(width: 16.0),
                                   ],
                                 ),
                             ],

@@ -16,7 +16,8 @@ class AudioCard extends StatelessWidget {
               width: 120.0,
               height: 120.0,
             ),
-            Text(audio.title,
+            Text(
+              audio.title,
               style: Theme.of(context).textTheme.caption,
               softWrap: true,
               overflow: TextOverflow.ellipsis,
@@ -30,8 +31,7 @@ class AudioCard extends StatelessWidget {
 class RowAudioCard extends StatelessWidget {
   final Audio audio;
 
-  const RowAudioCard({Key? key, required this.audio})
-      : super(key: key);
+  const RowAudioCard({Key? key, required this.audio}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class RowAudioCard extends StatelessWidget {
       child: GestureDetector(
         child: Container(
           decoration: BoxDecoration(
-            color: Color.fromARGB(26, 26, 25, 25),
+            color: const Color.fromARGB(26, 26, 25, 25),
             borderRadius: BorderRadius.circular(4),
           ),
           clipBehavior: Clip.antiAlias,

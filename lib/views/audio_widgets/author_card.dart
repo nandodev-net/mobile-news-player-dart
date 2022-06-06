@@ -37,7 +37,7 @@ class AuthorCard extends StatelessWidget {
             height: size,
             fit: BoxFit.cover,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10.0,
           ),
           Text(label)
@@ -50,8 +50,7 @@ class AuthorCard extends StatelessWidget {
 class RowAuthorCard extends StatelessWidget {
   final Author author;
 
-  const RowAuthorCard({Key? key, required this.author})
-      : super(key: key);
+  const RowAuthorCard({Key? key, required this.author}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,26 +68,26 @@ class RowAuthorCard extends StatelessWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: Color.fromARGB(26, 26, 25, 25),
+            color: const Color.fromARGB(26, 26, 25, 25),
             borderRadius: BorderRadius.circular(4),
           ),
           clipBehavior: Clip.antiAlias,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.network(author.thumbnailUrl,
+              Image.network(
+                author.thumbnailUrl,
                 height: 48,
                 width: 48,
                 fit: BoxFit.cover,
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(author.name),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Center(
                 child: LikeButton(
                   size: 30.0,
                   likeBuilder: (isTapped) {
-
                     return DecoratedIcon(
                       Icons.star,
                       color: isTapped ? Colors.yellowAccent : Colors.grey,
