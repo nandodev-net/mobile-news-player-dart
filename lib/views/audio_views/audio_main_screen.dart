@@ -48,7 +48,7 @@ class MainScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(
-                      height: 40.0,
+                      height: 60.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
