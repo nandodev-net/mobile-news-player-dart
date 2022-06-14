@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
-import 'package:noticias_sin_filtro/data.dart';
+import 'package:noticias_sin_filtro/entities/audio.dart';
+
 
 class AudioCard extends StatelessWidget {
   final Audio audio;
@@ -18,7 +19,7 @@ class AudioCard extends StatelessWidget {
           child: Column(
             children: [
               Image.network(
-                audio.author.thumbnailUrl,
+                audio.thumbnailUrl.toString(),
                 width: 120.0,
                 height: 120.0,
               ),
@@ -58,7 +59,7 @@ class RowAudioCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.network(
-                audio.author.thumbnailUrl,
+                audio.thumbnailUrl.toString(),
                 height: 48,
                 width: 48,
                 fit: BoxFit.cover,
@@ -81,3 +82,4 @@ class RowAudioCard extends StatelessWidget {
     );
   }
 }
+

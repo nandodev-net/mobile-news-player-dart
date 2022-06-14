@@ -1,13 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:noticias_sin_filtro/data.dart';
+import 'package:noticias_sin_filtro/entities/audio.dart';
+import 'package:noticias_sin_filtro/entities/author.dart';
+import 'package:noticias_sin_filtro/services/requests/get_audio_main.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 
 /*
   Main Screen Content
 */
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
-  // here's comes the decoration of the container.
+class MainScreen extends StatefulWidget {
+  final String port;
+  const MainScreen({Key? key, required this.port}) : super(key: key);
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  List<Audio> _lastCapsule = [];
+  List<Audio> _recentlyAdded = [];
+  List<Author> _authors = [];
+  List<Audio> _basedOnListens = [];
+  List<Audio> _mostVoted = [];
+
+ @override
+  void initState() {
+    super.initState();
+    getMainScreenFromApi();
+  }
+
+  void getMainScreenFromApi() async {
+    Map mainResponse = await  getAudioMain(widget.port);
+    setState(() {
+      _lastCapsule = mainResponse['lastCapsule'];
+      print(_lastCapsule);
+      _recentlyAdded = mainResponse['recentlyAdded'];
+      _authors = mainResponse['authors'];
+      _basedOnListens = mainResponse['basedOnListens'];
+      _mostVoted = mainResponse['mostVoted'];
+    });
+  }  
+
   @override
   Widget build(BuildContext context) {
     DateTime dt = DateTime.now();
@@ -15,6 +47,7 @@ class MainScreen extends StatelessWidget {
       body: Stack(
         alignment: Alignment.topLeft,
         children: [
+          // here's comes the decoration of the container.
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -66,7 +99,7 @@ class MainScreen extends StatelessWidget {
                           Row(
                             children: [
                               RowAudioCard(
-                                audio: audios[5],
+                                audio: _lastCapsule[0],
                               )
                             ],
                           ),
@@ -95,10 +128,10 @@ class MainScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          for (var audio in audios)
+                          for (var audioObj in _recentlyAdded)
                             Row(
                               children: [
-                                AudioCard(audio: audio),
+                                AudioCard(audio: audioObj),
                                 const SizedBox(width: 16.0),
                               ],
                             ),
@@ -139,13 +172,13 @@ class MainScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           // List of top 6 authors, based on number of views
-                          for (var author in authors)
+                          for (var authorObj in _authors)
                             Column(
                               children: [
                                 Row(
                                   children: [
                                     RowAuthorCard(
-                                      author: author,
+                                      author: authorObj,
                                     ),
                                   ],
                                 ),
@@ -176,10 +209,10 @@ class MainScreen extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              for (var audio in audios)
+                              for (var audioObj in _basedOnListens)
                                 Row(
                                   children: [
-                                    AudioCard(audio: audio),
+                                    AudioCard(audio: audioObj),
                                     const SizedBox(width: 16.0),
                                   ],
                                 ),
@@ -213,10 +246,10 @@ class MainScreen extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              for (var audio in audios)
+                              for (var audioObj in _mostVoted)
                                 Row(
                                   children: [
-                                    AudioCard(audio: audio),
+                                    AudioCard(audio: audioObj),
                                     const SizedBox(width: 16.0),
                                   ],
                                 ),

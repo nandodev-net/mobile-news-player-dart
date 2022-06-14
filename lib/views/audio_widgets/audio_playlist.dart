@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class AudioPlaylist extends StatefulWidget {
@@ -27,7 +25,7 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
     await Future.delayed(Duration(milliseconds: 500));
     List<String> newData = items.length >= 60
         ? []
-        : List.generate(20, (index) => "Audio Track ${index + items.length}");
+        : List.generate(10, (index) => "Audio Track ${index + items.length}");
     if (newData.isNotEmpty) {
       items.addAll(newData);
     }

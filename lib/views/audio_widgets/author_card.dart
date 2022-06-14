@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noticias_sin_filtro/data.dart';
+import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
 import 'package:like_button/like_button.dart';
 import 'package:decorated_icon/decorated_icon.dart';
@@ -32,7 +32,7 @@ class AuthorCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(
-            image,
+            image.toString(),
             width: size,
             height: size,
             fit: BoxFit.cover,
@@ -76,7 +76,7 @@ class RowAuthorCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.network(
-                author.thumbnailUrl,
+                author.thumbnailUrl.toString(),
                 height: 48,
                 width: 48,
                 fit: BoxFit.cover,

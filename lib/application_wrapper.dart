@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:noticias_sin_filtro/data.dart';
+import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_main_screen.dart';
+import 'package:noticias_sin_filtro/views/audio_views/audio_player_fullscreen.dart';
 import 'package:noticias_sin_filtro/views/categories.dart';
 import 'package:noticias_sin_filtro/views/news_list.dart';
 import 'package:noticias_sin_filtro/views/navigate.dart';
@@ -169,7 +170,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                   NewsSites(port: _proxyPort ?? "", showNewsAppBar: false),
                   Navigate(port: _proxyPort ?? ""),
                   Categories(port: _proxyPort ?? ""),
-                  MainScreen(),
+                  MainScreen(port: _proxyPort ?? ""),
                 ],
               ),
               Offstage(
@@ -179,14 +180,16 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                   minHeight: _playerMinHeight,
                   builder: (height, percentage) {
                     if (selectedAudio == null) return const SizedBox.shrink();
-                    return Container(
+
+                    if (height <= _playerMinHeight + 50.0)
+                    {return Container(
                         color: Theme.of(context).scaffoldBackgroundColor,
                         child: Column(
                           children: [
                             Row(
                               children: [
                                 Image.network(
-                                  selectedAudio.author.thumbnailUrl,
+                                  selectedAudio.thumbnailUrl,
                                   height: _playerMinHeight - 4.0,
                                   width: _playerMinHeight - 4.0,
                                   fit: BoxFit.cover,
@@ -212,7 +215,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                                         )),
                                         Flexible(
                                           child: Text(
-                                            selectedAudio.author.name,
+                                            selectedAudio.author,
                                             overflow: TextOverflow.ellipsis,
                                             style: Theme.of(context)
                                                 .textTheme
@@ -246,7 +249,8 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                             ),
                           ],
                         ),
-                      );
+                      );} else{
+                      return PlayerScreen(thumbnailUrl: selectedAudio.thumbnailUrl,);}
                   },
                 ),
               )
