@@ -22,23 +22,22 @@ class _MainScreenState extends State<MainScreen> {
   List<Audio> _basedOnListens = [];
   List<Audio> _mostVoted = [];
 
- @override
+  @override
   void initState() {
     super.initState();
     getMainScreenFromApi();
   }
 
   void getMainScreenFromApi() async {
-    Map mainResponse = await  getAudioMain(widget.port);
+    Map mainResponse = await getAudioMain(widget.port);
     setState(() {
       _lastCapsule = mainResponse['lastCapsule'];
-      print(_lastCapsule);
       _recentlyAdded = mainResponse['recentlyAdded'];
       _authors = mainResponse['authors'];
       _basedOnListens = mainResponse['basedOnListens'];
       _mostVoted = mainResponse['mostVoted'];
     });
-  }  
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,6 +178,7 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     RowAuthorCard(
                                       author: authorObj,
+                                      port: widget.port,
                                     ),
                                   ],
                                 ),
@@ -257,7 +257,10 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         )
                       ],
-                    )
+                    ),
+                    SizedBox(
+                      height: 65.0,
+                    ),
                   ],
                 ),
               )),

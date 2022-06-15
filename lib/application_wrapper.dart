@@ -181,8 +181,8 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                   builder: (height, percentage) {
                     if (selectedAudio == null) return const SizedBox.shrink();
 
-                    if (height <= _playerMinHeight + 50.0)
-                    {return Container(
+                    if (height <= _playerMinHeight + 50.0) {
+                      return Container(
                         color: Theme.of(context).scaffoldBackgroundColor,
                         child: Column(
                           children: [
@@ -249,8 +249,12 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                             ),
                           ],
                         ),
-                      );} else{
-                      return PlayerScreen(thumbnailUrl: selectedAudio.thumbnailUrl,);}
+                      );
+                    } else {
+                      return PlayerScreen(
+                        audio: selectedAudio,
+                      );
+                    }
                   },
                 ),
               )

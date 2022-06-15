@@ -10,7 +10,6 @@ Future<Map> getAudioMain(String proxyPort) async {
   print("Main Audio Screen request is being made");
 
   var mainResponse = {};
-
   var uri = buildPath('audio/main');
 
   IOClient httpClientWithProxy = configProxy(proxyPort);

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
@@ -5,16 +7,11 @@ import 'package:like_button/like_button.dart';
 import 'package:decorated_icon/decorated_icon.dart';
 
 class AuthorCard extends StatelessWidget {
-  final String image;
-  final String label;
-  final double size;
+  final Author author;
+  final String port;
 
-  AuthorCard({
-    Key? key,
-    required this.image,
-    required this.label,
-    this.size = 120,
-  }) : super(key: key);
+  AuthorCard({Key? key, required this.author, required this.port})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +21,8 @@ class AuthorCard extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) => AuthorScreen(
-                    thumbnailUrl: image,
+                    author: author,
+                    port: port,
                   )),
         );
       },
@@ -32,26 +30,33 @@ class AuthorCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(
-            image.toString(),
-            width: size,
-            height: size,
+            author.thumbnailUrl.toString(),
+            width: 120,
+            height: 120,
             fit: BoxFit.cover,
           ),
           const SizedBox(
             height: 10.0,
           ),
-          Text(label)
+          Text(author.name)
         ],
       ),
     );
   }
 }
 
-class RowAuthorCard extends StatelessWidget {
+class RowAuthorCard extends StatefulWidget {
   final Author author;
+  final String port;
 
-  const RowAuthorCard({Key? key, required this.author}) : super(key: key);
+  const RowAuthorCard({Key? key, required this.author, required this.port})
+      : super(key: key);
 
+  @override
+  State<RowAuthorCard> createState() => _RowAuthorCardState();
+}
+
+class _RowAuthorCardState extends State<RowAuthorCard> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -62,7 +67,8 @@ class RowAuthorCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => AuthorScreen(
-                      thumbnailUrl: author.thumbnailUrl,
+                      port: widget.port,
+                      author: widget.author,
                     )),
           );
         },
@@ -76,13 +82,13 @@ class RowAuthorCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.network(
-                author.thumbnailUrl.toString(),
+                widget.author.thumbnailUrl.toString(),
                 height: 48,
                 width: 48,
                 fit: BoxFit.cover,
               ),
               const SizedBox(width: 8),
-              Text(author.name),
+              Text(widget.author.name),
               const SizedBox(width: 8),
               Center(
                 child: LikeButton(

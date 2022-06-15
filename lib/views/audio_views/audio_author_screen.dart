@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 
 class AuthorScreen extends StatefulWidget {
-  final String thumbnailUrl;
+  final Author author;
+  final String port;
 
-  const AuthorScreen({Key? key, required this.thumbnailUrl}) : super(key: key);
+  const AuthorScreen({Key? key, required this.author, required this.port})
+      : super(key: key);
   @override
   _AuthorScreenState createState() => _AuthorScreenState();
 }
@@ -49,7 +52,6 @@ class _AuthorScreenState extends State<AuthorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cardSize = MediaQuery.of(context).size.width / 2 - 32;
     return Scaffold(
       body: Stack(
         children: [
@@ -76,7 +78,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                       ],
                     ),
                     child: Image.network(
-                      widget.thumbnailUrl,
+                      widget.author.thumbnailUrl,
                       width: imageSize,
                       height: imageSize,
                       fit: BoxFit.cover,
@@ -114,34 +116,34 @@ class _AuthorScreenState extends State<AuthorScreen> {
                       padding: const EdgeInsets.only(top: 40),
                       child: Column(
                         children: [
-                          const SizedBox(height: 272.0),
+                          const SizedBox(height: 250.0),
                           Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum",
-                                  style: Theme.of(context).textTheme.caption,
+                                  widget.author.name,
+                                  style: Theme.of(context).textTheme.headline6,
                                 ),
-                                const SizedBox(height: 8),
                                 Row(
-                                  children: const [
-                                    Image(
+                                  children: [
+                                    Text(
+                                      "Voted 1,878,555 times",
+                                      style:
+                                          Theme.of(context).textTheme.caption,
+                                    ),
+                                    const SizedBox(width: 80),
+                                    const Image(
                                       image:
                                           AssetImage('assets/logo-light.png'),
                                       width: 48,
                                       height: 48,
                                     ),
-                                    SizedBox(width: 2),
-                                    Text("NoticiasSinFiltro")
+                                    Text("NoticiasSinFiltro"),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                Text(
-                                  "Voted 1,878,555 times",
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
                               ],
                             ),
                           )
@@ -156,16 +158,16 @@ class _AuthorScreenState extends State<AuthorScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"),
+                        Text(widget.author.description),
                         const SizedBox(height: 32),
                         Text(
-                          "You might also like",
+                          "Audio Track History",
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         SizedBox(
                           height: 500,
-                          child: AudioPlaylist(),
+                          child: AudioPlaylist(
+                              author: widget.author, port: widget.port),
                         )
                       ],
                     ),
@@ -210,7 +212,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                         duration: const Duration(milliseconds: 250),
                         opacity: showTopBar ? 1 : 0,
                         child: Text(
-                          "Ophelia",
+                          widget.author.name,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ),

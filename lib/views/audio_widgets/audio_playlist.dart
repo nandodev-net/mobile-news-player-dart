@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/entities/audio.dart';
+import 'package:noticias_sin_filtro/entities/author.dart';
+
+import '../../services/requests/get_audio_author.dart';
 
 class AudioPlaylist extends StatefulWidget {
-  const AudioPlaylist({Key? key}) : super(key: key);
+  final Author author;
+  final String port;
+  const AudioPlaylist({Key? key, required this.author, required this.port})
+      : super(key: key);
 
   @override
   State<AudioPlaylist> createState() => _AudioPlaylistState();
@@ -9,43 +16,51 @@ class AudioPlaylist extends StatefulWidget {
 
 class _AudioPlaylistState extends State<AudioPlaylist> {
   final ScrollController _scrollController = ScrollController();
-  List<String> items = [];
+  List<Audio> items = [];
   bool loading = false, allLoaded = false;
+  List<String> _nextUrl = [];
 
-  // THIS SIMULATES THE API
-  mockFetch() async {
+  @override
+  void initState() {
+    super.initState();
+    mockFetch(widget.port, widget.author.id, []);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent &&
+          !loading) {
+        mockFetch(widget.port, widget.author.id, _nextUrl);
+      }
+    });
+  }
+
+  mockFetch(String port, int authorId, List<String> nextUrl) async {
     if (allLoaded) {
       return;
     }
 
     setState(() {
       loading = true;
+      _nextUrl = [];
     });
 
-    await Future.delayed(Duration(milliseconds: 500));
-    List<String> newData = items.length >= 60
-        ? []
-        : List.generate(10, (index) => "Audio Track ${index + items.length}");
-    if (newData.isNotEmpty) {
-      items.addAll(newData);
+    Map authorApiResponse = await getAudioAuthor(port, authorId, nextUrl);
+
+    if (authorApiResponse['audios'].isNotEmpty) {
+      items.addAll(authorApiResponse['audios']);
+    } else {
+      setState(() {
+        allLoaded = true;
+        loading = false;
+      }); //#TODO revisar caso artista sin audios
     }
 
     setState(() {
       loading = false;
-      allLoaded = newData.isEmpty;
-    });
-  }
-  ////////////////////////////////////////////////////
-
-  @override
-  void initState() {
-    super.initState();
-    mockFetch();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-              _scrollController.position.maxScrollExtent &&
-          !loading) {
-        mockFetch();
+      if (authorApiResponse['nextUrl'] == null) {
+        allLoaded = true;
+      } else {
+        _nextUrl.add(authorApiResponse['nextUrl']);
+        allLoaded = false;
       }
     });
   }
@@ -65,8 +80,8 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
             itemBuilder: (context, index) {
               if (index < items.length) {
                 return ListTile(
-                title: Text(items[index]),
-              );
+                  title: Text(items[index].title),
+                );
               } else {
                 return Container(
                   width: MediaQuery.of(context).size.width,
@@ -81,16 +96,18 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
                 color: Colors.black,
               );
             },
-            itemCount: items.length + (allLoaded?1:0)),
-        if (loading)...[Positioned(
-          left: 0,
-          bottom: 0,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 80.0,
-            child: Center(child: CircularProgressIndicator()),
+            itemCount: items.length + (allLoaded ? 1 : 0)),
+        if (loading) ...[
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 80.0,
+              child: Center(child: CircularProgressIndicator()),
+            ),
           ),
-        ),]
+        ]
       ]);
     } else {
       return const Center(

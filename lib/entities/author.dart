@@ -3,7 +3,7 @@ class Author{
   int id;
   String name;
   String thumbnailUrl;
-  String? description;
+  String description;
 
   Author.fromJson(Map<String, dynamic> json):
         id = json['id'] as int,

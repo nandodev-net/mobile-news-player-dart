@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/entities/audio.dart';
 
 class PlayerScreen extends StatefulWidget {
-  final String thumbnailUrl;
-  const PlayerScreen({ Key? key, required this.thumbnailUrl }) : super(key: key);
+  final Audio audio;
+  const PlayerScreen({Key? key, required this.audio}) : super(key: key);
 
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
@@ -23,8 +24,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
             color: Color.fromARGB(255, 30, 233, 206),
-            child: Wrap(
-              children: [Column(
+            child: Wrap(children: [
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Opacity(
@@ -41,7 +42,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         ],
                       ),
                       child: Image.network(
-                        widget.thumbnailUrl,
+                        widget.audio.thumbnailUrl,
                         width: 240,
                         height: 240,
                         fit: BoxFit.cover,
@@ -52,8 +53,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
                     height: 100,
                   ),
                 ],
-              ),]
-            ),
+              ),
+            ]),
           ),
           SafeArea(
             // Below comes the bouncing physics of the container.
@@ -88,12 +89,24 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                 const SizedBox(height: 10),
                                 Center(
                                   child: Text(
-                                    widget.thumbnailUrl,
-                                    style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 17.0),
-                                    ),
+                                    widget.audio.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(fontSize: 17.0),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Center(
+                                  child: Text(
+                                    widget.audio.author,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        ?.copyWith(fontSize: 17.0),
+                                  ),
                                 ),
                                 const SizedBox(height: 120),
-
                               ],
                             ),
                           )
