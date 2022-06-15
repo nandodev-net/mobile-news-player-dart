@@ -24,7 +24,7 @@ class AudioCard extends StatelessWidget {
                 height: 120.0,
               ),
               Text(
-                audio.title,
+                "${audio.title} - ${audio.author}",
                 style: Theme.of(context).textTheme.caption,
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
@@ -65,16 +65,22 @@ class RowAudioCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               Text(
-                audio.title,
+                "${audio.title} - ${audio.author}",
                 style: Theme.of(context).textTheme.caption,
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(0,0,15,0),
-                child: Icon(
-                  Icons.play_arrow,
-                  color: Colors.black,
-                ),
+              SizedBox(width: 20,),
+              Text(
+                audio.duration,
+                style: Theme.of(context).textTheme.caption,
               ),
+              SizedBox(width: 20,)
+              // const Padding(
+              //   padding: EdgeInsets.fromLTRB(0,0,15,0),
+              //   child: Icon(
+              //     Icons.play_arrow,
+              //     color: Colors.black,
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -83,3 +89,51 @@ class RowAudioCard extends StatelessWidget {
   }
 }
 
+
+class RowAudioTile extends StatelessWidget {
+  final Audio audio;
+
+  const RowAudioTile({Key? key, required this.audio}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: GestureDetector(
+        onTap: () {
+            context.read(selectedAudioProvider).state = audio;
+          },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(height: 48,),
+              Text(
+                "${audio.title} - ${audio.author}",
+                style: Theme.of(context).textTheme.caption,
+              ),
+              SizedBox(width: 20,),
+              Text(
+                audio.duration,
+                style: Theme.of(context).textTheme.caption,
+              ),
+              SizedBox(width: 20,)
+              // const Padding(
+              //   padding: EdgeInsets.fromLTRB(0,0,15,0),
+              //   child: Icon(
+              //     Icons.play_arrow,
+              //     color: Colors.black,
+              //   ),
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

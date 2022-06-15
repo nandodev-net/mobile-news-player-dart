@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../services/requests/get_audio_author.dart';
 
 class AudioPlaylist extends StatefulWidget {
@@ -50,7 +51,6 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
     } else {
       setState(() {
         allLoaded = true;
-        loading = false;
       }); //#TODO revisar caso artista sin audios
     }
 
@@ -80,7 +80,12 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
             itemBuilder: (context, index) {
               if (index < items.length) {
                 return ListTile(
+                  leading: const Icon(Icons.play_arrow_rounded),
                   title: Text(items[index].title),
+                  subtitle:Text(items[index].duration, style: Theme.of(context).textTheme.caption,),
+                  onTap: () {
+                    context.read(selectedAudioProvider).state = items[index];
+                  },
                 );
               } else {
                 return Container(
