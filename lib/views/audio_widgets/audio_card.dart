@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 
-
 class AudioCard extends StatelessWidget {
   final Audio audio;
   const AudioCard({Key? key, required this.audio}) : super(key: key);
@@ -41,14 +40,38 @@ class RowAudioCard extends StatelessWidget {
 
   const RowAudioCard({Key? key, required this.audio}) : super(key: key);
 
+  Duration parseDuration(String s) {
+    int hours = 0;
+    int minutes = 0;
+    int micros;
+    List<String> parts = s.split(':');
+    if (parts.length > 2) {
+      hours = int.parse(parts[parts.length - 3]);
+    }
+    if (parts.length > 1) {
+      minutes = int.parse(parts[parts.length - 2]);
+    }
+    micros = (double.parse(parts[parts.length - 1]) * 1000000).round();
+    return Duration(hours: hours, minutes: minutes, microseconds: micros);
+  }
+
+  String _printDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    if (twoDigits(duration.inHours) != "00")
+      return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    return "$twoDigitMinutes:$twoDigitSeconds";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
       child: GestureDetector(
         onTap: () {
-            context.read(selectedAudioProvider).state = audio;
-          },
+          context.read(selectedAudioProvider).state = audio;
+        },
         child: Container(
           decoration: BoxDecoration(
             color: const Color.fromARGB(26, 26, 25, 25),
@@ -68,61 +91,16 @@ class RowAudioCard extends StatelessWidget {
                 "${audio.title} - ${audio.author}",
                 style: Theme.of(context).textTheme.caption,
               ),
-              SizedBox(width: 20,),
+              SizedBox(
+                width: 20,
+              ),
               Text(
-                audio.duration,
+                _printDuration(parseDuration(audio.duration)),
                 style: Theme.of(context).textTheme.caption,
               ),
-              SizedBox(width: 20,)
-              // const Padding(
-              //   padding: EdgeInsets.fromLTRB(0,0,15,0),
-              //   child: Icon(
-              //     Icons.play_arrow,
-              //     color: Colors.black,
-              //   ),
-              // ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
-class RowAudioTile extends StatelessWidget {
-  final Audio audio;
-
-  const RowAudioTile({Key? key, required this.audio}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: GestureDetector(
-        onTap: () {
-            context.read(selectedAudioProvider).state = audio;
-          },
-        child: Container(
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(height: 48,),
-              Text(
-                "${audio.title} - ${audio.author}",
-                style: Theme.of(context).textTheme.caption,
-              ),
-              SizedBox(width: 20,),
-              Text(
-                audio.duration,
-                style: Theme.of(context).textTheme.caption,
-              ),
-              SizedBox(width: 20,)
+              SizedBox(
+                width: 20,
+              )
               // const Padding(
               //   padding: EdgeInsets.fromLTRB(0,0,15,0),
               //   child: Icon(

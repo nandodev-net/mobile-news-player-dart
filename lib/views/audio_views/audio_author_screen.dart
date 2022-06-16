@@ -202,7 +202,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                         left: 0,
                         child: GestureDetector(
                           onTap: () {
-                            context.read(selectedAuthorProvider).state=null;
+                            context.read(selectedAuthorProvider).state = null;
                           },
                           child: const Icon(
                             Icons.keyboard_arrow_left,

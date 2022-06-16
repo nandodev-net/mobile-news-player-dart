@@ -10,6 +10,31 @@ class PlayerScreen extends StatefulWidget {
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
+
+
+Duration parseDuration(String s) {
+  int hours = 0;
+  int minutes = 0;
+  int micros;
+  List<String> parts = s.split(':');
+  if (parts.length > 2) {
+    hours = int.parse(parts[parts.length - 3]);
+  }
+  if (parts.length > 1) {
+    minutes = int.parse(parts[parts.length - 2]);
+  }
+  micros = (double.parse(parts[parts.length - 1]) * 1000000).round();
+  return Duration(hours: hours, minutes: minutes, microseconds: micros);
+}
+
+String _printDuration(Duration duration) {
+  String twoDigits(int n) => n.toString().padLeft(2, "0");
+  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+  String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+  if(twoDigits(duration.inHours) !="00")return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+  return "$twoDigitMinutes:$twoDigitSeconds";
+}
+
   late ScrollController scrollController;
   double imageOpacity = 1;
   double _currentSliderValue = 20;
@@ -160,7 +185,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                               TextStyle(color: Colors.black.withOpacity(0.5)),
                         ),
                         Text(
-                          "4:68",
+                          _printDuration(parseDuration(widget.audio.duration)),
                           style:
                               TextStyle(color: Colors.black.withOpacity(0.5)),
                         ),
