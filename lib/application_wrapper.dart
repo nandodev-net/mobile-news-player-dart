@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
+import 'package:noticias_sin_filtro/entities/author.dart';
+import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_main_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_player_fullscreen.dart';
 import 'package:noticias_sin_filtro/views/categories.dart';
@@ -15,6 +17,7 @@ import 'package:noticias_sin_filtro/views/vpn_config.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_main_screen.dart';
 
 final selectedAudioProvider = StateProvider<Audio?>((ref) => null);
+final selectedAuthorProvider = StateProvider<Author?>((ref) => null);
 
 class ApplicationWrapper extends StatefulWidget {
   const ApplicationWrapper({Key? key, required this.title}) : super(key: key);
@@ -124,6 +127,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, watch, _) {
       final selectedAudio = watch(selectedAudioProvider).state;
+      final selectedAuthor = watch(selectedAuthorProvider).state;
       return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -172,6 +176,11 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                   Categories(port: _proxyPort ?? ""),
                   MainScreen(port: _proxyPort ?? ""),
                 ],
+              ),
+              
+              Visibility(
+                visible: selectedAuthor != null,
+                child: AuthorScreen(port: _proxyPort ?? "", author: selectedAuthor ?? testAuthor),
               ),
               Offstage(
                 offstage: selectedAudio == null,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 
@@ -200,7 +202,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                         left: 0,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
+                            context.read(selectedAuthorProvider).state=null;
                           },
                           child: const Icon(
                             Icons.keyboard_arrow_left,

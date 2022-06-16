@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
 import 'package:like_button/like_button.dart';
@@ -63,14 +65,15 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
       flex: 1,
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AuthorScreen(
-                      port: widget.port,
-                      author: widget.author,
-                    )),
-          );
+          context.read(selectedAuthorProvider).state = widget.author;
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //       builder: (context) => AuthorScreen(
+          //             port: widget.port,
+          //             author: widget.author,
+          //           )),
+          // );
         },
         child: Container(
           decoration: BoxDecoration(
