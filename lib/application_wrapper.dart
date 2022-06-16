@@ -45,6 +45,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
   ////// Functions to handle Bottom Navigation //////
 
   void _onBottomNavItemTapped(int index) {
+    context.read(selectedAuthorProvider).state=null;                     
     setState(() {
       _bottomNavIndex = index;
     });
