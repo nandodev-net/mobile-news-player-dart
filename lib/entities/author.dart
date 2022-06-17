@@ -16,7 +16,7 @@ class Author{
         id = json['id'] as int,
         name = json['name'] as String,
         thumbnailUrl = json['thumbnailUrl'] as String,
-        description = json['description'] as String
+        description = json['description'] ?? "Thank's for listen us on NSFapp."
   ;
 }
 

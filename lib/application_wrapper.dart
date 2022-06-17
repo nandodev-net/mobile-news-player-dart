@@ -14,7 +14,7 @@ import 'package:noticias_sin_filtro/views/navigate.dart';
 import 'package:noticias_sin_filtro/views/news_sites.dart';
 import 'package:noticias_sin_filtro/views/wrappers/webview_wrapper.dart';
 import 'package:noticias_sin_filtro/views/vpn_config.dart';
-import 'package:noticias_sin_filtro/views/audio_views/audio_main_screen.dart';
+import 'package:noticias_sin_filtro/views/audio_widgets/audio_controller.dart';
 
 final selectedAudioProvider = StateProvider<Audio?>((ref) => null);
 final selectedAuthorProvider = StateProvider<Author?>((ref) => null);
@@ -45,7 +45,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
   ////// Functions to handle Bottom Navigation //////
 
   void _onBottomNavItemTapped(int index) {
-    context.read(selectedAuthorProvider).state=null;                     
+    context.read(selectedAuthorProvider).state = null;
     setState(() {
       _bottomNavIndex = index;
     });
@@ -178,20 +178,26 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                   MainScreen(port: _proxyPort ?? ""),
                 ],
               ),
-              
               Visibility(
                 visible: selectedAuthor != null,
-                child: AuthorScreen(port: _proxyPort ?? "", author: selectedAuthor ?? testAuthor),
+                child: AuthorScreen(
+                    port: _proxyPort ?? "",
+                    author: selectedAuthor ?? testAuthor),
               ),
-              Offstage(
-                offstage: selectedAudio == null,
+              Visibility(
+                visible: selectedAudio != null,
                 child: Miniplayer(
                   maxHeight: MediaQuery.of(context).size.height,
                   minHeight: _playerMinHeight,
                   builder: (height, percentage) {
+                    // if not selected audio, do not show the miniplayer
                     if (selectedAudio == null) return const SizedBox.shrink();
-
+                    // setting the height of the miniplayer, and the full scrren player
                     if (height <= _playerMinHeight + 50.0) {
+                      // Audio reproduction init
+                      if (watch(audioProvider).playerAudioState != "PAUSE")
+                        watch(audioProvider).initAudio(selectedAudio.audioUrl);
+
                       return Container(
                         color: Theme.of(context).scaffoldBackgroundColor,
                         child: Column(
@@ -240,30 +246,39 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                                   ),
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.play_arrow),
-                                  onPressed: () {},
+                                  icon: Icon(
+                                    watch(audioProvider).playerAudioState ==
+                                            "PLAY"
+                                        ? Icons.pause
+                                        : Icons.play_arrow,
+                                  ),
+                                  onPressed: () {
+                                    watch(audioProvider).playerAudioState ==
+                                            "PLAY"
+                                        ? watch(audioProvider).pauseAudio()
+                                        : watch(audioProvider).playAudio();
+                                  },
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.close),
                                   onPressed: () {
                                     context.read(selectedAudioProvider).state =
                                         null;
+                                    watch(audioProvider).stopAudio();
                                   },
                                 ),
                               ],
                             ),
-                            const LinearProgressIndicator(
-                              value: 0.4,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.red),
+                            LinearProgressIndicator(
+                              value: watch(audioProvider).currentSliderPosition,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Color.fromARGB(255, 0, 255, 34)),
                             ),
                           ],
                         ),
                       );
                     } else {
-                      return PlayerScreen(
-                        audio: selectedAudio,
-                      );
+                      return PlayerScreen(audio: selectedAudio);
                     }
                   },
                 ),
