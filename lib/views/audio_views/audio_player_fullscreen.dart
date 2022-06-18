@@ -165,7 +165,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       ),
                     ),
                     Slider(
-                        activeColor: Colors.green,
+                        activeColor: Color.fromARGB(255, 0, 255, 34),
                         value: watch(audioProvider)
                                 .currentAudioPosition
                                 ?.inMilliseconds
@@ -179,7 +179,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                             0.0,
                         onChanged: (value) {
                           setState(() {
-                            // _currentSliderValue = value;
+                            watch(audioProvider).seekAudio(Duration(milliseconds: value.toInt()));
                           });
                           //seekSound();
                         }),
@@ -192,7 +192,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            watch(audioProvider).playerAudioState,
+                            _printDuration(parseDuration(watch(audioProvider).currentAudioPosition.toString())),
                             style:
                                 TextStyle(color: Colors.black.withOpacity(0.5)),
                           ),

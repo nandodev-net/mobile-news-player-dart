@@ -66,6 +66,10 @@ class AudioController extends ChangeNotifier {
   exitAudio() {
     audioPlayer.dispose();
   }
+
+  seekAudio(Duration durationToSeek){
+    audioPlayer.seek(durationToSeek);
+  }
 }
 
 final audioProvider = ChangeNotifierProvider<AudioController>((ref) {
