@@ -45,7 +45,7 @@ class AudioController extends ChangeNotifier {
 
     audioPlayer.onPlayerStateChanged.listen((event) {
       if (event == PlayerState.playing)playerAudioState='PLAY';
-      // if (event == PlayerState.stopped)playerAudioState='STOP';
+      if (event == PlayerState.stopped)playerAudioState='STOP';
       if (event == PlayerState.paused)playerAudioState='PAUSE';
       notifyListeners();
     });
