@@ -3,6 +3,7 @@ import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/services/requests/get_author_suggestions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:noticias_sin_filtro/views/audio_widgets/audio_search_response.dart';
 
 /*
   Upper bar with search icon Widget
@@ -62,12 +63,12 @@ class MySearchDelegate extends SearchDelegate {
       ];
 
   @override
-  Widget buildResults(BuildContext context) => Center(
-        child: Text(
-          query,
-          style: const TextStyle(fontSize: 64),
-        ),
-      );
+  Widget buildResults(BuildContext context){
+    return Consumer(builder: (context, watch, _){
+      var _port = watch(proxyProvider).state;
+      return AudioSearchResponse(port:_port, keyword: query,);
+    });
+  }
 
   @override
   Widget buildSuggestions(BuildContext context) {
