@@ -26,3 +26,17 @@ final testAuthor = Author(
     thumbnailUrl:'https://drive.google.com/uc?export=view&id=15y4qTizfabCMrSqFIbm9PyM98TB8bAfE',
     description:'TEST',
   );
+
+
+class AuthorSuggestion{
+  String name;
+
+
+  AuthorSuggestion({
+  required this.name
+  });
+
+  AuthorSuggestion.fromJson(Map<String, dynamic> json):
+        name = json['name'] as String
+  ;
+}

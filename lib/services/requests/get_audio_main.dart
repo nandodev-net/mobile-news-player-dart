@@ -16,7 +16,7 @@ Future<Map> getAudioMain(String proxyPort) async {
 
   http.Response response = await httpClientWithProxy.get(uri);
 
-  var responseApi = json.decode(Utf8Decoder().convert(response.bodyBytes));
+  var responseApi = json.decode(const Utf8Decoder().convert(response.bodyBytes));
 
   mainResponse['lastCapsule'] = List.from(responseApi['last_capsule']).map((result)=> Audio.fromJson(result)).toList();
   mainResponse['recentlyAdded'] = List.from(responseApi['recently_added']).map((result)=> Audio.fromJson(result)).toList();

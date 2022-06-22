@@ -33,14 +33,14 @@ class _PlayerScreenState extends State<PlayerScreen> {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    if (twoDigits(duration.inHours) != "00")
+    if (twoDigits(duration.inHours) != "00") {
       return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    }
     return "$twoDigitMinutes:$twoDigitSeconds";
   }
 
   late ScrollController scrollController;
   double imageOpacity = 1;
-  double _currentSliderValue = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -133,12 +133,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 30.0,
                                         ),
                                         Text(
                                           widget.audio.title,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -165,7 +165,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       ),
                     ),
                     Slider(
-                        activeColor: Color.fromARGB(255, 0, 255, 34),
+                        activeColor: const Color.fromARGB(255, 0, 255, 34),
                         value: watch(audioProvider)
                                 .currentAudioPosition
                                 ?.inMilliseconds
@@ -183,7 +183,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           });
                           //seekSound();
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
                     Padding(
@@ -205,7 +205,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
                     Padding(
@@ -223,7 +223,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           IconButton(
                               iconSize: 50,
                               icon: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Colors.green),
                                 child: Center(

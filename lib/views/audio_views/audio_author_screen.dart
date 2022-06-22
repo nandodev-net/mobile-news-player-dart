@@ -142,7 +142,7 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                       width: 48,
                                       height: 48,
                                     ),
-                                    Text("NoticiasSinFiltro"),
+                                    const Text("NoticiasSinFiltro"),
                                   ],
                                 ),
                                 const SizedBox(height: 8),

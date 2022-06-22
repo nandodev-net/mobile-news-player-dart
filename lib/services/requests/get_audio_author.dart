@@ -13,7 +13,7 @@ Future<Map> getAudioAuthor(
   var uri = buildPath('audio/author/${authorId.toString()}');
   if (nextUrl.isNotEmpty) uri = Uri.parse(nextUrl[0]);
 
-  IOClient httpClientWithProxy = configProxy(proxyPort);
+  //IOClient httpClientWithProxy = configProxy(proxyPort);
 
   //http.Response response = await httpClientWithProxy.get(uri);
   var response = await http.get(uri);
@@ -22,7 +22,7 @@ Future<Map> getAudioAuthor(
   authorResponse['nextUrl'] = null;
 
   if (response.statusCode != 204) {
-    var responseApi = json.decode(Utf8Decoder().convert(response.bodyBytes));
+    var responseApi = json.decode(const Utf8Decoder().convert(response.bodyBytes));
     authorResponse['nextUrl'] = responseApi['next'];
     if (responseApi['results'].isNotEmpty) {
       authorResponse['audios'] = List.from(responseApi['results'])

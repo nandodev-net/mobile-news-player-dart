@@ -59,8 +59,9 @@ class RowAudioCard extends StatelessWidget {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    if (twoDigits(duration.inHours) != "00")
+    if (twoDigits(duration.inHours) != "00") {
       return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    }
     return "$twoDigitMinutes:$twoDigitSeconds";
   }
 
@@ -91,14 +92,14 @@ class RowAudioCard extends StatelessWidget {
                 "${audio.title} - ${audio.author}",
                 style: Theme.of(context).textTheme.caption,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               Text(
                 _printDuration(parseDuration(audio.duration)),
                 style: Theme.of(context).textTheme.caption,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               )
               // const Padding(

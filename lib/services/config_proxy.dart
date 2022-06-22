@@ -6,7 +6,7 @@ IOClient configProxy(String proxyPort)  {
 
 
 // Create a new HttpClient instance.
-  HttpClient httpClient = new HttpClient();
+  HttpClient httpClient = HttpClient();
 
 // Hook into the findProxy callback to set
 // the client's proxy.

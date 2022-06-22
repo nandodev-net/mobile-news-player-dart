@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,19 +19,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Noticias Sin Filtro',
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
+      supportedLocales: const [
         Locale('en', ''), // English, no country code
         Locale('es', ''), // Spanish, no country code
       ],
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ApplicationWrapper(title: 'Noticias Sin Filtro'),
+      home: const ApplicationWrapper(title: 'Noticias Sin Filtro'),
     );
   }
 }

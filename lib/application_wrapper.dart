@@ -18,6 +18,7 @@ import 'package:noticias_sin_filtro/views/audio_widgets/audio_controller.dart';
 
 final selectedAudioProvider = StateProvider<Audio?>((ref) => null);
 final selectedAuthorProvider = StateProvider<Author?>((ref) => null);
+final proxyProvider = StateProvider<String>((ref) => "");
 
 class ApplicationWrapper extends StatefulWidget {
   const ApplicationWrapper({Key? key, required this.title}) : super(key: key);
@@ -71,7 +72,9 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
     var _port = await connectWithVPN();
 
     setState(() {
+      context.read(proxyProvider).state = _port;
       _proxyPort = _port;
+
     });
 
     setState(() {
@@ -84,6 +87,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
         await _VPNconnectionMethodChannel.invokeMethod("disconnect");
 
     setState(() {
+      context.read(proxyProvider).state = "";
       _proxyPort = null;
     });
 

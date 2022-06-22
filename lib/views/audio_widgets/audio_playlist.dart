@@ -84,8 +84,9 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    if (twoDigits(duration.inHours) != "00")
+    if (twoDigits(duration.inHours) != "00") {
       return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+    }
     return "$twoDigitMinutes:$twoDigitSeconds";
   }
 
@@ -118,7 +119,7 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   height: 50.0,
-                  child: Center(child: Text("Nothing more to Load")),
+                  child: const Center(child: Text("Nothing more to Load")),
                 );
               }
             },
@@ -136,7 +137,7 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 80.0,
-              child: Center(child: CircularProgressIndicator()),
+              child: const Center(child: CircularProgressIndicator()),
             ),
           ),
         ]

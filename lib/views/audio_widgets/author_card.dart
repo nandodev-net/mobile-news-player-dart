@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
@@ -12,7 +10,7 @@ class AuthorCard extends StatelessWidget {
   final Author author;
   final String port;
 
-  AuthorCard({Key? key, required this.author, required this.port})
+  const AuthorCard({Key? key, required this.author, required this.port})
       : super(key: key);
 
   @override

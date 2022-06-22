@@ -1,7 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:io';
 
 class AudioController extends ChangeNotifier {
   Duration? totalAudioDuration;
@@ -38,8 +37,9 @@ class AudioController extends ChangeNotifier {
 
     audioPlayer.onPositionChanged.listen((updatedPosition) {
       currentAudioPosition = updatedPosition;
-      if (updatedPosition != null && currentAudioPosition != null)
+      if (updatedPosition != null && currentAudioPosition != null) {
         setSliderPosition(totalAudioDuration, currentAudioPosition);
+      }
       notifyListeners();
     });
 
