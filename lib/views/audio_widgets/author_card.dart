@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
+import 'package:noticias_sin_filtro/database/db_helper.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
 import 'package:like_button/like_button.dart';
@@ -49,7 +52,10 @@ class RowAuthorCard extends StatefulWidget {
   final Author author;
   final String port;
 
-  const RowAuthorCard({Key? key, required this.author, required this.port})
+  const RowAuthorCard(
+      {Key? key,
+      required this.author,
+      required this.port})
       : super(key: key);
 
   @override
@@ -57,6 +63,39 @@ class RowAuthorCard extends StatefulWidget {
 }
 
 class _RowAuthorCardState extends State<RowAuthorCard> {
+  List<Map<String, dynamic>> _favorites = [];
+
+    @override
+    void initState() {
+      super.initState();
+      _refreshFavorites();
+    }
+
+  void _refreshFavorites() async {
+    final data = await SQLHelper.getFavoritebyId(widget.author.id);
+    setState(() {
+      _favorites = data;
+    });
+  }
+
+  Future<bool> onLikeButtonTapped(bool isFavorite) async {
+    /// send your request here
+    // final bool success= await sendRequest();
+    print('Primero');
+    print(_favorites);
+    _favorites.isNotEmpty
+        ? await SQLHelper.deleteFavorite(widget.author.id)
+        : await SQLHelper.createFavorite(widget.author.id);
+    
+    _refreshFavorites();
+    print('Segundo');
+    print(_favorites);
+      
+    /// if failed, you can do nothing
+    // return success? !isLiked:isLiked;
+    return !isFavorite;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -64,14 +103,6 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
       child: GestureDetector(
         onTap: () {
           context.read(selectedAuthorProvider).state = widget.author;
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //       builder: (context) => AuthorScreen(
-          //             port: widget.port,
-          //             author: widget.author,
-          //           )),
-          // );
         },
         child: Container(
           decoration: BoxDecoration(
@@ -94,14 +125,15 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
               Center(
                 child: LikeButton(
                   size: 30.0,
-                  likeBuilder: (isTapped) {
+                  onTap: onLikeButtonTapped,
+                  likeBuilder: (isFavorite) {
                     return DecoratedIcon(
                       Icons.star,
-                      color: isTapped ? Colors.yellowAccent : Colors.grey,
+                      color: (_favorites.isNotEmpty) ? Colors.yellowAccent : Colors.grey,
                       shadows: [
                         BoxShadow(
                           blurRadius: 15.0,
-                          color: isTapped ? Colors.grey : Colors.transparent,
+                          color: (_favorites.isNotEmpty) ? Colors.grey : Colors.transparent,
                         ),
                       ],
                     );

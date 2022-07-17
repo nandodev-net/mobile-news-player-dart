@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/audio_controller.dart';
@@ -171,7 +172,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                 ?.inMilliseconds
                                 .toDouble() ??
                             0.0,
-                        min: 0,
+                        min: 0.0,
                         max: watch(audioProvider)
                                 .totalAudioDuration
                                 ?.inMilliseconds
@@ -213,15 +214,21 @@ class _PlayerScreenState extends State<PlayerScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
+                          GestureDetector(
+                            onTap: () {
+                                //context.read(selectedAuthorProvider).state = widget.audio.author;
+                                },
+                            child: IconButton(
                               icon: Icon(
-                                Icons.skip_previous,
+                                Icons.menu_book,
                                 color: Colors.black.withOpacity(0.8),
-                                size: 25,
-                              ),
-                              onPressed: null),
+                                size: 40,
+                              ), onPressed: () {  },
+                            ),
+                          ),
+                          
                           IconButton(
-                              iconSize: 50,
+                              iconSize: 65,
                               icon: Container(
                                 decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
@@ -232,7 +239,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                             "PLAY"
                                         ? Icons.pause
                                         : Icons.play_arrow,
-                                    size: 28,
+                                    size: 38,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -246,7 +253,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                               icon: Icon(
                                 Icons.skip_next,
                                 color: Colors.black.withOpacity(0.8),
-                                size: 25,
+                                size: 40,
                               ),
                               onPressed: null),
                         ],

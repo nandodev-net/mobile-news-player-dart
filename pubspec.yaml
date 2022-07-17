@@ -49,6 +49,8 @@ dependencies:
   miniplayer: ^1.0.0+2
   timeago: ^3.0.2
   audioplayers: ^1.0.0
+  sqflite: ^2.0.3
+  path: ^1.8.1
   
 dev_dependencies:
   flutter_test:

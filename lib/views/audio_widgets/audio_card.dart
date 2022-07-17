@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
+import 'package:noticias_sin_filtro/views/audio_widgets/audio_controller.dart';
 
 class AudioCard extends StatelessWidget {
   final Audio audio;
@@ -67,52 +68,68 @@ class RowAudioCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: GestureDetector(
-        onTap: () {
-          context.read(selectedAudioProvider).state = audio;
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(26, 26, 25, 25),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.network(
-                audio.thumbnailUrl.toString(),
-                height: 48,
-                width: 48,
-                fit: BoxFit.cover,
-              ),
-              Text(
-                "${audio.title} - ${audio.author}",
-                style: Theme.of(context).textTheme.caption,
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              Text(
-                _printDuration(parseDuration(audio.duration)),
-                style: Theme.of(context).textTheme.caption,
-              ),
-              const SizedBox(
-                width: 20,
-              )
-              // const Padding(
-              //   padding: EdgeInsets.fromLTRB(0,0,15,0),
-              //   child: Icon(
-              //     Icons.play_arrow,
-              //     color: Colors.black,
-              //   ),
-              // ),
-            ],
+    return Consumer(builder: (context, watch, _) {
+      return Expanded(
+        flex: 1,
+        child: GestureDetector(
+          onTap: () {
+            context.read(selectedAudioProvider).state = audio;
+          },
+          child: Container(
+            height: 100,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(26, 26, 25, 25),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                    iconSize: 60,
+                    icon: Container(
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color.fromARGB(144, 0, 0, 0)),
+                      child: Center(
+                        child: Icon(
+                          watch(audioProvider).playerAudioState == "PLAY"
+                              ? Icons.pause
+                              : Icons.play_arrow,
+                          size: 28,
+                          color: Color.fromARGB(207, 255, 255, 255),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      }),
+                // Text(
+                //   "${audio.title} - ${audio.author}",
+                //   style: Theme.of(context).textTheme.caption,
+                // ),
+                Text('Play the last news capsule'),
+                const SizedBox(
+                  width: 20,
+                ),
+                // Text(
+                //   _printDuration(parseDuration(audio.duration)),
+                //   style: Theme.of(context).textTheme.caption,
+                // ),
+                const SizedBox(
+                  width: 20,
+                )
+                // const Padding(
+                //   padding: EdgeInsets.fromLTRB(0,0,15,0),
+                //   child: Icon(
+                //     Icons.play_arrow,
+                //     color: Colors.black,
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

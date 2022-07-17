@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noticias_sin_filtro/database/db_helper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/services/requests/get_audio_main.dart';
@@ -167,20 +168,31 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                             const SizedBox(height: 10),
                             // List of top 6 authors, based on number of views
-                            for (var authorObj in _authors)
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      RowAuthorCard(
-                                        author: authorObj,
-                                        port: widget.port,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10),
-                                ],
+                            Container(
+                              height: 250.0,
+                              child: SingleChildScrollView(
+                                physics: const BouncingScrollPhysics(),
+                                child: Wrap(
+                                  children: [
+                                    for (var authorObj in _authors)
+                                      Column(children: [
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                        Row(
+                                          children: [
+                                            RowAuthorCard(
+                                              author: authorObj,
+                                              port: widget.port,
+                                            ),
+                                          ],
+                                        ),
+                                      ]),
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
                               ),
+                            ),
                           ],
                         ),
                       ),
