@@ -107,8 +107,8 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
                 return ListTile(
                   leading: const Icon(Icons.play_arrow_rounded),
                   title: Text(items[index].title),
-                  subtitle: Text(
-                    _printDuration(parseDuration(items[index].duration)),
+                  subtitle: Text(items[index].author,
+                    //_printDuration(parseDuration(items[index].duration)),
                     style: Theme.of(context).textTheme.caption,
                   ),
                   onTap: () {
