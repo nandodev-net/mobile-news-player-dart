@@ -20,7 +20,8 @@ Future<Map> getAudioMain(String proxyPort) async {
 
   mainResponse['lastCapsule'] = List.from(responseApi['last_capsule']).map((result)=> Audio.fromJson(result)).toList();
   mainResponse['recentlyAdded'] = List.from(responseApi['recently_added']).map((result)=> Audio.fromJson(result)).toList();
-  mainResponse['authors'] = List.from(responseApi['authors']).map((result)=> Author.fromJson(result)).toList();
+  mainResponse['podcast_authors'] = List.from(responseApi['podcast_authors']).map((result)=> Author.fromJson(result)).toList();
+  mainResponse['news_authors'] = List.from(responseApi['news_authors']).map((result)=> Author.fromJson(result)).toList();
   mainResponse['mostVoted'] = List.from(responseApi['most_voted']).map((result)=> Audio.fromJson(result)).toList();
   mainResponse['basedOnListens'] = List.from(responseApi['most_listened']).map((result)=> Audio.fromJson(result)).toList();
 

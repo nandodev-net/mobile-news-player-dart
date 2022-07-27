@@ -3,6 +3,7 @@ import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/database/db_helper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/audio_controller.dart';
 
 final selectedFF = StateProvider<Audio?>((ref) => null);
@@ -31,19 +32,14 @@ class _PlayerScreenState extends State<PlayerScreen> {
     });
   }
 
-    Future<void> onLikeButtonTapped() async {
+  Future<void> onLikeButtonTapped() async {
     /// send your request here
     // final bool success= await sendRequest();
-    print('Primero');
-    print(_voted);
     _voted.isNotEmpty
         ? await SQLHelper.deleteVoted(widget.audio.id)
         : await SQLHelper.createVoted(widget.audio.id);
-    
+
     _refreshVoted();
-    print('Segundo');
-    print(_voted);
-      
     /// if failed, you can do nothing
     // return success? !isLiked:isLiked;
   }
@@ -171,23 +167,24 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                           children: [
                                             const SizedBox(width: 210),
                                             IconButton(
-                                                iconSize: 55,
-                                                icon: Container(
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: Colors.green),
-                                                  child: Center(
-                                                    child: Icon(
-                                                      (_voted.isNotEmpty)
-                                                          ? Icons.favorite
-                                                          : Icons.favorite_outline,
-                                                      size: 30,
-                                                      color: Colors.white,
-                                                    ),
+                                              iconSize: 55,
+                                              icon: Container(
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.green),
+                                                child: Center(
+                                                  child: Icon(
+                                                    (_voted.isNotEmpty)
+                                                        ? Icons.favorite
+                                                        : Icons
+                                                            .favorite_outline,
+                                                    size: 30,
+                                                    color: Colors.white,
                                                   ),
                                                 ),
-                                                onPressed: onLikeButtonTapped,
-                                                ),
+                                              ),
+                                              onPressed: onLikeButtonTapped,
+                                            ),
                                           ],
                                         ),
                                         Text(
@@ -281,7 +278,16 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                 color: Colors.black.withOpacity(0.8),
                                 size: 40,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                context.read(selectedAuthorProvider).state =
+                                    Author(
+                                        id: widget.audio.authorId.toInt(),
+                                        name: widget.audio.author,
+                                        thumbnailUrl: widget.audio.thumbnailUrl,
+                                        type: widget.audio.authorType,
+                                        description:
+                                            widget.audio.authorDescription);
+                              },
                             ),
                           ),
                           IconButton(

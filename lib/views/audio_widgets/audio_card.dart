@@ -11,7 +11,9 @@ class AudioCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 120.0,
+      
+        width: 140.0,
+        height: 180.0,
         child: GestureDetector(
           onTap: () {
             context.read(selectedAudioProvider).state = audio;
@@ -20,13 +22,14 @@ class AudioCard extends StatelessWidget {
             children: [
               Image.network(
                 audio.thumbnailUrl.toString(),
-                width: 120.0,
-                height: 120.0,
+                width: 140.0,
+                height: 140.0,
               ),
               Text(
                 "${audio.title} - ${audio.author}",
                 style: Theme.of(context).textTheme.caption,
                 softWrap: true,
+                textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               )
@@ -75,57 +78,64 @@ class RowAudioCard extends StatelessWidget {
           onTap: () {
             context.read(selectedAudioProvider).state = audio;
           },
-          child: Container(
-            height: 100,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(26, 26, 25, 25),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    iconSize: 60,
-                    icon: Container(
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color.fromARGB(144, 0, 0, 0)),
-                      child: Center(
-                        child: Icon(
-                          watch(audioProvider).playerAudioState == "PLAY"
-                              ? Icons.pause
-                              : Icons.play_arrow,
-                          size: 28,
-                          color: Color.fromARGB(207, 255, 255, 255),
+          child: Card(
+            color: Color.fromARGB(226, 255, 255, 255),
+            semanticContainer: true,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            elevation: 10,
+            shadowColor: Colors.black,
+            child: Container(
+              height: 100,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(26, 26, 25, 25),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      iconSize: 60,
+                      icon: Container(
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromARGB(144, 0, 0, 0)),
+                        child: Center(
+                          child: Icon(
+                            watch(audioProvider).playerAudioState == "PLAY"
+                                ? Icons.pause
+                                : Icons.play_arrow,
+                            size: 28,
+                            color: Color.fromARGB(207, 255, 255, 255),
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: () {
-                      }),
-                // Text(
-                //   "${audio.title} - ${audio.author}",
-                //   style: Theme.of(context).textTheme.caption,
-                // ),
-                Text('Play the last news capsule'),
-                const SizedBox(
-                  width: 20,
-                ),
-                // Text(
-                //   _printDuration(parseDuration(audio.duration)),
-                //   style: Theme.of(context).textTheme.caption,
-                // ),
-                const SizedBox(
-                  width: 20,
-                )
-                // const Padding(
-                //   padding: EdgeInsets.fromLTRB(0,0,15,0),
-                //   child: Icon(
-                //     Icons.play_arrow,
-                //     color: Colors.black,
-                //   ),
-                // ),
-              ],
+                      onPressed: () {
+                        }),
+                  // Text(
+                  //   "${audio.title} - ${audio.author}",
+                  //   style: Theme.of(context).textTheme.caption,
+                  // ),
+                  Text('Play the last news capsule'),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  // Text(
+                  //   _printDuration(parseDuration(audio.duration)),
+                  //   style: Theme.of(context).textTheme.caption,
+                  // ),
+                  const SizedBox(
+                    width: 20,
+                  )
+                  // const Padding(
+                  //   padding: EdgeInsets.fromLTRB(0,0,15,0),
+                  //   child: Icon(
+                  //     Icons.play_arrow,
+                  //     color: Colors.black,
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
           ),
         ),

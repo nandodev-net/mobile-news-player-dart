@@ -19,7 +19,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   List<Audio> _lastCapsule = [];
   List<Audio> _recentlyAdded = [];
-  List<Author> _authors = [];
+  List<Author> _news_authors = [];
+  List<Author> _podcast_authors = [];
   List<Audio> _basedOnListens = [];
   List<Audio> _mostVoted = [];
 
@@ -34,7 +35,8 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _lastCapsule = mainResponse['lastCapsule'];
       _recentlyAdded = mainResponse['recentlyAdded'];
-      _authors = mainResponse['authors'];
+      _podcast_authors = mainResponse['podcast_authors'];
+      _news_authors = mainResponse['news_authors'];
       _basedOnListens = mainResponse['basedOnListens'];
       _mostVoted = mainResponse['mostVoted'];
     });
@@ -105,14 +107,79 @@ class _MainScreenState extends State<MainScreen> {
                       const SizedBox(
                         height: 40.0,
                       ),
+
+                      (_news_authors.isNotEmpty)
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Row(
+                                children: [
+                                  // Container's tittle
+                                  Text(
+                                    'News Providers',
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox(
+                              height: 2,
+                            ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (_news_authors.isNotEmpty) ...[
+                            if (_news_authors.length > 1) ...[
+                              AuthorInfoCard(
+                                  author: _news_authors[0], port: widget.port),
+                              AuthorInfoCard(
+                                  author: _news_authors[1], port: widget.port),
+                            ] else ...[
+                              AuthorInfoCard(
+                                  author: _news_authors[0], port: widget.port),
+                            ]
+                          ] else ...[
+                            const SizedBox(
+                              height: 2,
+                            ),
+                          ]
+                        ],
+                      ),
+
+                      SizedBox(height: 30),
+
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Row(
                           children: [
-                            // Container's tittle
                             Text(
-                              'Recently Added',
+                              (() {
+                                if (dt.hour > 5 && dt.hour < 12) {
+                                  return "Good morning...";
+                                }
+                                if (dt.hour >= 12 && dt.hour < 19) {
+                                  return "Good evening...";
+                                }
+                                return "Good night...";
+                              })(),
                               style: Theme.of(context).textTheme.headline6,
+                            ),
+                            // Container's tittle
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(60.0, 0, 0, 0),
+                              child: Text(
+                                'Listen our last content',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                             ),
                           ],
                         ),
@@ -138,43 +205,27 @@ class _MainScreenState extends State<MainScreen> {
                       /*
                         Greetings message
                        */
-                      const SizedBox(
-                        height: 32.0,
-                      ),
+
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.fromLTRB(16,0,16,16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(
-                              (() {
-                                if (dt.hour > 5 && dt.hour < 12) {
-                                  return "Good morning...";
-                                }
-                                if (dt.hour >= 12 && dt.hour < 19) {
-                                  return "Good evening...";
-                                }
-                                return "Good night...";
-                              })(),
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(60.0, 0, 0, 0),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
                               child: Text(
-                                "Choose An Author",
-                                textAlign: TextAlign.left,
-                                style: Theme.of(context).textTheme.bodyLarge,
+                                "Podcasts",
+                                style: Theme.of(context).textTheme.headline6,
                               ),
                             ),
-                            const SizedBox(height: 10),
                             // List of top 6 authors, based on number of views
                             Container(
-                              height: 250.0,
+                              height: 265.0,
                               child: SingleChildScrollView(
                                 physics: const BouncingScrollPhysics(),
                                 child: Wrap(
                                   children: [
-                                    for (var authorObj in _authors)
+                                    for (var authorObj in _podcast_authors)
                                       Column(children: [
                                         SizedBox(
                                           height: 10.0,
@@ -242,7 +293,7 @@ class _MainScreenState extends State<MainScreen> {
                           Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Text(
-                              "The Most voted",
+                              "The most voted",
                               style: Theme.of(context).textTheme.headline6,
                             ),
                           ),
