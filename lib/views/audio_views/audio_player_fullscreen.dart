@@ -193,7 +193,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width: 150,
                                           child: Text(
                                             widget.audio.author,

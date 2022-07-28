@@ -10,7 +10,7 @@ class AudioCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       
         width: 140.0,
         height: 180.0,
@@ -79,7 +79,7 @@ class RowAudioCard extends StatelessWidget {
             context.read(selectedAudioProvider).state = audio;
           },
           child: Card(
-            color: Color.fromARGB(226, 255, 255, 255),
+            color: const Color.fromARGB(226, 255, 255, 255),
             semanticContainer: true,
             clipBehavior: Clip.antiAliasWithSaveLayer,
             elevation: 10,
@@ -106,7 +106,7 @@ class RowAudioCard extends StatelessWidget {
                                 ? Icons.pause
                                 : Icons.play_arrow,
                             size: 28,
-                            color: Color.fromARGB(207, 255, 255, 255),
+                            color: const Color.fromARGB(207, 255, 255, 255),
                           ),
                         ),
                       ),
@@ -116,7 +116,7 @@ class RowAudioCard extends StatelessWidget {
                   //   "${audio.title} - ${audio.author}",
                   //   style: Theme.of(context).textTheme.caption,
                   // ),
-                  Text('Play the last news capsule'),
+                  const Text('Play the last news capsule'),
                   const SizedBox(
                     width: 20,
                   ),

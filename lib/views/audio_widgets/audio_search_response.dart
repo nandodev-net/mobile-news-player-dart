@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
-import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/services/requests/get_search_results.dart';
 
@@ -118,7 +117,7 @@ class _AudioSearchResponseState extends State<AudioSearchResponse> {
                   },
                 );
               } else {
-                return Container(
+                return SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 50.0,
                   child: const Center(child: Text("Nothing more to Load")),
@@ -136,7 +135,7 @@ class _AudioSearchResponseState extends State<AudioSearchResponse> {
           Positioned(
             left: 0,
             bottom: 0,
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 80.0,
               child: const Center(child: CircularProgressIndicator()),

@@ -1,13 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/database/db_helper.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
-import 'package:like_button/like_button.dart';
-import 'package:decorated_icon/decorated_icon.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/audio_alertDialog.dart';
 
 class AuthorCard extends StatelessWidget {
@@ -117,7 +113,7 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
           context.read(selectedAuthorProvider).state = widget.author;
         },
         child: Card(
-          color: Color.fromARGB(240, 255, 255, 255),
+          color: const Color.fromARGB(240, 255, 255, 255),
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           elevation: 10,
@@ -147,26 +143,28 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
                           onPressed: onLikeButtonTapped,
                           child: (_favorites.isNotEmpty)
                               ? Row(
+                                // ignore: prefer_const_literals_to_create_immutables
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.touch_app,
                                       size: 15.0,
                                       color: Colors.green,
                                     ),
-                                    Text(
+                                    const Text(
                                       'Following',
                                       style: TextStyle(fontSize: 12, color: Colors.green, fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 )
                               : Row(
+                                  // ignore: prefer_const_literals_to_create_immutables
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.touch_app,
                                       size: 15.0,
                                       color: Colors.grey,
                                     ),
-                                    Text(
+                                    const Text(
                                       'Follow',
                                       style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.bold),
                                     ),
@@ -250,7 +248,7 @@ class _AuthorInfoCardState extends State<AuthorInfoCard> {
         context.read(selectedAuthorProvider).state = widget.author;
       },
       child: Card(
-        color: Color.fromARGB(167, 255, 255, 255),
+        color: const Color.fromARGB(167, 255, 255, 255),
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: SizedBox(
@@ -263,7 +261,7 @@ class _AuthorInfoCardState extends State<AuthorInfoCard> {
                 CircleAvatar(
                   backgroundColor: (_favorites.isNotEmpty)
                       ? Colors.green
-                      : Color.fromARGB(158, 0, 0, 0),
+                      : const Color.fromARGB(158, 0, 0, 0),
                   radius: 58,
                   child: CircleAvatar(
                     radius: 55,
@@ -278,7 +276,7 @@ class _AuthorInfoCardState extends State<AuthorInfoCard> {
                     height: 33,
                     child: Text(
                       widget.author.name,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -304,20 +302,20 @@ class _AuthorInfoCardState extends State<AuthorInfoCard> {
                                   ? Colors.green
                                   : Colors.transparent)),
                       child: Padding(
-                        padding: EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(4),
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.touch_app,
                               size: 20.0,
                             ),
                             (_favorites.isNotEmpty)
-                                ? Text(
+                                ? const Text(
                                     "Following",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 12),
                                   )
-                                : Text(
+                                : const Text(
                                     "Follow",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 12),
@@ -337,7 +335,7 @@ class _AuthorInfoCardState extends State<AuthorInfoCard> {
         ),
         elevation: 10,
         shadowColor: Colors.black,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
       ),
     );
   }

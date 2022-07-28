@@ -116,7 +116,7 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
                   },
                 );
               } else {
-                return Container(
+                return SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: 50.0,
                   child: const Center(child: Text("Nothing more to Load")),
@@ -134,7 +134,7 @@ class _AudioPlaylistState extends State<AudioPlaylist> {
           Positioned(
             left: 0,
             bottom: 0,
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 80.0,
               child: const Center(child: CircularProgressIndicator()),

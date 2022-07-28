@@ -112,21 +112,34 @@ class _MainScreenState extends State<MainScreen> {
                           ? Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Row(
-                                children: [
-                                  // Container's tittle
-                                  Text(
-                                    'News Providers',
-                                    style:
-                                        Theme.of(context).textTheme.headline6,
-                                  ),
-                                ],
+                              child: SizedBox(
+                                height: 40,
+                                child: Row(
+                                  children: [
+                                    // Container's tittle
+                                    Text(
+                                      'News Providers',
+                                      style:
+                                          Theme.of(context).textTheme.headline6,
+                                    ),
+                                    const Spacer(),
+                                    (_news_authors.length > 1)
+                                        ? const IconButton(
+                                            onPressed: null,
+                                            icon: Icon(Icons.list))
+                                        : const SizedBox(
+                                            width: 1,
+                                          ),
+                                  ],
+                                ),
                               ),
                             )
                           : const SizedBox(
                               height: 2,
                             ),
-
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -207,7 +220,7 @@ class _MainScreenState extends State<MainScreen> {
                        */
 
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(16,0,16,16),
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
@@ -227,7 +240,7 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     for (var authorObj in _podcast_authors)
                                       Column(children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 10.0,
                                         ),
                                         Row(
