@@ -125,74 +125,81 @@ class _AuthorListTileState extends State<AuthorListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: CircleAvatar(
-            backgroundColor: (checkFavorite(widget.favorites))
-                ? Colors.green
-                : const Color.fromARGB(158, 0, 0, 0),
-            radius: 25,
-            child: CircleAvatar(
-              radius: 22,
-              backgroundImage: NetworkImage(
-                widget.author.thumbnailUrl,
+    return GestureDetector(
+      onTap: () {
+        context.read(selectedAuthorProvider).state = widget.author;
+      },
+      child: Card(
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: CircleAvatar(
+                backgroundColor: (checkFavorite(widget.favorites))
+                    ? Colors.green
+                    : const Color.fromARGB(158, 0, 0, 0),
+                radius: 25,
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundImage: NetworkImage(
+                    widget.author.thumbnailUrl,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Text(widget.author.name,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
-        Spacer(),
-        Center(
-          child: SizedBox(
-            width: 85,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: TextButton(
-                  onPressed: onLikeButtonTapped,
-                  child: (checkFavorite(widget.favorites))
-                      ? Row(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            const Icon(
-                              Icons.touch_app,
-                              size: 15.0,
-                              color: Colors.green,
-                            ),
-                            const Text(
-                              'Following',
-                              style: TextStyle(
-                                  fontSize: 12,
+            const SizedBox(width: 8),
+            Text(widget.author.name,
+                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+            const Spacer(),
+            Center(
+              child: SizedBox(
+                width: 85,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: TextButton(
+                      onPressed: onLikeButtonTapped,
+                      child: (checkFavorite(widget.favorites))
+                          ? Row(
+                              // ignore: prefer_const_literals_to_create_immutables
+                              children: [
+                                const Icon(
+                                  Icons.touch_app,
+                                  size: 15.0,
                                   color: Colors.green,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        )
-                      : Row(
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            const Icon(
-                              Icons.touch_app,
-                              size: 15.0,
-                              color: Colors.grey,
-                            ),
-                            const Text(
-                              'Follow',
-                              style: TextStyle(
-                                  fontSize: 12,
+                                ),
+                                const Text(
+                                  'Following',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              // ignore: prefer_const_literals_to_create_immutables
+                              children: [
+                                const Icon(
+                                  Icons.touch_app,
+                                  size: 15.0,
                                   color: Colors.grey,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(width: 8),
-                          ],
-                        )),
-            ),
-          ),
-        )
-      ],
+                                ),
+                                const Text(
+                                  'Follow',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 8),
+                              ],
+                            )),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
