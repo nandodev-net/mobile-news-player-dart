@@ -127,23 +127,35 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.network(
-                  widget.author.thumbnailUrl.toString(),
-                  height: 48,
-                  width: 48,
-                  fit: BoxFit.cover,
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: CircleAvatar(
+                    backgroundColor: (_favorites.isNotEmpty)
+                        ? Colors.green
+                        : const Color.fromARGB(158, 0, 0, 0),
+                    radius: 25,
+                    child: CircleAvatar(
+                      radius: 22,
+                      backgroundImage: NetworkImage(
+                        widget.author.thumbnailUrl,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 8),
-                Text(widget.author.name),
+                Text(widget.author.name,
+                    style: const TextStyle(
+                        fontSize: 13, fontWeight: FontWeight.bold)),
                 Center(
                   child: SizedBox(
+                    width: 85,
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: TextButton(
                           onPressed: onLikeButtonTapped,
                           child: (_favorites.isNotEmpty)
                               ? Row(
-                                // ignore: prefer_const_literals_to_create_immutables
+                                  // ignore: prefer_const_literals_to_create_immutables
                                   children: [
                                     const Icon(
                                       Icons.touch_app,
@@ -152,7 +164,10 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
                                     ),
                                     const Text(
                                       'Following',
-                                      style: TextStyle(fontSize: 12, color: Colors.green, fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 )
@@ -166,7 +181,10 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
                                     ),
                                     const Text(
                                       'Follow',
-                                      style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.bold),
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(width: 8),
                                   ],

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
+import 'package:noticias_sin_filtro/views/audio_views/audio_author_list_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_main_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_player_fullscreen.dart';
@@ -12,7 +13,6 @@ import 'package:noticias_sin_filtro/views/categories.dart';
 import 'package:noticias_sin_filtro/views/news_list.dart';
 import 'package:noticias_sin_filtro/views/navigate.dart';
 import 'package:noticias_sin_filtro/views/news_sites.dart';
-import 'package:noticias_sin_filtro/views/wrappers/webview_wrapper.dart';
 import 'package:noticias_sin_filtro/views/vpn_config.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/audio_controller.dart';
 
@@ -47,6 +47,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
 
   void _onBottomNavItemTapped(int index) {
     context.read(selectedAuthorProvider).state = null;
+    context.read(selectedAuthorListProvider).state = null;
     setState(() {
       _bottomNavIndex = index;
     });
@@ -74,7 +75,6 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
     setState(() {
       context.read(proxyProvider).state = _port;
       _proxyPort = _port;
-
     });
 
     setState(() {
@@ -182,6 +182,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                   MainScreen(port: _proxyPort ?? ""),
                 ],
               ),
+
               Visibility(
                 visible: selectedAuthor != null,
                 child: AuthorScreen(

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/database/db_helper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/services/requests/get_audio_main.dart';
+import 'package:noticias_sin_filtro/views/audio_views/audio_author_list_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
+final selectedAuthorListProvider = StateProvider<List<Author>?>((ref) => null);
 
 /*
   Main Screen Content
@@ -19,15 +23,42 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   List<Audio> _lastCapsule = [];
   List<Audio> _recentlyAdded = [];
-  List<Author> _news_authors = [];
-  List<Author> _podcast_authors = [];
+  List<Author> _newsAuthors = [];
+  List<Author> _podcastAuthors = [];
   List<Audio> _basedOnListens = [];
   List<Audio> _mostVoted = [];
+
+  List<Map<String, dynamic>> _favoritesList = [];
 
   @override
   void initState() {
     super.initState();
+    _processFavorites();
     getMainScreenFromApi();
+  }
+
+
+  void _refreshFavorites() async {
+    final data = await SQLHelper.getFavorites();
+    setState(() {
+      _favoritesList = data;
+    });
+  }
+
+  void _processFavorites(){
+    print('HOLAAAAAAAAAAAAA');
+    _refreshFavorites();
+    _refreshFavorites();
+    print('HOLA, ${_favoritesList}');
+    
+    for (var object in _favoritesList){
+      print('HOLAAAAAAAAAAAAA');
+      print(object['id']);
+    }
+  }
+
+  refresh() {
+    setState(() {});
   }
 
   void getMainScreenFromApi() async {
@@ -35,320 +66,413 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _lastCapsule = mainResponse['lastCapsule'];
       _recentlyAdded = mainResponse['recentlyAdded'];
-      _podcast_authors = mainResponse['podcast_authors'];
-      _news_authors = mainResponse['news_authors'];
+      _podcastAuthors = mainResponse['podcast_authors'];
+      _newsAuthors = mainResponse['news_authors'];
       _basedOnListens = mainResponse['basedOnListens'];
       _mostVoted = mainResponse['mostVoted'];
     });
   }
 
+  void ShowAuthorList(List<Author> authors) {
+    context.read(selectedAuthorListProvider).state = authors;
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime dt = DateTime.now();
-    return Scaffold(
-      body: Stack(
-        alignment: Alignment.topLeft,
-        children: [
-          // here's comes the decoration of the container.
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              gradient: RadialGradient(
-                center: Alignment.topCenter,
-                radius: 1.2,
-                colors: <Color>[
-                  Color.fromARGB(255, 88, 202, 255),
-                  Color.fromARGB(255, 255, 255, 255),
-                ],
+    return Consumer(builder: (context, watch, _) {
+      final selectedAuthorList = watch(selectedAuthorListProvider).state;
+      return Scaffold(
+        body: Stack(
+          alignment: Alignment.topLeft,
+          children: [
+            // here's comes the decoration of the container.
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.topCenter,
+                  radius: 1.2,
+                  colors: <Color>[
+                    Color.fromARGB(255, 88, 202, 255),
+                    Color.fromARGB(255, 255, 255, 255),
+                  ],
+                ),
               ),
             ),
-          ),
 
-          /* 
+            /* 
             Recently Added Slider. on this container it appears all the newest 
             podcasts and audio files.
           */
-          Stack(
-            children: [
-              SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: SafeArea(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 60.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Column(
-                          children: [
-                            // Container's tittle
-                            Row(
-                              children: [
-                                Text(
-                                  'New capsule',
-                                  style: Theme.of(context).textTheme.caption,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                RowAudioCard(
-                                  audio: _lastCapsule[0],
-                                )
-                              ],
-                            ),
-                          ],
+            Stack(
+              children: [
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: SafeArea(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 60.0,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 40.0,
-                      ),
-
-                      (_news_authors.isNotEmpty)
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: SizedBox(
-                                height: 40,
-                                child: Row(
+                        if (_lastCapsule.isNotEmpty) ...[
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Column(
+                              children: [
+                                // Container's tittle
+                                Row(
                                   children: [
-                                    // Container's tittle
                                     Text(
-                                      'News Providers',
+                                      'New capsule',
                                       style:
-                                          Theme.of(context).textTheme.headline6,
+                                          Theme.of(context).textTheme.caption,
                                     ),
-                                    const Spacer(),
-                                    (_news_authors.length > 1)
-                                        ? const IconButton(
-                                            onPressed: null,
-                                            icon: Icon(Icons.list))
-                                        : const SizedBox(
-                                            width: 1,
-                                          ),
                                   ],
                                 ),
-                              ),
-                            )
-                          : const SizedBox(
-                              height: 2,
+                                Row(
+                                  children: [
+                                    RowAudioCard(
+                                      audio: _lastCapsule[0],
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (_news_authors.isNotEmpty) ...[
-                            if (_news_authors.length > 1) ...[
-                              AuthorInfoCard(
-                                  author: _news_authors[0], port: widget.port),
-                              AuthorInfoCard(
-                                  author: _news_authors[1], port: widget.port),
-                            ] else ...[
-                              AuthorInfoCard(
-                                  author: _news_authors[0], port: widget.port),
-                            ]
-                          ] else ...[
-                            const SizedBox(
-                              height: 2,
-                            ),
-                          ]
+                          ),
                         ],
-                      ),
-
-                      SizedBox(height: 30),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              (() {
-                                if (dt.hour > 5 && dt.hour < 12) {
-                                  return "Good morning...";
-                                }
-                                if (dt.hour >= 12 && dt.hour < 19) {
-                                  return "Good evening...";
-                                }
-                                return "Good night...";
-                              })(),
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                            // Container's tittle
-                          ],
+                        const SizedBox(
+                          height: 40.0,
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(60.0, 0, 0, 0),
-                              child: Text(
-                                'Listen our last content',
-                                style: Theme.of(context).textTheme.bodyLarge,
+
+                        (_newsAuthors.isNotEmpty)
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: SizedBox(
+                                  height: 40,
+                                  child: Row(
+                                    children: [
+                                      // Container's tittle
+                                      Text(
+                                        'News Providers',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6,
+                                      ),
+                                      const Spacer(),
+                                      (_newsAuthors.length > 2)
+                                          ? IconButton(
+                                              onPressed: (() {
+                                                context
+                                                    .read(
+                                                        selectedAuthorListProvider)
+                                                    .state = _newsAuthors;
+                                              }),
+                                              icon: Icon(Icons.list))
+                                          : const SizedBox(
+                                              width: 1,
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(
+                                height: 2,
                               ),
-                            ),
-                          ],
+                        const SizedBox(
+                          height: 10.0,
                         ),
-                      ),
-                      // List of newests Audio cards to show on the slider
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            for (var audioObj in _recentlyAdded)
-                              Row(
-                                children: [
-                                  AudioCard(audio: audioObj),
-                                  const SizedBox(width: 16.0),
-                                ],
+                            if (_newsAuthors.isNotEmpty) ...[
+                              if (_newsAuthors.length > 1) ...[
+                                AuthorInfoCard(
+                                    author: _newsAuthors[0], port: widget.port),
+                                AuthorInfoCard(
+                                    author: _newsAuthors[1], port: widget.port),
+                              ] else ...[
+                                AuthorInfoCard(
+                                    author: _newsAuthors[0], port: widget.port),
+                              ]
+                            ] else ...[
+                              const SizedBox(
+                                height: 2,
                               ),
+                            ]
                           ],
                         ),
-                      ),
 
-                      /*
-                        Greetings message
-                       */
+                        SizedBox(height: 30),
 
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                "Podcasts",
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                (() {
+                                  if (dt.hour > 5 && dt.hour < 12) {
+                                    return "Good morning...";
+                                  }
+                                  if (dt.hour >= 12 && dt.hour < 19) {
+                                    return "Good evening...";
+                                  }
+                                  return "Good night...";
+                                })(),
                                 style: Theme.of(context).textTheme.headline6,
                               ),
-                            ),
-                            // List of top 6 authors, based on number of views
-                            Container(
-                              height: 265.0,
-                              child: SingleChildScrollView(
-                                physics: const BouncingScrollPhysics(),
-                                child: Wrap(
+                              // Container's tittle
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding:
+                                    const EdgeInsets.fromLTRB(60.0, 0, 0, 0),
+                                child: Text(
+                                  'Listen our last content',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // List of newests Audio cards to show on the slider
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.all(20),
+                          child: Row(
+                            children: [
+                              for (var audioObj in _recentlyAdded)
+                                Row(
                                   children: [
-                                    for (var authorObj in _podcast_authors)
-                                      Column(children: [
-                                        const SizedBox(
-                                          height: 10.0,
-                                        ),
-                                        Row(
+                                    AudioCard(audio: audioObj),
+                                    const SizedBox(width: 16.0),
+                                  ],
+                                ),
+                            ],
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              (_podcastAuthors.isNotEmpty)
+                                  ? Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4.0),
+                                      child: SizedBox(
+                                        height: 40,
+                                        child: Row(
                                           children: [
-                                            RowAuthorCard(
-                                              author: authorObj,
-                                              port: widget.port,
+                                            // Container's tittle
+                                            Text(
+                                              'Podcasts',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline6,
                                             ),
+                                            const Spacer(),
+                                            (_podcastAuthors.length > 3)
+                                                ? IconButton(
+                                                    onPressed: (() {
+                                                      context
+                                                          .read(
+                                                              selectedAuthorListProvider)
+                                                          .state = _podcastAuthors;
+                                                    }),
+                                                    icon: Icon(Icons.list))
+                                                : const SizedBox(
+                                                    width: 1,
+                                                  ),
                                           ],
                                         ),
-                                      ]),
+                                      ),
+                                    )
+                                  : const SizedBox(
+                                      height: 2,
+                                    ),
+                              SizedBox(
+                                child: Column(
+                                  children: [
+                                    if (_podcastAuthors.isNotEmpty) ...[
+                                      if (_podcastAuthors.length > 2) ...[
+                                        for (var i = 0; i < 3; i++) ...[
+                                          Column(children: [
+                                            const SizedBox(
+                                              height: 10.0,
+                                            ),
+                                            Row(
+                                              children: [
+                                                RowAuthorCard(
+                                                  author: _podcastAuthors[i],
+                                                  port: widget.port,
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                        ]
+                                      ] else if (_podcastAuthors.length ==
+                                          2) ...[
+                                        for (var i = 0; i < 2; i++) ...[
+                                          Column(children: [
+                                            const SizedBox(
+                                              height: 10.0,
+                                            ),
+                                            Row(
+                                              children: [
+                                                RowAuthorCard(
+                                                  author: _podcastAuthors[i],
+                                                  port: widget.port,
+                                                ),
+                                              ],
+                                            ),
+                                          ]),
+                                        ]
+                                      ] else if (_podcastAuthors.length ==
+                                          1) ...[
+                                        Column(children: [
+                                          const SizedBox(
+                                            height: 10.0,
+                                          ),
+                                          Row(
+                                            children: [
+                                              RowAuthorCard(
+                                                author: _podcastAuthors[0],
+                                                port: widget.port,
+                                              ),
+                                            ],
+                                          ),
+                                        ]),
+                                      ]
+                                    ] else ...[
+                                      const SizedBox(
+                                        height: 2,
+                                      ),
+                                    ],
                                     const SizedBox(height: 10),
                                   ],
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      /*
+                        /*
                         Slider of most listened audios
                       */
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              "Based on number of listens",
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        if (_podcastAuthors.isNotEmpty) ...[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  "Based on number of listens",
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: Row(
+                                  children: [
+                                    for (var audioObj in _basedOnListens)
+                                      Row(
+                                        children: [
+                                          AudioCard(audio: audioObj),
+                                          const SizedBox(width: 16.0),
+                                        ],
+                                      ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ),
-                            child: Row(
-                              children: [
-                                for (var audioObj in _basedOnListens)
-                                  Row(
-                                    children: [
-                                      AudioCard(audio: audioObj),
-                                      const SizedBox(width: 16.0),
-                                    ],
-                                  ),
-                              ],
-                            ),
-                          )
+                          const SizedBox(
+                            height: 16.0,
+                          ),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
 
-                      /*
+                        /*
                         Slider of most voted
                       */
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              "The most voted",
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
+                        if (_podcastAuthors.isNotEmpty) ...[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  "The most voted",
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                physics: const BouncingScrollPhysics(),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
+                                child: Row(
+                                  children: [
+                                    for (var audioObj in _mostVoted)
+                                      Row(
+                                        children: [
+                                          AudioCard(audio: audioObj),
+                                          const SizedBox(width: 16.0),
+                                        ],
+                                      ),
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ),
-                            child: Row(
-                              children: [
-                                for (var audioObj in _mostVoted)
-                                  Row(
-                                    children: [
-                                      AudioCard(audio: audioObj),
-                                      const SizedBox(width: 16.0),
-                                    ],
-                                  ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 65.0,
-                      ),
-                    ],
+                          const SizedBox(
+                            height: 65.0,
+                          ),
+                        ]
+                      ],
+                    ),
                   ),
                 ),
+              Visibility(
+                visible: selectedAuthorList != null,
+                child: AuthorListScreen(
+                    port: widget.port,
+                    authors: selectedAuthorList ?? [testAuthor],
+                    notifyParent: refresh,
+                    ),
               ),
-              SizedBox(
-                height: 60,
-                child: CustomScrollView(
-                  slivers: [
-                    CustomSliverAppBar(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              (selectedAuthorList==null)?const SizedBox(
+                  height: 60,
+                  child: CustomScrollView(
+                    slivers: [
+                      CustomSliverAppBar(),
+                    ],
+                  ),
+                ):SizedBox(width: 1.0,),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

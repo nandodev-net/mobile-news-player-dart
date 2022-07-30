@@ -2,6 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart';
 
+class Preference {
+  final int id;
+
+  const Preference({
+    required this.id,
+  });
+}
+
 class SQLHelper {
   
   static Future<void> createTables(sql.Database database) async {
