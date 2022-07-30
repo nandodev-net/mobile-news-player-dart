@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
-import 'package:noticias_sin_filtro/views/audio_views/audio_author_list_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_main_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_player_fullscreen.dart';
@@ -137,7 +136,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
           appBar: AppBar(
             title: Text(
               widget.title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             backgroundColor: Colors.white,
             foregroundColor: Colors.grey[600],
@@ -200,8 +199,9 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                     // setting the height of the miniplayer, and the full scrren player
                     if (height <= _playerMinHeight + 50.0) {
                       // Audio reproduction init
-                      if (watch(audioProvider).playerAudioState != "PAUSE")
+                      if (watch(audioProvider).playerAudioState != "PAUSE") {
                         watch(audioProvider).initAudio(selectedAudio.audioUrl);
+                      }
 
                       return Container(
                         color: Theme.of(context).scaffoldBackgroundColor,
@@ -276,7 +276,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                             ),
                             LinearProgressIndicator(
                               value: watch(audioProvider).currentSliderPosition,
-                              valueColor: AlwaysStoppedAnimation<Color>(
+                              valueColor: const AlwaysStoppedAnimation<Color>(
                                   Color.fromARGB(255, 0, 255, 34)),
                             ),
                           ],

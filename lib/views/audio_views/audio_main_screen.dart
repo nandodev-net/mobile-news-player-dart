@@ -8,6 +8,7 @@ import 'package:noticias_sin_filtro/services/requests/get_audio_main.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_list_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/audio_alertDialog.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
+
 final selectedAuthorListProvider = StateProvider<List<Author>?>((ref) => null);
 
 /*
@@ -37,7 +38,6 @@ class _MainScreenState extends State<MainScreen> {
     _refreshFavorites();
     getMainScreenFromApi();
   }
-
 
   void _refreshFavorites() async {
     final data = await SQLHelper.getFavorites();
@@ -178,12 +178,21 @@ class _MainScreenState extends State<MainScreen> {
                             if (_newsAuthors.isNotEmpty) ...[
                               if (_newsAuthors.length > 1) ...[
                                 AuthorInfoCard(
-                                    author: _newsAuthors[0], port: widget.port),
+                                    author: _newsAuthors[0],
+                                    authors: _favoritesList,
+                                    notifyParentRefresh: _refreshFavorites,
+                                    port: widget.port),
                                 AuthorInfoCard(
-                                    author: _newsAuthors[1], port: widget.port),
+                                    author: _newsAuthors[1],
+                                    authors: _favoritesList,
+                                    notifyParentRefresh: _refreshFavorites,
+                                    port: widget.port),
                               ] else ...[
                                 AuthorInfoCard(
-                                    author: _newsAuthors[0], port: widget.port),
+                                    author: _newsAuthors[0],
+                                    authors: _favoritesList,
+                                    notifyParentRefresh: _refreshFavorites,
+                                    port: widget.port),
                               ]
                             ] else ...[
                               const SizedBox(
@@ -277,7 +286,8 @@ class _MainScreenState extends State<MainScreen> {
                                                               selectedAuthorListProvider)
                                                           .state = _podcastAuthors;
                                                     }),
-                                                    icon: const Icon(Icons.list))
+                                                    icon:
+                                                        const Icon(Icons.list))
                                                 : const SizedBox(
                                                     width: 1,
                                                   ),
@@ -303,7 +313,8 @@ class _MainScreenState extends State<MainScreen> {
                                                 RowAuthorCard(
                                                   author: _podcastAuthors[i],
                                                   authors: _favoritesList,
-                                                  notifyParentRefresh: _refreshFavorites,
+                                                  notifyParentRefresh:
+                                                      _refreshFavorites,
                                                   port: widget.port,
                                                 ),
                                               ],
@@ -322,7 +333,8 @@ class _MainScreenState extends State<MainScreen> {
                                                 RowAuthorCard(
                                                   author: _podcastAuthors[i],
                                                   authors: _favoritesList,
-                                                  notifyParentRefresh: _refreshFavorites,
+                                                  notifyParentRefresh:
+                                                      _refreshFavorites,
                                                   port: widget.port,
                                                 ),
                                               ],
@@ -340,7 +352,8 @@ class _MainScreenState extends State<MainScreen> {
                                               RowAuthorCard(
                                                 author: _podcastAuthors[0],
                                                 authors: _favoritesList,
-                                                notifyParentRefresh: _refreshFavorites,
+                                                notifyParentRefresh:
+                                                    _refreshFavorites,
                                                 port: widget.port,
                                               ),
                                             ],
@@ -443,23 +456,27 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                 ),
-              Visibility(
-                visible: selectedAuthorList != null,
-                child: AuthorListScreen(
+                Visibility(
+                  visible: selectedAuthorList != null,
+                  child: AuthorListScreen(
                     port: widget.port,
                     authors: selectedAuthorList ?? [testAuthor],
                     favorites: _favoritesList,
                     notifyParentRefresh: _refreshFavorites,
-                    ),
-              ),
-              (selectedAuthorList==null)?const SizedBox(
-                  height: 60,
-                  child: CustomScrollView(
-                    slivers: [
-                      CustomSliverAppBar(),
-                    ],
                   ),
-                ):const SizedBox(width: 1.0,),
+                ),
+                (selectedAuthorList == null)
+                    ? const SizedBox(
+                        height: 60,
+                        child: CustomScrollView(
+                          slivers: [
+                            CustomSliverAppBar(),
+                          ],
+                        ),
+                      )
+                    : const SizedBox(
+                        width: 1.0,
+                      ),
               ],
             ),
           ],
