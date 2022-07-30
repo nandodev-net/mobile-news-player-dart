@@ -6,6 +6,7 @@ import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
 import 'package:noticias_sin_filtro/services/requests/get_audio_main.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_list_screen.dart';
+import 'package:noticias_sin_filtro/views/audio_widgets/audio_alertDialog.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 final selectedAuthorListProvider = StateProvider<List<Author>?>((ref) => null);
 
@@ -28,12 +29,12 @@ class _MainScreenState extends State<MainScreen> {
   List<Audio> _basedOnListens = [];
   List<Audio> _mostVoted = [];
 
-  List<Map<String, dynamic>> _favoritesList = [];
+  List<Preference> _favoritesList = [];
 
   @override
   void initState() {
     super.initState();
-    _processFavorites();
+    _refreshFavorites();
     getMainScreenFromApi();
   }
 
@@ -43,22 +44,6 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _favoritesList = data;
     });
-  }
-
-  void _processFavorites(){
-    print('HOLAAAAAAAAAAAAA');
-    _refreshFavorites();
-    _refreshFavorites();
-    print('HOLA, ${_favoritesList}');
-    
-    for (var object in _favoritesList){
-      print('HOLAAAAAAAAAAAAA');
-      print(object['id']);
-    }
-  }
-
-  refresh() {
-    setState(() {});
   }
 
   void getMainScreenFromApi() async {
@@ -173,7 +158,7 @@ class _MainScreenState extends State<MainScreen> {
                                                         selectedAuthorListProvider)
                                                     .state = _newsAuthors;
                                               }),
-                                              icon: Icon(Icons.list))
+                                              icon: const Icon(Icons.list))
                                           : const SizedBox(
                                               width: 1,
                                             ),
@@ -208,7 +193,7 @@ class _MainScreenState extends State<MainScreen> {
                           ],
                         ),
 
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -292,7 +277,7 @@ class _MainScreenState extends State<MainScreen> {
                                                               selectedAuthorListProvider)
                                                           .state = _podcastAuthors;
                                                     }),
-                                                    icon: Icon(Icons.list))
+                                                    icon: const Icon(Icons.list))
                                                 : const SizedBox(
                                                     width: 1,
                                                   ),
@@ -317,6 +302,8 @@ class _MainScreenState extends State<MainScreen> {
                                               children: [
                                                 RowAuthorCard(
                                                   author: _podcastAuthors[i],
+                                                  authors: _favoritesList,
+                                                  notifyParentRefresh: _refreshFavorites,
                                                   port: widget.port,
                                                 ),
                                               ],
@@ -334,6 +321,8 @@ class _MainScreenState extends State<MainScreen> {
                                               children: [
                                                 RowAuthorCard(
                                                   author: _podcastAuthors[i],
+                                                  authors: _favoritesList,
+                                                  notifyParentRefresh: _refreshFavorites,
                                                   port: widget.port,
                                                 ),
                                               ],
@@ -350,6 +339,8 @@ class _MainScreenState extends State<MainScreen> {
                                             children: [
                                               RowAuthorCard(
                                                 author: _podcastAuthors[0],
+                                                authors: _favoritesList,
+                                                notifyParentRefresh: _refreshFavorites,
                                                 port: widget.port,
                                               ),
                                             ],
@@ -457,7 +448,8 @@ class _MainScreenState extends State<MainScreen> {
                 child: AuthorListScreen(
                     port: widget.port,
                     authors: selectedAuthorList ?? [testAuthor],
-                    notifyParent: refresh,
+                    favorites: _favoritesList,
+                    notifyParentRefresh: _refreshFavorites,
                     ),
               ),
               (selectedAuthorList==null)?const SizedBox(
@@ -467,7 +459,7 @@ class _MainScreenState extends State<MainScreen> {
                       CustomSliverAppBar(),
                     ],
                   ),
-                ):SizedBox(width: 1.0,),
+                ):const SizedBox(width: 1.0,),
               ],
             ),
           ],

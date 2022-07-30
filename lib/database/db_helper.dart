@@ -106,9 +106,15 @@ class SQLHelper {
   }
 
   // Read all items (favorite author)
-  static Future<List<Map<String, dynamic>>> getFavorites() async {
+  static Future<List<Preference>> getFavorites() async {
     final db = await SQLHelper.db();
-    return db.query('favorites', orderBy: "id");
+    final List<Map<String, dynamic>> maps = await db.query('favorites');
+
+    return List.generate(maps.length, (i) {
+      return Preference(
+        id: maps[i]['id'],
+      );
+  });
   }
 
   // Read a single item by id (favorite author)

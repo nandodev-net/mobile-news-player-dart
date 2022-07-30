@@ -47,9 +47,16 @@ class AuthorCard extends StatelessWidget {
 
 class RowAuthorCard extends StatefulWidget {
   final Author author;
+  final List<Preference> authors;
   final String port;
+  final Function() notifyParentRefresh; 
 
-  const RowAuthorCard({Key? key, required this.author, required this.port})
+  const RowAuthorCard(
+      {Key? key,
+      required this.author,
+      required this.authors,
+      required this.notifyParentRefresh,
+      required this.port})
       : super(key: key);
 
   @override
@@ -57,27 +64,22 @@ class RowAuthorCard extends StatefulWidget {
 }
 
 class _RowAuthorCardState extends State<RowAuthorCard> {
-  List<Map<String, dynamic>> _favorites = [];
+  //List<Map<String, dynamic>> _favorites = [];
 
   @override
   void initState() {
     super.initState();
-    _refreshFavorites();
+    widget.notifyParentRefresh();
   }
 
-  void _refreshFavorites() async {
-    final data = await SQLHelper.getFavoritebyId(widget.author.id);
-    setState(() {
-      _favorites = data;
-    });
-  }
+
 
   _showDialog(BuildContext context) {
     VoidCallback continueCallBack = () async => {
           Navigator.of(context).pop(),
           // code on continue comes here
           await SQLHelper.deleteFavorite(widget.author.id),
-          _refreshFavorites()
+          widget.notifyParentRefresh()
         };
     BlurryDialog alert = BlurryDialog(
         "Unfollow",
@@ -94,14 +96,19 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
   Future<void> onLikeButtonTapped() async {
     /// send your request here
     // final bool success= await sendRequest();
-    _favorites.isNotEmpty
+    checkFavorite(widget.authors)
         ? _showDialog(context)
         : await SQLHelper.createFavorite(widget.author.id);
 
-    _refreshFavorites();
+    widget.notifyParentRefresh();
 
     /// if failed, you can do nothing
     // return success? !isLiked:isLiked;
+  }
+
+  checkFavorite(List<Preference> favorites){
+    List result = favorites.where((element) => element.id == widget.author.id).toList();
+    return(result.isNotEmpty);
   }
 
   @override
@@ -130,7 +137,7 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
                 Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: CircleAvatar(
-                    backgroundColor: (_favorites.isNotEmpty)
+                    backgroundColor: (checkFavorite(widget.authors))
                         ? Colors.green
                         : const Color.fromARGB(158, 0, 0, 0),
                     radius: 25,
@@ -143,7 +150,8 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(widget.author.name,
+                Text(
+                    widget.author.name,
                     style: const TextStyle(
                         fontSize: 13, fontWeight: FontWeight.bold)),
                 Center(
@@ -153,7 +161,7 @@ class _RowAuthorCardState extends State<RowAuthorCard> {
                       alignment: Alignment.bottomCenter,
                       child: TextButton(
                           onPressed: onLikeButtonTapped,
-                          child: (_favorites.isNotEmpty)
+                          child: (checkFavorite(widget.authors))
                               ? Row(
                                   // ignore: prefer_const_literals_to_create_immutables
                                   children: [

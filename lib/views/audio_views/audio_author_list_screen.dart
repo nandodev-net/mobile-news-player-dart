@@ -9,10 +9,11 @@ import 'package:noticias_sin_filtro/views/audio_widgets/widgets.dart';
 
 class AuthorListScreen extends StatefulWidget {
   final List<Author> authors;
+  final List<Preference> favorites;
   final String port;
-  final Function() notifyParent;
+  final Function() notifyParentRefresh;
 
-  const AuthorListScreen({Key? key, required this.authors, required this.port, required this.notifyParent})
+  const AuthorListScreen({Key? key, required this.authors, required this.favorites, required this.port, required this.notifyParentRefresh})
       : super(key: key);
   @override
   _AuthorListScreenState createState() => _AuthorListScreenState();
@@ -34,7 +35,7 @@ class _AuthorListScreenState extends State<AuthorListScreen> {
                 padding: const EdgeInsets.all(10.0),
                 child: GestureDetector(
                   onTap: () {
-                    widget.notifyParent();
+                    widget.notifyParentRefresh();
                     context.read(selectedAuthorListProvider).state = null;
                   },
                   child: const Icon(
@@ -51,7 +52,7 @@ class _AuthorListScreenState extends State<AuthorListScreen> {
               padding: const EdgeInsets.all(8),
               children: [
                 for (var author in widget.authors) ...[
-                  AuthorListTile(author: author, port: widget.port),
+                  AuthorListTile(author: author, port: widget.port, favorites: widget.favorites, notifyParentRefresh: widget.notifyParentRefresh,),
 
                 ],
               ],
@@ -65,9 +66,11 @@ class _AuthorListScreenState extends State<AuthorListScreen> {
 
 class AuthorListTile extends StatefulWidget {
   final Author author;
+  final List<Preference> favorites;
+  final Function() notifyParentRefresh;
   final String port;
 
-  const AuthorListTile({Key? key, required this.author, required this.port})
+  const AuthorListTile({Key? key, required this.author, required this.favorites, required this.port, required this.notifyParentRefresh})
       : super(key: key);
 
   @override
@@ -80,14 +83,7 @@ class _AuthorListTileState extends State<AuthorListTile> {
   @override
   void initState() {
     super.initState();
-    _refreshFavorites();
-  }
-
-  void _refreshFavorites() async {
-    final data = await SQLHelper.getFavoritebyId(widget.author.id);
-    setState(() {
-      _favorites = data;
-    });
+    widget.notifyParentRefresh();
   }
 
   _showDialog(BuildContext context) {
@@ -95,7 +91,7 @@ class _AuthorListTileState extends State<AuthorListTile> {
           Navigator.of(context).pop(),
           // code on continue comes here
           await SQLHelper.deleteFavorite(widget.author.id),
-          _refreshFavorites()
+          widget.notifyParentRefresh()
         };
     BlurryDialog alert = BlurryDialog(
         "Unfollow",
@@ -112,16 +108,20 @@ class _AuthorListTileState extends State<AuthorListTile> {
   Future<void> onLikeButtonTapped() async {
     /// send your request here
     // final bool success= await sendRequest();
-    _favorites.isNotEmpty
+    (checkFavorite(widget.favorites))
         ? _showDialog(context)
         : await SQLHelper.createFavorite(widget.author.id);
 
-    _refreshFavorites();
+    widget.notifyParentRefresh();;
 
     /// if failed, you can do nothing
     // return success? !isLiked:isLiked;
   }
 
+  checkFavorite(List<Preference> favorites){
+    List result = favorites.where((element) => element.id == widget.author.id).toList();
+    return(result.isNotEmpty);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +130,7 @@ class _AuthorListTileState extends State<AuthorListTile> {
         Padding(
           padding: const EdgeInsets.all(2.0),
           child: CircleAvatar(
-            backgroundColor: (_favorites.isNotEmpty)
+            backgroundColor: (checkFavorite(widget.favorites))
                 ? Colors.green
                 : const Color.fromARGB(158, 0, 0, 0),
             radius: 25,
@@ -153,7 +153,7 @@ class _AuthorListTileState extends State<AuthorListTile> {
               alignment: Alignment.bottomCenter,
               child: TextButton(
                   onPressed: onLikeButtonTapped,
-                  child: (_favorites.isNotEmpty)
+                  child: (checkFavorite(widget.favorites))
                       ? Row(
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
