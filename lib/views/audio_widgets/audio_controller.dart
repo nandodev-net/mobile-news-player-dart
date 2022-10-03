@@ -1,6 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mp3_info/mp3_info.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
 
 class AudioController extends ChangeNotifier {
   Duration? totalAudioDuration;
@@ -28,12 +31,17 @@ class AudioController extends ChangeNotifier {
   }
 
   requestAudio(String audioUrl) {
-    audioPlayer.setSourceUrl(audioUrl);
-    audioPlayer.resume();
-      audioPlayer.onDurationChanged.listen((updatedDuration) {
-      totalAudioDuration = updatedDuration;
-      notifyListeners();
-    });
+      //var response = http.get(Uri.parse(audioUrl));
+      //final mp3 = MP3Processor.fromBytes(response);
+
+      audioPlayer.play(UrlSource(audioUrl));
+      const fastestMarathon = Duration(seconds: 12);
+      audioPlayer.setVolume(1);
+      audioPlayer.onPositionChanged.listen((Duration d) {
+        print('CHAU '+d.toString());
+        totalAudioDuration = fastestMarathon;
+        notifyListeners();
+      });
 
     audioPlayer.onPositionChanged.listen((updatedPosition) {
       currentAudioPosition = updatedPosition;

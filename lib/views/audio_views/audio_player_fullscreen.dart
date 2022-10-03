@@ -40,6 +40,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
         : await SQLHelper.createVoted(widget.audio.id);
 
     _refreshVoted();
+
     /// if failed, you can do nothing
     // return success? !isLiked:isLiked;
   }
@@ -187,14 +188,21 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                             ),
                                           ],
                                         ),
-                                        Text(
-                                          widget.audio.title,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
+                                        SizedBox(
+                                          width: 250,
+                                          child: Text(
+                                            widget.audio.title,
+                                            softWrap: true,
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         ),
                                         SizedBox(
-                                          width: 150,
+                                          width: 250,
                                           child: Text(
                                             widget.audio.author,
                                             maxLines: 1,

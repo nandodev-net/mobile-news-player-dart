@@ -48,9 +48,10 @@ dependencies:
   flutter_riverpod: ^0.13.1+1
   miniplayer: ^1.0.0+2
   timeago: ^3.0.2
-  audioplayers: ^1.0.0
+  audioplayers: ^1.0.1
   sqflite: ^2.0.3
   path: ^1.8.1
+  mp3_info: ^0.2.0
   
 dev_dependencies:
   flutter_test:
