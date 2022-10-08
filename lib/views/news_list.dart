@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noticias_sin_filtro/entities/news.dart';
+import 'package:noticias_sin_filtro/views/custom_indicators/custom_first_page_error_indicator.dart';
+import 'package:noticias_sin_filtro/views/custom_indicators/custom_new_page_error_indicator.dart';
+import 'package:noticias_sin_filtro/views/custom_indicators/custom_no_items_found_indicator.dart';
 import 'package:noticias_sin_filtro/views/list_items/news_list_item.dart';
 import 'package:noticias_sin_filtro/services/requests/get_news.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -29,7 +32,7 @@ class _newsListState extends State<NewsList> {
   static const _newsPageSize = 20;
 
   final PagingController<int, News> _pagingController =
-  PagingController(firstPageKey: 1);
+  PagingController(firstPageKey: 1, invisibleItemsThreshold: 5);
 
   @override
   void initState() {
@@ -53,6 +56,7 @@ class _newsListState extends State<NewsList> {
        final NewsRequestMapper newsRequestMapper = await getNews(widget.port, widget.category,widget.site,pageKey,_newsPageSize);
        final List<News> newNews = newsRequestMapper.results;
 
+       print('hello');
        final isLastPage = newsRequestMapper.totalPages == pageKey;
        if (isLastPage) {
          _pagingController.appendLastPage(newNews);
@@ -91,13 +95,20 @@ class _newsListState extends State<NewsList> {
                     PagedListView<int?, News>(
                     pagingController: _pagingController,
                     builderDelegate: PagedChildBuilderDelegate<News>(
-                    itemBuilder: (context, item, index) =>
-                       NewsListItem(
-                          news: item,
-                          port: widget.port,
-                          showNewsAppBar: widget.showNewsAppBar,
-                        ),
-                   ),
+                                      itemBuilder: (context, item, index) =>
+                                         NewsListItem(
+                                            news: item,
+                                            port: widget.port,
+                                            showNewsAppBar: widget.showNewsAppBar,
+                                          ),
+                                        firstPageErrorIndicatorBuilder: (_) => CustomFirstPageErrorIndicator(
+                                          onTryAgain: () => _pagingController.refresh(),
+                                        ),
+                                        newPageErrorIndicatorBuilder: (_) => CustomNewPageErrorIndicator(
+                                          onTap: () => _pagingController.retryLastFailedRequest(),
+                                        ),
+                                        noItemsFoundIndicatorBuilder: (_) => CustomNoItemsFoundIndicator(),
+                                      ),
                   )
                 );
             }

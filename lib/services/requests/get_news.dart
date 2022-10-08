@@ -35,8 +35,12 @@ Future<NewsRequestMapper> getNews(String proxyPort, [String? category, String? s
 
   var uri = buildPath('headlines', queryParameters);
 
+  print('uri'+ uri.toString());
+
   IOClient httpClientWithProxy = configProxy(proxyPort);
   http.Response response = await httpClientWithProxy.get(uri);
+
+  print('after');
 
   NewsRequestMapper newsRequestMapper = NewsRequestMapper.fromJson(json.decode(Utf8Decoder().convert(response.bodyBytes)));
 
