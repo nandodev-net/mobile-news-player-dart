@@ -13,29 +13,13 @@ class VpnConfig extends StatefulWidget {
 }
 
 class _VpnConfigState extends State<VpnConfig> {
-  final VoidCallback connect;
-  final VoidCallback disconnect;
-  final String port;
-  final bool status;
+   VoidCallback connect;
+   VoidCallback disconnect;
+  String port;
+  bool status;
 
   _VpnConfigState(this.connect,this.disconnect, this.port, this.status);
 
-  // @override
-  // void didUpdateWidget(old) {
-  //   super.didUpdateWidget(old);
-  //   if(widget.port != old.port) {
-  //     print('Hey');
-  //     rebuildAllChildren(context);
-  //   }
-  // }
-  //
-  // void rebuildAllChildren(BuildContext context) {
-  //   void rebuild(Element el) {
-  //     el.markNeedsBuild();
-  //     el.visitChildren(rebuild);
-  //   }
-  //   (context as Element).visitChildren(rebuild);
-  // }
 
 
   final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(

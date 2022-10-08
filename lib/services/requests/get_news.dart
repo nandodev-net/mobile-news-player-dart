@@ -7,12 +7,13 @@ import 'package:http/http.dart' as http;
 import 'package:noticias_sin_filtro/services/build_path.dart';
 import 'package:noticias_sin_filtro/services/config_proxy.dart';
 
-Future<List<News>> getNews(String proxyPort, [String? category, String? site]) async {
+Future<NewsRequestMapper> getNews(String proxyPort, [String? category, String? site, int pageKey=0, int pageSize = 20]) async {
   // TODO: This request should use a proxy
 
-  print("News request is being made");
+  print("News request is being made, proxy:"+ proxyPort);
 
-  List<News> newsList = [];
+  //List<News> newsList = [];
+
 
   Map<String, String> queryParameters = {};
 
@@ -28,15 +29,23 @@ Future<List<News>> getNews(String proxyPort, [String? category, String? site]) a
     queryParameters['media_sites[]'] = site.toString();
   }
 
+  // PageKey and PageSize
+  queryParameters['page'] = pageKey.toString();
+  queryParameters['page_size'] = pageSize.toString();
 
   var uri = buildPath('headlines', queryParameters);
 
+  print('uri'+ uri.toString());
+
   IOClient httpClientWithProxy = configProxy(proxyPort);
   http.Response response = await httpClientWithProxy.get(uri);
-  newsList = NewsRequestMapper.fromJson(json.decode(Utf8Decoder().convert(response.bodyBytes))).results;
 
-  print(newsList[1].title);
+  print('after');
+
+  NewsRequestMapper newsRequestMapper = NewsRequestMapper.fromJson(json.decode(Utf8Decoder().convert(response.bodyBytes)));
+
+  // print("News are returned");
   print("News are returned");
 
-  return newsList;
+  return newsRequestMapper;
 }
