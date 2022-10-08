@@ -200,7 +200,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                     if (height <= _playerMinHeight + 50.0) {
                       // Audio reproduction init
                       if (watch(audioProvider).playerAudioState != "PAUSE") {
-                        watch(audioProvider).initAudio(selectedAudio.audioUrl);
+                        watch(audioProvider).initAudio(selectedAudio);
                       }
 
                       return Container(

@@ -13,7 +13,12 @@ class AuthorListScreen extends StatefulWidget {
   final String port;
   final Function() notifyParentRefresh;
 
-  const AuthorListScreen({Key? key, required this.authors, required this.favorites, required this.port, required this.notifyParentRefresh})
+  const AuthorListScreen(
+      {Key? key,
+      required this.authors,
+      required this.favorites,
+      required this.port,
+      required this.notifyParentRefresh})
       : super(key: key);
   @override
   _AuthorListScreenState createState() => _AuthorListScreenState();
@@ -27,38 +32,48 @@ class _AuthorListScreenState extends State<AuthorListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: GestureDetector(
-                  onTap: () {
-                    widget.notifyParentRefresh();
-                    context.read(selectedAuthorListProvider).state = null;
-                  },
-                  child: const Icon(
-                    Icons.keyboard_arrow_left,
-                    size: 38,
+      body: WillPopScope(
+        onWillPop: () async {
+          context.read(selectedAuthorListProvider).state = null;
+          return false;
+        },
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      widget.notifyParentRefresh();
+                      context.read(selectedAuthorListProvider).state = null;
+                    },
+                    child: const Icon(
+                      Icons.keyboard_arrow_left,
+                      size: 38,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Container(
-            height: 500,
-            child: ListView(
-              padding: const EdgeInsets.all(8),
-              children: [
-                for (var author in widget.authors) ...[
-                  AuthorListTile(author: author, port: widget.port, favorites: widget.favorites, notifyParentRefresh: widget.notifyParentRefresh,),
-
-                ],
               ],
             ),
-          ),
-        ],
+            Container(
+              height: 500,
+              child: ListView(
+                padding: const EdgeInsets.all(8),
+                children: [
+                  for (var author in widget.authors) ...[
+                    AuthorListTile(
+                      author: author,
+                      port: widget.port,
+                      favorites: widget.favorites,
+                      notifyParentRefresh: widget.notifyParentRefresh,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -70,7 +85,12 @@ class AuthorListTile extends StatefulWidget {
   final Function() notifyParentRefresh;
   final String port;
 
-  const AuthorListTile({Key? key, required this.author, required this.favorites, required this.port, required this.notifyParentRefresh})
+  const AuthorListTile(
+      {Key? key,
+      required this.author,
+      required this.favorites,
+      required this.port,
+      required this.notifyParentRefresh})
       : super(key: key);
 
   @override
@@ -112,15 +132,17 @@ class _AuthorListTileState extends State<AuthorListTile> {
         ? _showDialog(context)
         : await SQLHelper.createFavorite(widget.author.id);
 
-    widget.notifyParentRefresh();;
+    widget.notifyParentRefresh();
+    ;
 
     /// if failed, you can do nothing
     // return success? !isLiked:isLiked;
   }
 
-  checkFavorite(List<Preference> favorites){
-    List result = favorites.where((element) => element.id == widget.author.id).toList();
-    return(result.isNotEmpty);
+  checkFavorite(List<Preference> favorites) {
+    List result =
+        favorites.where((element) => element.id == widget.author.id).toList();
+    return (result.isNotEmpty);
   }
 
   @override
@@ -149,7 +171,8 @@ class _AuthorListTileState extends State<AuthorListTile> {
             ),
             const SizedBox(width: 8),
             Text(widget.author.name,
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
             const Spacer(),
             Center(
               child: SizedBox(

@@ -1,9 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mp3_info/mp3_info.dart';
+import 'package:duration/duration.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+
+import 'package:noticias_sin_filtro/entities/audio.dart';
 
 class AudioController extends ChangeNotifier {
   Duration? totalAudioDuration;
@@ -23,30 +25,27 @@ class AudioController extends ChangeNotifier {
     }
   }
 
-  initAudio(String audioUrl) {
+  initAudio(Audio audio_) {
     // pauseAudio();
     // sleep(Duration(milliseconds: 5));
-    requestAudio(audioUrl);
+    var audioUrl = audio_.audioUrl;
+    var audioDuration = parseTime(audio_.duration+'.00');
+    requestAudio(audioUrl, audioDuration);
     
   }
 
-  requestAudio(String audioUrl) {
+  requestAudio(String audioUrl, Duration audioDuration) {
       //var response = http.get(Uri.parse(audioUrl));
       //final mp3 = MP3Processor.fromBytes(response);
 
       audioPlayer.play(UrlSource(audioUrl));
-      const fastestMarathon = Duration(seconds: 12);
-      audioPlayer.setVolume(1);
-      audioPlayer.onPositionChanged.listen((Duration d) {
-        print('CHAU '+d.toString());
-        totalAudioDuration = fastestMarathon;
-        notifyListeners();
-      });
+      audioPlayer.setVolume(100);
+      totalAudioDuration = audioDuration;
 
     audioPlayer.onPositionChanged.listen((updatedPosition) {
       currentAudioPosition = updatedPosition;
       if (updatedPosition != null && currentAudioPosition != null) {
-        setSliderPosition(totalAudioDuration, currentAudioPosition);
+        setSliderPosition(audioDuration, currentAudioPosition);
       }
       notifyListeners();
     });
