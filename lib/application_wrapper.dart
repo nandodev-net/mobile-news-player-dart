@@ -283,7 +283,7 @@ class ApplicationWrapperState extends State<ApplicationWrapper> {
                         ),
                       );
                     } else {
-                      return PlayerScreen(audio: selectedAudio);
+                      return PlayerScreen(port: _proxyPort ?? "", audio: selectedAudio);
                     }
                   },
                 ),

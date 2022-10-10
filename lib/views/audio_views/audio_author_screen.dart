@@ -132,14 +132,22 @@ class _AuthorScreenState extends State<AuthorScreen> {
                                   Text(
                                     widget.author.name,
                                     style:
-                                        Theme.of(context).textTheme.headline6,
+                                        Theme.of(context).textTheme.headline5,
                                   ),
                                   Row(
                                     children: [
-                                      Text(
-                                        "Voted 1,878,555 times",
-                                        style:
-                                            Theme.of(context).textTheme.caption,
+                                      SizedBox(
+                                        width: 120,
+                                        child: Row(
+                                          children: [
+                                            Text(widget.author.followers.toString()),
+                                            Text(
+                                              " followers",
+                                              style:
+                                                  Theme.of(context).textTheme.caption,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       const SizedBox(width: 80),
                                       const Image(

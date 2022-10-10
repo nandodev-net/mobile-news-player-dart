@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/application_wrapper.dart';
 import 'package:noticias_sin_filtro/database/db_helper.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
+import 'package:noticias_sin_filtro/services/requests/patch_author_followers.dart';
 import 'package:noticias_sin_filtro/views/audio_views/audio_author_screen.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/audio_alertDialog.dart';
 
@@ -242,6 +243,7 @@ class _AuthorInfoCardState extends State<AuthorInfoCard> {
     VoidCallback continueCallBack = () async => {
           Navigator.of(context).pop(),
           // code on continue comes here
+          await patchAuthorFollowers(widget.port, widget.author.id, 0),
           await SQLHelper.deleteFavorite(widget.author.id),
           widget.notifyParentRefresh()
         };
@@ -260,9 +262,12 @@ class _AuthorInfoCardState extends State<AuthorInfoCard> {
   Future<void> onLikeButtonTapped() async {
     /// send your request here
     // final bool success= await sendRequest();
-    checkFavorite(widget.authors)
-        ? _showDialog(context)
-        : await SQLHelper.createFavorite(widget.author.id);
+    if (checkFavorite(widget.authors)){
+      _showDialog(context);
+    } else{
+      await SQLHelper.createFavorite(widget.author.id);
+      await patchAuthorFollowers(widget.port, widget.author.id, 1);
+    }
 
     widget.notifyParentRefresh();
 

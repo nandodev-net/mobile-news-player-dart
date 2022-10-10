@@ -10,11 +10,13 @@ class Audio {
   String audioUrl;
   int listenCount;
   int votes;
+  String authorFollowers;
 
   Audio.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         title = json['title'] as String,
         duration = json['duration'] as String,
+        authorFollowers = json['author_followers'] as String,
         author = json['author'] as String,
         authorId = json['author_id'] as int,
         authorDescription = json['author_description'] ?? json['author'] as String, //TODO revisar no detecta descripcion desde full player

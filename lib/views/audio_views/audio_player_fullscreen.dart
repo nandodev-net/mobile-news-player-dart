@@ -4,13 +4,16 @@ import 'package:noticias_sin_filtro/database/db_helper.dart';
 import 'package:noticias_sin_filtro/entities/audio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:noticias_sin_filtro/entities/author.dart';
+import 'package:noticias_sin_filtro/services/requests/patch_audio_votes.dart';
 import 'package:noticias_sin_filtro/views/audio_widgets/audio_controller.dart';
 
 final selectedFF = StateProvider<Audio?>((ref) => null);
 
 class PlayerScreen extends StatefulWidget {
   final Audio audio;
-  const PlayerScreen({Key? key, required this.audio}) : super(key: key);
+  final String port;
+  const PlayerScreen({Key? key, required this.port, required this.audio})
+      : super(key: key);
 
   @override
   State<PlayerScreen> createState() => _PlayerScreenState();
@@ -35,9 +38,13 @@ class _PlayerScreenState extends State<PlayerScreen> {
   Future<void> onLikeButtonTapped() async {
     /// send your request here
     // final bool success= await sendRequest();
-    _voted.isNotEmpty
-        ? await SQLHelper.deleteVoted(widget.audio.id)
-        : await SQLHelper.createVoted(widget.audio.id);
+    if (_voted.isNotEmpty) {
+      await patchAudioVotes(widget.port, widget.audio.id, 0);
+      await SQLHelper.deleteVoted(widget.audio.id);
+    } else {
+      await patchAudioVotes(widget.port, widget.audio.id, 1);
+      await SQLHelper.createVoted(widget.audio.id);
+    }
 
     _refreshVoted();
 
@@ -290,6 +297,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                 context.read(selectedAuthorProvider).state =
                                     Author(
                                         id: widget.audio.authorId.toInt(),
+                                        followers: int.parse(
+                                            widget.audio.authorFollowers),
                                         name: widget.audio.author,
                                         thumbnailUrl: widget.audio.thumbnailUrl,
                                         type: widget.audio.authorType,
